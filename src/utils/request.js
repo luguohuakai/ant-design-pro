@@ -2,6 +2,7 @@ import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
 import store from '../index';
+import config from '../../config/config';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -43,10 +44,13 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
+  url = config.api + url;
   const defaultOptions = {
-    credentials: 'include',
+    // credentials: 'include', // Access-Control-Allow-Origin 需要在服务端指定地址 不能使用*
+    credentials: 'same-origin',
   };
   const newOptions = { ...defaultOptions, ...options };
+  console.error(newOptions);
   if (newOptions.method === 'POST' || newOptions.method === 'PUT') {
     if (!(newOptions.body instanceof FormData)) {
       newOptions.headers = {
