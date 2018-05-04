@@ -23,7 +23,7 @@ export default {
         yield put(routerRedux.push('/'));
       }
     },
-    *logout(_, { put, select }) {
+    *logout({ payload }, { put, select }) {
       try {
         // get location pathname
         const urlParams = new URL(window.location.href);
