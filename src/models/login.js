@@ -2,6 +2,7 @@ import { routerRedux } from 'dva/router';
 import { fakeAccountLogin } from '../services/api';
 import { setAuthority } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
+import { code } from '../utils/code';
 
 import { login } from '../services/gate';
 
@@ -32,7 +33,8 @@ export default {
         payload: response,
       });
       // Login successfully
-      if (response.code === 1) {
+      // if (response.code === 1) {
+      if (response.code === code.success.code) {
         reloadAuthorized();
         yield put(routerRedux.push('/'));
       }
