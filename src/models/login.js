@@ -3,6 +3,8 @@ import { fakeAccountLogin } from '../services/api';
 import { setAuthority } from '../utils/authority';
 import { reloadAuthorized } from '../utils/Authorized';
 
+import { login } from '../services/gate';
+
 export default {
   namespace: 'login',
 
@@ -11,14 +13,26 @@ export default {
   },
 
   effects: {
+    // *login({ payload }, { call, put }) {
+    //   const response = yield call(fakeAccountLogin, payload);
+    //   yield put({
+    //     type: 'changeLoginStatus',
+    //     payload: response,
+    //   });
+    //   // Login successfully
+    //   if (response.status === 'ok') {
+    //     reloadAuthorized();
+    //     yield put(routerRedux.push('/'));
+    //   }
+    // },
     *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
+      const response = yield call(login, payload);
       yield put({
-        type: 'changeLoginStatus',
+        type: 'changeLoginStatus', // 这个是干嘛的?
         payload: response,
       });
       // Login successfully
-      if (response.status === 'ok') {
+      if (response.code === 1) {
         reloadAuthorized();
         yield put(routerRedux.push('/'));
       }
@@ -33,7 +47,7 @@ export default {
         window.history.replaceState(null, 'login', urlParams.href);
       } finally {
         yield put({
-          type: 'changeLoginStatus',
+          type: 'changeLoginStatus', // 这个是干嘛的?
           payload: {
             status: false,
             currentAuthority: 'guest',
@@ -46,8 +60,15 @@ export default {
   },
 
   reducers: {
+    // 这个是干嘛的?
     changeLoginStatus(state, { payload }) {
       setAuthority(payload.currentAuthority);
+      console.error(payload);
+      console.error({
+        ...state,
+        status: payload.status,
+        type: payload.type,
+      });
       return {
         ...state,
         status: payload.status,
