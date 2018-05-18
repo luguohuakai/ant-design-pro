@@ -1,6 +1,6 @@
 [English](./README.md) | 简体中文
 
-# Ant Design Pro
+# Quick Link
 
 [![](https://img.shields.io/travis/ant-design/ant-design-pro.svg?style=flat-square)](https://travis-ci.org/ant-design/ant-design-pro) [![Build status](https://ci.appveyor.com/api/projects/status/67fxu2by3ibvqtat/branch/master?svg=true)](https://ci.appveyor.com/project/afc163/ant-design-pro/branch/master)  [![Gitter](https://badges.gitter.im/ant-design/ant-design-pro.svg)](https://gitter.im/ant-design/ant-design-pro?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
@@ -9,15 +9,15 @@
 ![](https://gw.alipayobjects.com/zos/rmsportal/xEdBqwSzvoSapmnSnYjU.png)
 
 - 预览：http://preview.pro.ant.design
-- 首页：http://pro.ant.design/index-cn
-- 使用文档：http://pro.ant.design/docs/getting-started-cn
-- 更新日志: http://pro.ant.design/docs/changelog-cn
-- 常见问题：http://pro.ant.design/docs/faq-cn
+- 首页：http://quicklink.srun.com/index-cn
+- 使用文档：http://quicklink.srun.com/docs/getting-started-cn
+- 更新日志: http://quicklink.srun.com/docs/changelog-cn
+- 常见问题：http://quicklink.srun.com/docs/faq-cn
 - 国内镜像：http://ant-design-pro.gitee.io
 
 ## 特性
 
-- :gem: **优雅美观**：基于 Ant Design 体系精心设计
+- :gem: **优雅美观**：基于 Quick Link 体系精心设计
 - :triangular_ruler: **常见设计模式**：提炼自中后台应用的典型页面和场景
 - :rocket: **最新技术栈**：使用 React/dva/antd 等前端前沿技术开发
 - :iphone: **响应式**：针对不同屏幕大小设计
@@ -76,7 +76,7 @@ $ mkdir pro-demo && cd pro-demo
 $ pro new
 ```
 
-更多信息请参考 [使用文档](http://pro.ant.design/docs/getting-started)。
+更多信息请参考 [使用文档](http://quicklink.srun.com/docs/getting-started)。
 
 ## 兼容性
 
@@ -86,6 +86,6 @@ $ pro new
 
 我们非常欢迎你的贡献，你可以通过以下方式和我们一起共建 :smiley:：
 
-- 在你的公司或个人项目中使用 Ant Design Pro。
+- 在你的公司或个人项目中使用 Quick Link。
 - 通过 [Issue](http://github.com/ant-design/ant-design-pro/issues) 报告 bug 或进行咨询。
-- 提交 [Pull Request](http://github.com/ant-design/ant-design-pro/pulls) 改进 Pro 的代码。
+- 提交 [Pull Request](http://github.com/ant-design/ant-design-pro/pulls) 改进 迅连 的代码。

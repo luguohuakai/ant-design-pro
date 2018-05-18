@@ -3,8 +3,8 @@ import { parse } from 'url';
 const titles = [
   'Alipay',
   'Angular',
-  'Ant Design',
-  'Ant Design Pro',
+  'Quick Link',
+  'Quick Link',
   'Bootstrap',
   'React',
   'Vue',
@@ -13,8 +13,8 @@ const titles = [
 const avatars = [
   'https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png', // Alipay
   'https://gw.alipayobjects.com/zos/rmsportal/zOsKZmFRdUtvpqCImOVY.png', // Angular
-  'https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png', // Ant Design
-  'https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png', // Ant Design Pro
+  'https://gw.alipayobjects.com/zos/rmsportal/dURIMkkrRFpPgTuzkwnB.png', // Quick Link
+  'https://gw.alipayobjects.com/zos/rmsportal/sfjbOqnsXXJgNCjCzDBL.png', // Quick Link
   'https://gw.alipayobjects.com/zos/rmsportal/siCrBXXhmvTQGWPNLBow.png', // Bootstrap
   'https://gw.alipayobjects.com/zos/rmsportal/kZzEzemZyKLKFsojXItE.png', // React
   'https://gw.alipayobjects.com/zos/rmsportal/ComBAopevLwENQdKWiIn.png', // Vue
@@ -85,7 +85,7 @@ export function fakeList(count) {
       like: Math.ceil(Math.random() * 100) + 100,
       message: Math.ceil(Math.random() * 10) + 10,
       content:
-        '段落示意：蚂蚁金服设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态，提供跨越设计与开发的体验解决方案。蚂蚁金服设计平台 ant.design，用最小的工作量，无缝接入蚂蚁金服生态，提供跨越设计与开发的体验解决方案。',
+        '段落示意：迅连网络设计平台 ant.design，用最小的工作量，无缝接入迅连网络生态，提供跨越设计与开发的体验解决方案。迅连网络设计平台 ant.design，用最小的工作量，无缝接入迅连网络生态，提供跨越设计与开发的体验解决方案。',
       members: [
         {
           avatar: 'https://gw.alipayobjects.com/zos/rmsportal/ZiESqWwCXBRQoaPONSJe.png',

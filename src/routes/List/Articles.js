@@ -218,9 +218,9 @@ export default class SearchList extends Component {
                   }
                   description={
                     <span>
-                      <Tag>Ant Design</Tag>
+                      <Tag>Quick Link</Tag>
                       <Tag>设计语言</Tag>
-                      <Tag>蚂蚁金服</Tag>
+                      <Tag>迅连网络</Tag>
                     </span>
                   }
                 />

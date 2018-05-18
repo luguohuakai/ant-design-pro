@@ -112,7 +112,7 @@ export default class GlobalHeader extends PureComponent {
           <Tooltip title="使用文档">
             <a
               target="_blank"
-              href="http://pro.ant.design/docs/getting-started"
+              href="http://quicklink.srun.com/docs/getting-started"
               rel="noopener noreferrer"
               className={styles.action}
             >
