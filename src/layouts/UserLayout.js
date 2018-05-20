@@ -54,7 +54,7 @@ class UserLayout extends React.PureComponent {
                   <span className={styles.title}>Quick Link</span>
                 </Link>
               </div>
-              <div className={styles.desc}>Quick Link 是西湖区最具影响力的 Web 设计规范</div>
+              <div className={styles.desc}>Quick Link 方便快捷畅享校园网络</div>
             </div>
             <Switch>
               {getRoutes(match.path, routerData).map(item => (
