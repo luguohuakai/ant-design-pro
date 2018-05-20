@@ -52,6 +52,10 @@ const menuData = [
         path: 'table-list',
       },
       {
+        name: '学校列表',
+        path: 'school-list',
+      },
+      {
         name: '标准列表',
         path: 'basic-list',
       },

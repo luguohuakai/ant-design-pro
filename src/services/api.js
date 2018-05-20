@@ -9,8 +9,11 @@ export async function queryActivities() {
   return request('/api/activities');
 }
 
-export async function queryRule(params) {
+export async function queryRule0(params) {
   return request(`/api/rule?${stringify(params)}`);
+}
+export async function queryRule(params) {
+  return request(`/school?${stringify(params)}`);
 }
 
 export async function removeRule(params) {
