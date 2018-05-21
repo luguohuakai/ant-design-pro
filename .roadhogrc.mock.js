@@ -9,6 +9,7 @@ import {format, delay} from 'roadhog-api-doc';
 
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
+const remote_url = 'http://106.14.7.51/'; // 测试环境 远程接口
 
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
 const proxy = {
@@ -95,42 +96,49 @@ const proxy = {
             currentAuthority: 'guest',
         });
     },
-    'POST /admin/gate/login': (req, res) => {
+    'POST /admin/gate/login': remote_url,
+    'POST /admin/gate/login_bk': (req, res) => {
         const {password, user_name, type} = req.body;
         if (password === '123456' && user_name === 'root') {
             res.send({
-                status: 'ok',
-                type,
-                currentAuthority: 'admin',
-
                 code: 1,
                 msg: '登录成功',
-                current_authority: 'admin',
-                token: 'sdjogewoejo%&*Hufl9754d',
+                data: {
+                    status: 'ok',
+                    type,
+                    currentAuthority: 'admin',
+
+                    current_authority: 'admin',
+                    token: 'sdjogewoejo%&*Hufl9754d',
+                }
             });
             return;
         }
         if (password === '123456' && user_name === 'user') {
             res.send({
-                status: 'ok',
-                type,
-                currentAuthority: 'user',
-
                 code: 1,
                 msg: '登录成功',
-                current_authority: 'user',
-                token: 'sdjogewoejo%&*Hufl9754dsdf',
+                data: {
+                    status: 'ok',
+                    type,
+                    currentAuthority: 'user',
+
+                    current_authority: 'user',
+                    token: 'sdjogewoejo%&*Hufl9754dsdf',
+                }
             });
             return;
         }
         res.send({
-            status: 'error',
-            type,
-            currentAuthority: 'guest',
-
             code: 0,
             msg: '登录失败',
-            current_authority: 'guest',
+            data: {
+                status: 'error',
+                type,
+                currentAuthority: 'guest',
+
+                current_authority: 'guest',
+            }
         });
     },
     'POST /api/register': (req, res) => {

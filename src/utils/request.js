@@ -22,6 +22,11 @@ const codeMessage = {
     504: '网关超时。',
 };
 
+// 是否跨域使用远程地址
+const is_remote = false;
+const remote_url = 'http://106.14.7.51/'; // 测试环境
+// const remote_url = 'https://api.srun.com/'; // 正式环境
+
 function checkStatus(response) {
     if (response.status >= 200 && response.status < 300) {
         return response;
@@ -45,11 +50,14 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
+    if (is_remote){
+        url = remote_url + url;
+    }
     const defaultOptions = {
         // credentials: 'include',
         credentials: 'same-origin',
         headers: {
-            'AdminToken': getToken(),
+            'token': getToken(),
         },
     };
     const newOptions = {...defaultOptions, ...options};
@@ -69,10 +77,6 @@ export default function request(url, options) {
             };
         }
     }
-
-    // 加入AdminToken
-    // newOptions.headers.AdminToken = 123;
-    // console.error(newOptions);
 
     return fetch(url, newOptions)
         .then(checkStatus)

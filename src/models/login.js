@@ -13,7 +13,6 @@ export default {
   effects: {
     *login({ payload }, { call, put }) {
       const response = yield call(fakeAccountLogin, payload);
-      console.log(response);
       yield put({
         type: 'changeLoginStatus',
         payload: response,
@@ -48,12 +47,12 @@ export default {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setToken(payload.token);
-      setAuthority(payload.currentAuthority);
+      setToken(payload.data.token);
+      setAuthority(payload.data.currentAuthority);
       return {
         ...state,
-        status: payload.status,
-        type: payload.type,
+        status: payload.data.status,
+        type: payload.data.type,
       };
     },
   },
