@@ -44,15 +44,50 @@ const CreateForm = Form.create()(props => {
   };
   return (
     <Modal
-      title="新建规则"
+      title="添加一个学校"
       visible={modalVisible}
       onOk={okHandle}
       onCancel={() => handleModalVisible()}
     >
-      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="描述">
-        {form.getFieldDecorator('desc', {
-          rules: [{ required: true, message: 'Please input some description...' }],
-        })(<Input placeholder="请输入" />)}
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="名称">
+        {form.getFieldDecorator('name', {
+          rules: [{ required: true, message: '学校名称必填' }],
+        })(<Input placeholder="学校名称" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="纬度">
+        {form.getFieldDecorator('lat', {
+          rules: [{ required: true, message: '必填' }],
+        })(<Input placeholder="" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="经度">
+        {form.getFieldDecorator('lng', {
+          rules: [{ required: true, message: '必填' }],
+        })(<Input placeholder="" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="地理位置">
+        {form.getFieldDecorator('addr', {
+          rules: [{ required: true, message: '必填' }],
+        })(<Input placeholder="" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="学校logo">
+        {form.getFieldDecorator('logo', {
+          rules: [{ required: true, message: '必填' }],
+        })(<Input placeholder="" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="学校主色调">
+        {form.getFieldDecorator('color', {
+          rules: [{ required: true, message: '必填' }],
+        })(<Input placeholder="" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="学校背景图">
+        {form.getFieldDecorator('login_bg', {
+          rules: [{ required: true, message: '必填' }],
+        })(<Input placeholder="" />)}
+      </FormItem>
+      <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="默认acid">
+        {form.getFieldDecorator('default_ac_id', {
+          rules: [{ required: true, message: '必填' }],
+        })(<Input placeholder="" />)}
       </FormItem>
     </Modal>
   );
@@ -89,8 +124,8 @@ export default class TableList extends PureComponent {
     }, {});
 
     const params = {
-      currentPage: pagination.current,
-      pageSize: pagination.pageSize,
+      page: pagination.current,
+      size: pagination.pageSize,
       ...formValues,
       ...filters,
     };
@@ -147,6 +182,10 @@ export default class TableList extends PureComponent {
     }
   };
 
+    deleteItem = e => {
+      console.error(e);
+    };
+
   handleSelectRows = rows => {
     this.setState({
       selectedRows: rows,
@@ -186,9 +225,7 @@ export default class TableList extends PureComponent {
   handleAdd = fields => {
     this.props.dispatch({
       type: 'rule/add',
-      payload: {
-        description: fields.desc,
-      },
+      payload: fields,
     });
 
     message.success('添加成功');
@@ -317,61 +354,77 @@ export default class TableList extends PureComponent {
 
     const columns = [
       {
-        title: '规则编号',
-        dataIndex: 'no',
+        title: 'ID',
+        dataIndex: 'id',
       },
       {
-        title: '描述',
-        dataIndex: 'description',
+        title: '名称',
+        dataIndex: 'name',
       },
       {
-        title: '服务调用次数',
-        dataIndex: 'callNo',
-        sorter: true,
-        align: 'right',
-        render: val => `${val} 万`,
-        // mark to display a total number
-        needTotal: true,
+        title: '地址',
+        dataIndex: 'addr',
       },
       {
-        title: '状态',
-        dataIndex: 'status',
-        filters: [
-          {
-            text: status[0],
-            value: 0,
-          },
-          {
-            text: status[1],
-            value: 1,
-          },
-          {
-            text: status[2],
-            value: 2,
-          },
-          {
-            text: status[3],
-            value: 3,
-          },
-        ],
-        onFilter: (value, record) => record.status.toString() === value,
-        render(val) {
-          return <Badge status={statusMap[val]} text={status[val]} />;
-        },
+        title: '默认ac_id',
+        dataIndex: 'default_ac_id',
+      },
+      {
+        title: '创建时间',
+        dataIndex: 'create_time',
       },
       {
         title: '更新时间',
-        dataIndex: 'updatedAt',
-        sorter: true,
-        render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+        dataIndex: 'update_time',
       },
+      // {
+      //   title: '服务调用次数',
+      //   dataIndex: 'callNo',
+      //   sorter: true,
+      //   align: 'right',
+      //   render: val => `${val} 万`,
+      //   // mark to display a total number
+      //   needTotal: true,
+      // },
+      // {
+      //   title: '状态',
+      //   dataIndex: 'status',
+      //   filters: [
+      //     {
+      //       text: status[0],
+      //       value: 0,
+      //     },
+      //     {
+      //       text: status[1],
+      //       value: 1,
+      //     },
+      //     {
+      //       text: status[2],
+      //       value: 2,
+      //     },
+      //     {
+      //       text: status[3],
+      //       value: 3,
+      //     },
+      //   ],
+      //   onFilter: (value, record) => record.status.toString() === value,
+      //   render(val) {
+      //     return <Badge status={statusMap[val]} text={status[val]} />;
+      //   },
+      // },
+      // {
+      //   title: '更新时间',
+      //   dataIndex: 'updatedAt',
+      //   sorter: true,
+      //   render: val => <span>{moment(val).format('YYYY-MM-DD HH:mm:ss')}</span>,
+      // },
       {
         title: '操作',
         render: () => (
           <Fragment>
-            <a href="">配置</a>
+            <a href="">编辑</a>
             <Divider type="vertical" />
-            <a href="">订阅警报</a>
+            <a href="javascript:void(0);" itemID={dataIndex: 'id'} onClick={this.deleteItem}>删除</a>
           </Fragment>
         ),
       },

@@ -53,6 +53,8 @@ const proxy = {
     'GET /api/project/notice': getNotice,
     'GET /api/activities': getActivities,
     'GET /api/rule': getRule,
+    'GET /school': remote_url,
+    'POST /school': remote_url,
     'POST /api/rule': {
         $params: {
             pageSize: {

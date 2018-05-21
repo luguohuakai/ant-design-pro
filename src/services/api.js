@@ -9,16 +9,27 @@ export async function queryActivities() {
   return request('/api/activities');
 }
 
-export async function queryRule0(params) {
-  return request(`/api/rule?${stringify(params)}`);
-}
+// export async function queryRule(params) {
+//   return request(`/api/rule?${stringify(params)}`);
+// }
+
 export async function queryRule(params) {
   return request(`/school?${stringify(params)}`);
 }
 
+// export async function removeRule(params) {
+//   return request('/api/rule', {
+//     method: 'POST',
+//     body: {
+//       ...params,
+//       method: 'delete',
+//     },
+//   });
+// }
+
 export async function removeRule(params) {
-  return request('/api/rule', {
-    method: 'POST',
+  return request('/school?id=' + params.id, {
+    method: 'DELETE',
     body: {
       ...params,
       method: 'delete',
@@ -26,8 +37,17 @@ export async function removeRule(params) {
   });
 }
 
+// export async function addRule(params) {
+//   return request('/api/rule', {
+//     method: 'POST',
+//     body: {
+//       ...params,
+//       method: 'post',
+//     },
+//   });
+// }
 export async function addRule(params) {
-  return request('/api/rule', {
+  return request('/school', {
     method: 'POST',
     body: {
       ...params,
