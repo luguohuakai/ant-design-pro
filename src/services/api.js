@@ -28,7 +28,7 @@ export async function queryRule(params) {
 // }
 
 export async function removeRule(params) {
-  return request('/school?id=' + params.id, {
+  return request('/school/' + params.id, {
     method: 'DELETE',
     body: {
       ...params,

@@ -55,6 +55,8 @@ const proxy = {
     'GET /api/rule': getRule,
     'GET /school': remote_url,
     'POST /school': remote_url,
+    'DELETE /school': remote_url,
+    'PUT /school': remote_url,
     'POST /api/rule': {
         $params: {
             pageSize: {
