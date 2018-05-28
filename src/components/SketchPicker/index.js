@@ -22,7 +22,9 @@ class ColorSimple extends React.Component {
     // 应该是受控组件。
     if ('value' in nextProps) {
       const value = nextProps.value;
-      this.setState(value);
+      this.setState({color: value});
+    }else {
+      this.setState({color: '#000'});
     }
   }
 
@@ -46,10 +48,9 @@ class ColorSimple extends React.Component {
   };
 
   triggerChange = changeValue => {
-    // console.error(changeValue);
     const onChange = this.props.onChange;
     if (onChange) {
-      onChange(changeValue.hex);
+      onChange(changeValue);
       // this.props.value = changeValue.hex;
     }
   };
