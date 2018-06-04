@@ -43,7 +43,9 @@ for (let i = 0; i < 7; i += 1) {
 }
 
 const Yuan = ({ children }) => (
-  <span dangerouslySetInnerHTML={{ __html: yuan(children) }} /> /* eslint-disable-line react/no-danger */
+  <span
+    dangerouslySetInnerHTML={{ __html: yuan(children) }}
+  /> /* eslint-disable-line react/no-danger */
 );
 
 @connect(({ chart, loading }) => ({
@@ -250,96 +252,110 @@ export default class Analysis extends Component {
           <Col {...topColResponsiveProps}>
             <ChartCard
               bordered={false}
-              title="总销售额"
+              title="用户总数"
               action={
                 <Tooltip title="指标说明">
                   <Icon type="info-circle-o" />
                 </Tooltip>
               }
-              total={() => <Yuan>126560</Yuan>}
-              footer={<Field label="日均销售额" value={`￥${numeral(12423).format('0,0')}`} />}
-              contentHeight={46}
-            >
-              <Trend flag="up" style={{ marginRight: 16 }}>
-                周同比<span className={styles.trendText}>12%</span>
-              </Trend>
-              <Trend flag="down">
-                日环比<span className={styles.trendText}>11%</span>
-              </Trend>
-            </ChartCard>
-          </Col>
-          <Col {...topColResponsiveProps}>
-            <ChartCard
-              bordered={false}
-              title="访问量"
-              action={
-                <Tooltip title="指标说明">
-                  <Icon type="info-circle-o" />
-                </Tooltip>
-              }
-              total={numeral(8846).format('0,0')}
-              footer={<Field label="日访问量" value={numeral(1234).format('0,0')} />}
-              contentHeight={46}
-            >
-              <MiniArea color="#975FE4" data={visitData} />
-            </ChartCard>
-          </Col>
-          <Col {...topColResponsiveProps}>
-            <ChartCard
-              bordered={false}
-              title="支付笔数"
-              action={
-                <Tooltip title="指标说明">
-                  <Icon type="info-circle-o" />
-                </Tooltip>
-              }
-              total={numeral(6560).format('0,0')}
-              footer={<Field label="转化率" value="60%" />}
-              contentHeight={46}
-            >
-              <MiniBar data={visitData} />
-            </ChartCard>
-          </Col>
-          <Col {...topColResponsiveProps}>
-            <ChartCard
-              bordered={false}
-              title="运营活动效果"
-              action={
-                <Tooltip title="指标说明">
-                  <Icon type="info-circle-o" />
-                </Tooltip>
-              }
-              total="78%"
+              total={() => 126560}
               footer={
                 <div style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
-                  <Trend flag="up" style={{ marginRight: 16 }}>
-                    周同比<span className={styles.trendText}>12%</span>
+                  <Trend flag="" style={{ marginRight: 16 }}>
+                    iOS<span className={styles.trendText}>{`${numeral(12423).format('0,0')}`}</span>
                   </Trend>
-                  <Trend flag="down">
-                    日环比<span className={styles.trendText}>11%</span>
+                  <Trend flag="" style={{ marginRight: 16 }}>
+                    Android<span className={styles.trendText}>{`${numeral(19764).format(
+                      '0,0'
+                    )}`}</span>
+                  </Trend>
+                  <Trend flag="">
+                    其它<span className={styles.trendText}>{`${numeral(164).format('0,0')}`}</span>
                   </Trend>
                 </div>
               }
               contentHeight={46}
             >
-              <MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2" />
+              <Trend flag="" style={{ marginRight: 16 }}>
+                昨日新增<span className={styles.trendText}>{`${numeral(164).format('0,0')}`}</span>
+              </Trend>
+              <Trend flag="">
+                今日新增<span className={styles.trendText}>{`${numeral(194).format('0,0')}`}</span>
+              </Trend>
             </ChartCard>
           </Col>
+          <Col {...topColResponsiveProps}>
+            <ChartCard
+              bordered={false}
+              title="总访问量"
+              action={
+                <Tooltip title="当天认证成功后才算是当天的活跃用户">
+                  <Icon type="info-circle-o" />
+                </Tooltip>
+              }
+              total={numeral(8846).format('0,0')}
+              footer={<Field label="昨日活跃用户" value={numeral(1234).format('0,0')} />}
+              contentHeight={46}
+            >
+              <MiniArea color="#975FE4" data={visitData} />
+            </ChartCard>
+          </Col>
+          {/*<Col {...topColResponsiveProps}>*/}
+          {/*<ChartCard*/}
+          {/*bordered={false}*/}
+          {/*title="支付笔数"*/}
+          {/*action={*/}
+          {/*<Tooltip title="指标说明">*/}
+          {/*<Icon type="info-circle-o"/>*/}
+          {/*</Tooltip>*/}
+          {/*}*/}
+          {/*total={numeral(6560).format('0,0')}*/}
+          {/*footer={<Field label="转化率" value="60%"/>}*/}
+          {/*contentHeight={46}*/}
+          {/*>*/}
+          {/*<MiniBar data={visitData}/>*/}
+          {/*</ChartCard>*/}
+          {/*</Col>*/}
+          {/*<Col {...topColResponsiveProps}>*/}
+          {/*<ChartCard*/}
+          {/*bordered={false}*/}
+          {/*title="运营活动效果"*/}
+          {/*action={*/}
+          {/*<Tooltip title="指标说明">*/}
+          {/*<Icon type="info-circle-o"/>*/}
+          {/*</Tooltip>*/}
+          {/*}*/}
+          {/*total="78%"*/}
+          {/*footer={*/}
+          {/*<div style={{whiteSpace: 'nowrap', overflow: 'hidden'}}>*/}
+          {/*<Trend flag="up" style={{marginRight: 16}}>*/}
+          {/*周同比<span className={styles.trendText}>12%</span>*/}
+          {/*</Trend>*/}
+          {/*<Trend flag="down">*/}
+          {/*日环比<span className={styles.trendText}>11%</span>*/}
+          {/*</Trend>*/}
+          {/*</div>*/}
+          {/*}*/}
+          {/*contentHeight={46}*/}
+          {/*>*/}
+          {/*<MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2"/>*/}
+          {/*</ChartCard>*/}
+          {/*</Col>*/}
         </Row>
 
         <Card loading={loading} bordered={false} bodyStyle={{ padding: 0 }}>
           <div className={styles.salesCard}>
             <Tabs tabBarExtraContent={salesExtra} size="large" tabBarStyle={{ marginBottom: 24 }}>
-              <TabPane tab="销售额" key="sales">
+              <TabPane tab="认证方式" key="sales">
                 <Row>
                   <Col xl={16} lg={12} md={12} sm={24} xs={24}>
                     <div className={styles.salesBar}>
-                      <Bar height={295} title="销售额趋势" data={salesData} />
+                      <Bar height={295} title="认证人数" data={salesData} />
                     </div>
                   </Col>
                   <Col xl={8} lg={12} md={12} sm={24} xs={24}>
                     <div className={styles.salesRank}>
-                      <h4 className={styles.rankingTitle}>门店销售额排名</h4>
+                      <h4 className={styles.rankingTitle}>热点认证次数排名</h4>
                       <ul className={styles.rankingList}>
                         {rankingListData.map((item, i) => (
                           <li key={item.title}>
@@ -353,29 +369,29 @@ export default class Analysis extends Component {
                   </Col>
                 </Row>
               </TabPane>
-              <TabPane tab="访问量" key="views">
-                <Row>
-                  <Col xl={16} lg={12} md={12} sm={24} xs={24}>
-                    <div className={styles.salesBar}>
-                      <Bar height={292} title="访问量趋势" data={salesData} />
-                    </div>
-                  </Col>
-                  <Col xl={8} lg={12} md={12} sm={24} xs={24}>
-                    <div className={styles.salesRank}>
-                      <h4 className={styles.rankingTitle}>门店访问量排名</h4>
-                      <ul className={styles.rankingList}>
-                        {rankingListData.map((item, i) => (
-                          <li key={item.title}>
-                            <span className={i < 3 ? styles.active : ''}>{i + 1}</span>
-                            <span>{item.title}</span>
-                            <span>{numeral(item.total).format('0,0')}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </Col>
-                </Row>
-              </TabPane>
+              {/*<TabPane tab="访问量" key="views">*/}
+              {/*<Row>*/}
+              {/*<Col xl={16} lg={12} md={12} sm={24} xs={24}>*/}
+              {/*<div className={styles.salesBar}>*/}
+              {/*<Bar height={292} title="访问量趋势" data={salesData}/>*/}
+              {/*</div>*/}
+              {/*</Col>*/}
+              {/*<Col xl={8} lg={12} md={12} sm={24} xs={24}>*/}
+              {/*<div className={styles.salesRank}>*/}
+              {/*<h4 className={styles.rankingTitle}>门店访问量排名</h4>*/}
+              {/*<ul className={styles.rankingList}>*/}
+              {/*{rankingListData.map((item, i) => (*/}
+              {/*<li key={item.title}>*/}
+              {/*<span className={i < 3 ? styles.active : ''}>{i + 1}</span>*/}
+              {/*<span>{item.title}</span>*/}
+              {/*<span>{numeral(item.total).format('0,0')}</span>*/}
+              {/*</li>*/}
+              {/*))}*/}
+              {/*</ul>*/}
+              {/*</div>*/}
+              {/*</Col>*/}
+              {/*</Row>*/}
+              {/*</TabPane>*/}
             </Tabs>
           </div>
         </Card>
@@ -385,39 +401,10 @@ export default class Analysis extends Component {
             <Card
               loading={loading}
               bordered={false}
-              title="线上热门搜索"
+              title="最新问题反馈"
               extra={iconGroup}
               style={{ marginTop: 24 }}
             >
-              <Row gutter={68}>
-                <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
-                  <NumberInfo
-                    subTitle={
-                      <span>
-                        搜索用户数
-                        <Tooltip title="指标文案">
-                          <Icon style={{ marginLeft: 8 }} type="info-circle-o" />
-                        </Tooltip>
-                      </span>
-                    }
-                    gap={8}
-                    total={numeral(12321).format('0,0')}
-                    status="up"
-                    subTotal={17.1}
-                  />
-                  <MiniArea line height={45} data={visitData2} />
-                </Col>
-                <Col sm={12} xs={24} style={{ marginBottom: 24 }}>
-                  <NumberInfo
-                    subTitle="人均搜索次数"
-                    total={2.7}
-                    status="down"
-                    subTotal={26.2}
-                    gap={8}
-                  />
-                  <MiniArea line height={45} data={visitData2} />
-                </Col>
-              </Row>
               <Table
                 rowKey={record => record.index}
                 size="small"
@@ -425,7 +412,7 @@ export default class Analysis extends Component {
                 dataSource={searchData}
                 pagination={{
                   style: { marginBottom: 0 },
-                  pageSize: 5,
+                  pageSize: 8,
                 }}
               />
             </Card>
@@ -435,29 +422,27 @@ export default class Analysis extends Component {
               loading={loading}
               className={styles.salesCard}
               bordered={false}
-              title="销售额类别占比"
+              title="近七日认证方式占比"
               bodyStyle={{ padding: 24 }}
               extra={
                 <div className={styles.salesCardExtra}>
                   {iconGroup}
                   <div className={styles.salesTypeRadio}>
                     <Radio.Group value={salesType} onChange={this.handleChangeSalesType}>
-                      <Radio.Button value="all">全部渠道</Radio.Button>
-                      <Radio.Button value="online">线上</Radio.Button>
-                      <Radio.Button value="offline">门店</Radio.Button>
+                      <Radio.Button value="all">全部</Radio.Button>
+                      <Radio.Button value="online">直接认证</Radio.Button>
+                      <Radio.Button value="offline">扫码认证</Radio.Button>
                     </Radio.Group>
                   </div>
                 </div>
               }
               style={{ marginTop: 24, minHeight: 509 }}
             >
-              <h4 style={{ marginTop: 8, marginBottom: 32 }}>销售额</h4>
+              <h4 style={{ marginTop: 8, marginBottom: 32 }}>认证次数</h4>
               <Pie
                 hasLegend
-                subTitle="销售额"
-                total={
-                  () => <Yuan>{salesPieData.reduce((pre, now) => now.y + pre, 0)}</Yuan>
-                }
+                subTitle="认证次数"
+                total={() => <Yuan>{salesPieData.reduce((pre, now) => now.y + pre, 0)}</Yuan>}
                 data={salesPieData}
                 valueFormat={value => <Yuan>{value}</Yuan>}
                 height={248}
@@ -466,28 +451,6 @@ export default class Analysis extends Component {
             </Card>
           </Col>
         </Row>
-
-        <Card
-          loading={loading}
-          className={styles.offlineCard}
-          bordered={false}
-          bodyStyle={{ padding: '0 0 32px 0' }}
-          style={{ marginTop: 32 }}
-        >
-          <Tabs activeKey={activeKey} onChange={this.handleTabChange}>
-            {offlineData.map(shop => (
-              <TabPane tab={<CustomTab data={shop} currentTabKey={activeKey} />} key={shop.name}>
-                <div style={{ padding: '0 24px' }}>
-                  <TimelineChart
-                    height={400}
-                    data={offlineChartData}
-                    titleMap={{ y1: '客流量', y2: '支付笔数' }}
-                  />
-                </div>
-              </TabPane>
-            ))}
-          </Tabs>
-        </Card>
       </Fragment>
     );
   }

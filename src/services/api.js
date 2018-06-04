@@ -82,6 +82,9 @@ export async function queryAdvancedProfile() {
 export async function queryFakeList(params) {
   return request(`/api/fake_list?${stringify(params)}`);
 }
+export async function queryFakeLst(params) {
+  return request(`/api/fake_lst?${stringify(params)}`);
+}
 
 export async function fakeAccountLogin0(params) {
   return request('/api/login/account', {
@@ -105,4 +108,12 @@ export async function fakeRegister(params) {
 
 export async function queryNotices() {
   return request('/api/notices');
+}
+
+// hotmap 热力图
+export async function queryHotMapData(params) {
+  return request('/admin/log/authLog', {
+    method: 'POST',
+    body: params,
+  });
 }

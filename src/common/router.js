@@ -75,6 +75,9 @@ export const getRouterData = app => {
     '/dashboard/analysis': {
       component: dynamicWrapper(app, ['chart'], () => import('../routes/Dashboard/Analysis')),
     },
+    '/dashboard/hot-map': {
+      component: dynamicWrapper(app, [], () => import('../routes/Dashboard/HotMap')),
+    },
     '/dashboard/monitor': {
       component: dynamicWrapper(app, ['monitor'], () => import('../routes/Dashboard/Monitor')),
     },
@@ -106,6 +109,27 @@ export const getRouterData = app => {
     },
     '/form/advanced-form': {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/AdvancedForm')),
+    },
+    '/lst/user-lst': {
+      component: dynamicWrapper(app, [], () => import('../routes/Lst/UserLst')),
+    },
+    '/lst/school-lst': {
+      component: dynamicWrapper(app, [], () => import('../routes/Lst/SchoolLst')),
+    },
+    '/lst/ac-lst': {
+      component: dynamicWrapper(app, [], () => import('../routes/Lst/AcLst')),
+    },
+    '/lst/ap-lst': {
+      component: dynamicWrapper(app, [], () => import('../routes/Lst/ApLst')),
+    },
+    '/lst/ssid-lst': {
+      component: dynamicWrapper(app, [], () => import('../routes/Lst/SsidLst')),
+    },
+    '/log/auth-log-lst': {
+      component: dynamicWrapper(app, [], () => import('../routes/Log/AuthLogLst')),
+    },
+    '/feedback/feedback-lst': {
+      component: dynamicWrapper(app, [], () => import('../routes/Feedback/FeedbackLst')),
     },
     '/list/table-list': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),

@@ -1,7 +1,19 @@
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
-import { Card, Form, Input, Icon, Button, Dropdown, Menu, Modal, message, Divider, Upload } from 'antd';
+import {
+  Card,
+  Form,
+  Input,
+  Icon,
+  Button,
+  Dropdown,
+  Menu,
+  Modal,
+  message,
+  Divider,
+  Upload,
+} from 'antd';
 import StandardTable from 'components/StandardTable';
 import ColorSimple from 'components/SketchPicker';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -17,25 +29,33 @@ const statusMap = ['default', 'processing', 'success', 'error'];
 const status = ['关闭', '运行中', '已上线', '异常'];
 
 const getBase64 = (img, callback) => {
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result));
+  reader.readAsDataURL(img);
 };
-const beforeUpload = (file) => {
-    const isJPG = file.type === 'image/jpeg';
-    if (!isJPG)   {
-        message.error('You can only upload JPG file!');
-    }
-    const isLt2M = file.size / 1024 / 1024 < 2;
-    if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
-    }
-    return isJPG && isLt2M;
+const beforeUpload = file => {
+  const isJPG = file.type === 'image/jpeg';
+  if (!isJPG) {
+    message.error('You can only upload JPG file!');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+  }
+  return isJPG && isLt2M;
 };
 
 const CreateForm = Form.create()(props => {
-  console.error(props);
-  const { modalVisible, logoLoading, imageUrl, form, handleAdd, handleModalVisible, handleLogoChange, logoPath } = props;
+  const {
+    modalVisible,
+    logoLoading,
+    imageUrl,
+    form,
+    handleAdd,
+    handleModalVisible,
+    handleLogoChange,
+    logoPath,
+  } = props;
   const okHandle = () => {
     form.validateFields((err, fieldsValue) => {
       if (err) return;
@@ -44,13 +64,13 @@ const CreateForm = Form.create()(props => {
     });
   };
 
-    const uploadButton = (
-        <div>
-          <Icon type={logoLoading ? 'loading' : 'plus'} />
-          <div className="ant-upload-text">上传</div>
-        </div>
-    );
-    // const imageUrl = imageUrl;
+  const uploadButton = (
+    <div>
+      <Icon type={logoLoading ? 'loading' : 'plus'} />
+      <div className="ant-upload-text">上传</div>
+    </div>
+  );
+  // const imageUrl = imageUrl;
 
   return (
     <Modal
@@ -80,9 +100,14 @@ const CreateForm = Form.create()(props => {
         })(<Input placeholder="" />)}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="学校logo">
-        {form.getFieldDecorator('logo', {
-          // rules: [{required: true, message: '必填'}],
-        },form.setFieldsValue('logo',logoPath))(<Upload
+        {form.getFieldDecorator(
+          'logo',
+          {
+            // rules: [{required: true, message: '必填'}],
+          },
+          form.setFieldsValue('logo', logoPath)
+        )(
+          <Upload
             name="logo"
             listType="picture-card"
             className="avatar-uploader"
@@ -90,9 +115,10 @@ const CreateForm = Form.create()(props => {
             action="http://106.14.7.51/admin/Index/uploadImg"
             beforeUpload={beforeUpload}
             onChange={handleLogoChange}
-        >
+          >
             {imageUrl ? <img width="100" src={imageUrl} alt="avatar" /> : uploadButton}
-        </Upload>)}
+          </Upload>
+        )}
       </FormItem>
       <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="学校主色调">
         {form.getFieldDecorator('color', {
@@ -126,7 +152,7 @@ export default class TableList extends PureComponent {
     selectedRows: [],
     formValues: {},
     logoLoading: false,
-      logoPath: '',
+    logoPath: '',
   };
 
   componentDidMount() {
@@ -136,21 +162,23 @@ export default class TableList extends PureComponent {
     });
   }
 
-    handleLogoChange = (info) => {
-        if (info.file.status === 'uploading') {
-            this.setState({ logoLoading: true });
-            return;
-        }
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            const path = info.file.response.data.path;
-            getBase64(info.file.originFileObj, imageUrl => this.setState({
-                logoPath: path,
-                imageUrl,
-                logoLoading: false,
-            }));
-        }
-    };
+  handleLogoChange = info => {
+    if (info.file.status === 'uploading') {
+      this.setState({ logoLoading: true });
+      return;
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      const path = info.file.response.data.path;
+      getBase64(info.file.originFileObj, imageUrl =>
+        this.setState({
+          logoPath: path,
+          imageUrl,
+          logoLoading: false,
+        })
+      );
+    }
+  };
 
   handleStandardTableChange = (pagination, filtersArg, sorter) => {
     const { dispatch } = this.props;
@@ -338,7 +366,7 @@ export default class TableList extends PureComponent {
     const parentMethods = {
       handleAdd: this.handleAdd,
       handleModalVisible: this.handleModalVisible,
-        handleLogoChange: this.handleLogoChange,
+      handleLogoChange: this.handleLogoChange,
     };
 
     return (
@@ -371,7 +399,13 @@ export default class TableList extends PureComponent {
             />
           </div>
         </Card>
-        <CreateForm {...parentMethods} modalVisible={modalVisible} logoLoading={logoLoading} imageUrl={imageUrl} logoPath={logoPath} />
+        <CreateForm
+          {...parentMethods}
+          modalVisible={modalVisible}
+          logoLoading={logoLoading}
+          imageUrl={imageUrl}
+          logoPath={logoPath}
+        />
       </PageHeaderLayout>
     );
   }

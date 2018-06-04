@@ -2,13 +2,17 @@ import { isUrl } from '../utils/utils';
 
 const menuData = [
   {
-    name: '观测台',
+    name: '数据监测',
     icon: 'dashboard',
     path: 'dashboard',
     children: [
       {
-        name: '分析页',
+        name: '数据概览',
         path: 'analysis',
+      },
+      {
+        name: '热力图',
+        path: 'hot-map',
       },
       // {
       //   name: '监控页',
@@ -43,44 +47,52 @@ const menuData = [
   //   ],
   // },
   {
-    name: '学校管理',
+    name: '管理',
     icon: 'table',
-    path: 'list',
+    path: 'lst',
     children: [
-      // {
-      //   name: '查询表格',
-      //   path: 'table-list',
-      // },
       {
-        name: '学校列表',
-        path: 'school-list',
+        name: '用户管理',
+        path: 'user-lst',
       },
-      // {
-      //   name: '标准列表',
-      //   path: 'basic-list',
-      // },
-      // {
-      //   name: '卡片列表',
-      //   path: 'card-list',
-      // },
-      // {
-      //   name: '搜索列表',
-      //   path: 'search',
-      //   children: [
-      //     {
-      //       name: '搜索列表（文章）',
-      //       path: 'articles',
-      //     },
-      //     {
-      //       name: '搜索列表（项目）',
-      //       path: 'projects',
-      //     },
-      //     {
-      //       name: '搜索列表（应用）',
-      //       path: 'applications',
-      //     },
-      //   ],
-      // },
+      {
+        name: '学校管理',
+        path: 'school-lst',
+      },
+      {
+        name: 'AC管理',
+        path: 'ac-lst',
+      },
+      {
+        name: 'AP管理',
+        path: 'ap-lst',
+      },
+      {
+        name: 'SSID管理',
+        path: 'ssid-lst',
+      },
+    ],
+  },
+  {
+    name: '日志',
+    icon: 'file-text',
+    path: 'log',
+    children: [
+      {
+        name: '认证日志',
+        path: 'auth-log-lst',
+      },
+    ],
+  },
+  {
+    name: '意见反馈',
+    icon: 'question-circle-o',
+    path: 'feedback',
+    children: [
+      {
+        name: '反馈列表',
+        path: 'feedback-lst',
+      },
     ],
   },
   // {
@@ -123,19 +135,19 @@ const menuData = [
   //       name: '403',
   //       path: '403',
   //     },
-  //     {
-  //       name: '404',
-  //       path: '404',
-  //     },
-  //     {
-  //       name: '500',
-  //       path: '500',
-  //     },
-  //     {
-  //       name: '触发异常',
-  //       path: 'trigger',
-  //       hideInMenu: true,
-  //     },
+  //     // {
+  //     //   name: '404',
+  //     //   path: '404',
+  //     // },
+  //     // {
+  //     //   name: '500',
+  //     //   path: '500',
+  //     // },
+  //     // {
+  //     //   name: '触发异常',
+  //     //   path: 'trigger',
+  //     //   hideInMenu: true,
+  //     // },
   //   ],
   // },
   {
