@@ -4,15 +4,15 @@ export default {
     namespace: 'hotmap',
     state: {
         points: [],
+        location: {},
     },
 
     effects: {
         * fetchHotMapData(_, {call, put}) {
             const res = yield call(queryHotMapData);
-            console.log(res)
             yield put({
                 type: 'show',
-                payload: res.data,
+                payload: res,
             });
         },
     },
@@ -21,7 +21,8 @@ export default {
         show(state, {payload}) {
             return {
                 ...state,
-                points: payload,
+                points: payload.data.data,
+                location: payload.data.location,
             };
         },
     },

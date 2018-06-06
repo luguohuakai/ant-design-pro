@@ -112,8 +112,24 @@ export async function queryNotices() {
 
 // hotmap 热力图
 export async function queryHotMapData(params) {
-  return request('/admin/log/authLog', {
-    method: 'POST',
+  return request('/admin/authHotMapData', {
+    method: 'GET',
+    body: params,
+  });
+}
+
+//
+export async function queryActiveData(params) {
+    return request('/admin/activeUsers', {
+        method: 'GET',
+        body: params,
+    });
+}
+
+//
+export async function queryUserData(params) {
+  return request('/admin/basicUserStatistics', {
+    method: 'GET',
     body: params,
   });
 }

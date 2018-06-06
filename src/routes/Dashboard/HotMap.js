@@ -1,4 +1,3 @@
-// import React from 'react';
 import React, { Component } from 'react';
 import { Link } from 'dva/router';
 import { Map } from 'react-amap';
@@ -47,8 +46,8 @@ import styles from './HotMap.less';
 //   </Map>
 // );
 
-@connect(({ data, loading }) => ({
-    data,
+@connect(({ hotmap, loading }) => ({
+    hotmap,
     loading: loading.effects['hotmap/fetchHotMapData'],
 }))
 
@@ -61,24 +60,25 @@ export default class HotMap extends Component {
     }
 
     render() {
-        const {data, loading} = this.props;
-        console.log(data)
-        console.log(loading)
+        const {hotmap, loading} = this.props;
 
-        // config props
+        // 热力图配置 config props
+        const {points} = hotmap;
         const visible = true;
-        const radius = 30;
+        const radius = 25;
         const gradient = {
-            '0.4': 'rgb(0, 255, 255)',
-            '0.65': 'rgb(0, 110, 255)',
-            '0.85': 'rgb(100, 0, 255)',
-            '1.0': 'rgb(100, 0, 255)',
+            0.5: 'blue',
+            0.65: 'rgb(117,211,248)',
+            0.7: 'rgb(0, 255, 0)',
+            0.9: '#ffea00',
+            1.0: 'red',
         };
         const zooms = [3, 18];
         const dataSet = {
-            data,
-            max: 100,
+            data: points,
+            max: 10,
         };
+        const opacity = [0, 0.8];
 
         const pluginProps = {
             visible,
@@ -86,10 +86,27 @@ export default class HotMap extends Component {
             gradient,
             zooms,
             dataSet,
+            opacity,
+        };
+
+        // 地图配置
+        // const center = [104.406932,31.132006];
+        // const center = [116.322287,39.957509];
+        const {location} = hotmap;
+        const center = [location.lng,location.lat];
+        const zoom = 14;
+        const resizeEnable = true;
+        const features = ['bg', 'road'];
+
+        const map = {
+            // features,
+            center,
+            zoom,
+            resizeEnable,
         };
 
         return (
-          <Map>
+          <Map {...map}>
             <Heatmap loading={loading} {...pluginProps} />
           </Map>
         );
