@@ -21,7 +21,7 @@ const {RangePicker} = DatePicker;
 const {TextArea} = Input;
 
 @connect(({loading}) => ({
-    submitting: loading.effects['form/submitRegularForm'],
+    submitting: loading.effects['lst/addSchool'],
 }))
 @Form.create()
 export default class BasicForms extends PureComponent {
@@ -30,7 +30,7 @@ export default class BasicForms extends PureComponent {
         this.props.form.validateFieldsAndScroll((err, values) => {
             if (!err) {
                 this.props.dispatch({
-                    type: 'form/submitRegularForm',
+                    type: 'lst/addSchool',
                     payload: values,
                 });
             }

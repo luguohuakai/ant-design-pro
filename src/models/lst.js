@@ -1,5 +1,6 @@
-import {queryFakeLst} from '../services/api';
-import {querySchoolLst} from '../services/api';
+import {fakeSubmitForm, queryFakeLst} from '../services/api';
+import {querySchoolLst,fakeSubmitSchool} from '../services/api';
+import {message} from "antd/lib/index";
 
 export default {
     namespace: 'lst',
@@ -15,6 +16,10 @@ export default {
                 type: 'showSchoolLst',
                 payload: response,
             });
+        },
+        *addSchool({ payload }, { call }) {
+            yield call(fakeSubmitSchool, payload);
+            message.success('提交成功llll');
         },
         * appendFetch({payload}, {call, put}) {
             const response = yield call(queryFakeLst, payload);

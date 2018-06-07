@@ -37,7 +37,12 @@ export default class BasicList extends PureComponent {
                 size: 10,
             },
         });
-    }
+    };
+
+    // 删除
+    deleteSchool = (data) => {
+        console.log(data)
+    };
 
     render() {
         const {lst, loading} = this.props;
@@ -109,7 +114,7 @@ export default class BasicList extends PureComponent {
                     <a>编辑</a>
                 </Menu.Item>
                 <Menu.Item>
-                    <a>删除</a>
+                    <a href="javascript:void(0);" onClick={() => this.deleteSchool(this)}>删除</a>
                 </Menu.Item>
             </Menu>
         );

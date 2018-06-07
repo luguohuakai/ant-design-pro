@@ -22,6 +22,13 @@ export async function querySchoolLst(params) {
   return request(`/school?${stringify(params)}`);
 }
 
+// 添加学校
+export async function fakeSubmitSchool(params) {
+    return request('/school', {
+        method: 'POST',
+        body: params,
+    });
+}
 // export async function removeRule(params) {
 //   return request('/api/rule', {
 //     method: 'POST',
