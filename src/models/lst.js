@@ -1,41 +1,48 @@
-import { queryFakeLst } from '../services/api';
+import {queryFakeLst} from '../services/api';
+import {querySchoolLst} from '../services/api';
 
 export default {
-  namespace: 'lst',
+    namespace: 'lst',
 
-  state: {
-    lst: [],
-  },
+    state: {
+        schoolData: [],
+    },
 
-  effects: {
-    *fetch({ payload }, { call, put }) {
-      const response = yield call(queryFakeLst, payload);
-      yield put({
-        type: 'queryLst',
-        payload: Array.isArray(response) ? response : [],
-      });
+    effects: {
+        * fetchSchoolLst({payload}, {call, put}) {
+            const response = yield call(querySchoolLst, payload);
+            yield put({
+                type: 'showSchoolLst',
+                payload: response,
+            });
+        },
+        * appendFetch({payload}, {call, put}) {
+            const response = yield call(queryFakeLst, payload);
+            yield put({
+                type: 'appendLst',
+                payload: Array.isArray(response) ? response : [],
+            });
+        },
     },
-    *appendFetch({ payload }, { call, put }) {
-      const response = yield call(queryFakeLst, payload);
-      yield put({
-        type: 'appendLst',
-        payload: Array.isArray(response) ? response : [],
-      });
-    },
-  },
 
-  reducers: {
-    queryLst(state, action) {
-      return {
-        ...state,
-        lst: action.payload,
-      };
+    reducers: {
+        showSchoolLst(state, action) {
+            return {
+                ...state,
+                schoolData: action.payload.data,
+            };
+        },
+        queryLst(state, action) {
+            return {
+                ...state,
+                lst: action.payload,
+            };
+        },
+        appendLst(state, action) {
+            return {
+                ...state,
+                lst: state.lst.concat(action.payload),
+            };
+        },
     },
-    appendLst(state, action) {
-      return {
-        ...state,
-        lst: state.lst.concat(action.payload),
-      };
-    },
-  },
 };

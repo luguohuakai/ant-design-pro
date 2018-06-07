@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, {Component, Fragment} from 'react';
 import {connect} from 'dva';
 import {
@@ -37,7 +38,7 @@ const {RangePicker} = DatePicker;
 const rankingListData = [];
 for (let i = 0; i < 7; i += 1) {
     rankingListData.push({
-        title: `工专路 ${i} 号店`,
+        title: `xx学校 ${i} `,
         total: 323234,
     });
 }
@@ -133,16 +134,12 @@ export default class Analysis extends Component {
         const visitData = analysis.recent_active;
         const {yesterday_active, month_active, user_total, yesterday_total, today_total, ios_total, android_total, others_total} = analysis;
         const {
-            visitData2,
-            salesData,
             searchData,
             offlineData,
-            offlineChartData,
             salesTypeData,
             salesTypeDataOnline,
             salesTypeDataOffline,
         } = chart;
-
         const salesPieData =
             salesType === 'all'
                 ? salesTypeData
@@ -150,17 +147,17 @@ export default class Analysis extends Component {
 
         const menu = (
             <Menu>
-                <Menu.Item>操作一</Menu.Item>
-                <Menu.Item>操作二</Menu.Item>
+                <Menu.Item>操作</Menu.Item>
+                <Menu.Item>全部标记为已处理</Menu.Item>
             </Menu>
         );
 
         const iconGroup = (
             <span className={styles.iconGroup}>
-        <Dropdown overlay={menu} placement="bottomRight">
-          <Icon type="ellipsis"/>
-        </Dropdown>
-      </span>
+            <Dropdown overlay={menu} placement="bottomRight">
+              <Icon type="ellipsis"/>
+            </Dropdown>
+          </span>
         );
 
         const salesExtra = (
@@ -189,35 +186,35 @@ export default class Analysis extends Component {
 
         const columns = [
             {
-                title: '排名',
+                title: '用户名',
                 dataIndex: 'index',
                 key: 'index',
             },
             {
-                title: '搜索关键词',
+                title: '问题概览',
                 dataIndex: 'keyword',
                 key: 'keyword',
                 render: text => <a href="/">{text}</a>,
             },
-            {
-                title: '用户数',
-                dataIndex: 'count',
-                key: 'count',
-                sorter: (a, b) => a.count - b.count,
-                className: styles.alignRight,
-            },
-            {
-                title: '周涨幅',
-                dataIndex: 'range',
-                key: 'range',
-                sorter: (a, b) => a.range - b.range,
-                render: (text, record) => (
-                    <Trend flag={record.status === 1 ? 'down' : 'up'}>
-                        <span style={{marginRight: 4}}>{text}%</span>
-                    </Trend>
-                ),
-                align: 'right',
-            },
+            // {
+            //     title: '用户数',
+            //     dataIndex: 'count',
+            //     key: 'count',
+            //     sorter: (a, b) => a.count - b.count,
+            //     className: styles.alignRight,
+            // },
+            // {
+            //     title: '周涨幅',
+            //     dataIndex: 'range',
+            //     key: 'range',
+            //     sorter: (a, b) => a.range - b.range,
+            //     render: (text, record) => (
+            //       <Trend flag={record.status === 1 ? 'down' : 'up'}>
+            //         <span style={{marginRight: 4}}>{text}%</span>
+            //       </Trend>
+            //     ),
+            //     align: 'right',
+            // },
         ];
 
         const activeKey = currentTabKey || (offlineData[0] && offlineData[0].name);
@@ -255,7 +252,14 @@ export default class Analysis extends Component {
             xl: 6,
             style: {marginBottom: 24},
         };
-
+        const chartData = [];
+        for (let i = 0; i < 20; i += 1) {
+            chartData.push({
+                x: (new Date().getTime()) + (1000 * 60 * 30 * i),
+                y1: Math.floor(Math.random() * 100) + 1000,
+                y2: Math.floor(Math.random() * 100) + 500,
+            });
+        }
         return (
             <Fragment>
                 <Row gutter={24}>
@@ -274,16 +278,21 @@ export default class Analysis extends Component {
                                 <div style={{whiteSpace: 'nowrap', overflow: 'hidden'}}>
                                     <Trend flag="" style={{marginRight: 16}}>
                                         iOS<span
-                                        className={styles.trendText}>{`${numeral(ios_total).format('0,0')}`}</span>
+                                        className={styles.trendText}
+                                    >{`${numeral(ios_total).format('0,0')}`}
+                                        </span>
                                     </Trend>
                                     <Trend flag="" style={{marginRight: 16}}>
                                         Android<span className={styles.trendText}>{`${numeral(android_total).format(
                                         '0,0'
-                                    )}`}</span>
+                                    )}`}
+                                        </span>
                                     </Trend>
                                     <Trend flag="">
                                         其它<span
-                                        className={styles.trendText}>{`${numeral(others_total).format('0,0')}`}</span>
+                                        className={styles.trendText}
+                                    >{`${numeral(others_total).format('0,0')}`}
+                                        </span>
                                     </Trend>
                                 </div>
                             }
@@ -291,7 +300,9 @@ export default class Analysis extends Component {
                         >
                             <Trend flag="" style={{marginRight: 16}}>
                                 昨日新增<span
-                                className={styles.trendText}>{`${numeral(yesterday_total).format('0,0')}`}</span>
+                                className={styles.trendText}
+                            >{`${numeral(yesterday_total).format('0,0')}`}
+                                </span>
                             </Trend>
                             <Trend flag="">
                                 今日新增<span className={styles.trendText}>{`${numeral(today_total).format('0,0')}`}</span>
@@ -315,47 +326,47 @@ export default class Analysis extends Component {
                             <MiniArea color="#975FE4" data={visitData}/>
                         </ChartCard>
                     </Col>
-                    {/*<Col {...topColResponsiveProps}>*/}
-                    {/*<ChartCard*/}
-                    {/*bordered={false}*/}
-                    {/*title="支付笔数"*/}
-                    {/*action={*/}
-                    {/*<Tooltip title="指标说明">*/}
-                    {/*<Icon type="info-circle-o"/>*/}
-                    {/*</Tooltip>*/}
-                    {/*}*/}
-                    {/*total={numeral(6560).format('0,0')}*/}
-                    {/*footer={<Field label="转化率" value="60%"/>}*/}
-                    {/*contentHeight={46}*/}
-                    {/*>*/}
-                    {/*<MiniBar data={visitData}/>*/}
-                    {/*</ChartCard>*/}
-                    {/*</Col>*/}
-                    {/*<Col {...topColResponsiveProps}>*/}
-                    {/*<ChartCard*/}
-                    {/*bordered={false}*/}
-                    {/*title="运营活动效果"*/}
-                    {/*action={*/}
-                    {/*<Tooltip title="指标说明">*/}
-                    {/*<Icon type="info-circle-o"/>*/}
-                    {/*</Tooltip>*/}
-                    {/*}*/}
-                    {/*total="78%"*/}
-                    {/*footer={*/}
-                    {/*<div style={{whiteSpace: 'nowrap', overflow: 'hidden'}}>*/}
-                    {/*<Trend flag="up" style={{marginRight: 16}}>*/}
-                    {/*周同比<span className={styles.trendText}>12%</span>*/}
-                    {/*</Trend>*/}
-                    {/*<Trend flag="down">*/}
-                    {/*日环比<span className={styles.trendText}>11%</span>*/}
-                    {/*</Trend>*/}
-                    {/*</div>*/}
-                    {/*}*/}
-                    {/*contentHeight={46}*/}
-                    {/*>*/}
-                    {/*<MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2"/>*/}
-                    {/*</ChartCard>*/}
-                    {/*</Col>*/}
+                    <Col {...topColResponsiveProps}>
+                        <ChartCard
+                            bordered={false}
+                            title="虚位以待"
+                            action={
+                                <Tooltip title="指标说明">
+                                    <Icon type="info-circle-o"/>
+                                </Tooltip>
+                            }
+                            total={numeral(month_active).format('0,0')}
+                            footer={<Field label="昨日活跃用户" value={numeral(yesterday_active).format('0,0')}/>}
+                            contentHeight={46}
+                        >
+                            <MiniBar data={visitData}/>
+                        </ChartCard>
+                    </Col>
+                    <Col {...topColResponsiveProps}>
+                        <ChartCard
+                            bordered={false}
+                            title="虚位以待"
+                            action={
+                                <Tooltip title="指标说明">
+                                    <Icon type="info-circle-o"/>
+                                </Tooltip>
+                            }
+                            total="78%"
+                            footer={
+                                <div style={{whiteSpace: 'nowrap', overflow: 'hidden'}}>
+                                    <Trend flag="up" style={{marginRight: 16}}>
+                                        周同比<span className={styles.trendText}>12%</span>
+                                    </Trend>
+                                    <Trend flag="down">
+                                        日环比<span className={styles.trendText}>11%</span>
+                                    </Trend>
+                                </div>
+                            }
+                            contentHeight={46}
+                        >
+                            <MiniProgress percent={78} strokeWidth={8} target={80} color="#13C2C2"/>
+                        </ChartCard>
+                    </Col>
                 </Row>
 
                 <Card loading={loading} bordered={false} bodyStyle={{padding: 0}}>
@@ -365,12 +376,16 @@ export default class Analysis extends Component {
                                 <Row>
                                     <Col xl={16} lg={12} md={12} sm={24} xs={24}>
                                         <div className={styles.salesBar}>
-                                            <Bar height={295} title="认证人数" data={salesData}/>
+                                            <TimelineChart
+                                                height={200}
+                                                data={chartData}
+                                                titleMap={{y1: '直接认证', y2: '扫码认证'}}
+                                            />
                                         </div>
                                     </Col>
                                     <Col xl={8} lg={12} md={12} sm={24} xs={24}>
                                         <div className={styles.salesRank}>
-                                            <h4 className={styles.rankingTitle}>热点认证次数排名</h4>
+                                            <h4 className={styles.rankingTitle}>认证次数排名</h4>
                                             <ul className={styles.rankingList}>
                                                 {rankingListData.map((item, i) => (
                                                     <li key={item.title}>
@@ -384,29 +399,29 @@ export default class Analysis extends Component {
                                     </Col>
                                 </Row>
                             </TabPane>
-                            {/*<TabPane tab="访问量" key="views">*/}
-                            {/*<Row>*/}
-                            {/*<Col xl={16} lg={12} md={12} sm={24} xs={24}>*/}
-                            {/*<div className={styles.salesBar}>*/}
-                            {/*<Bar height={292} title="访问量趋势" data={salesData}/>*/}
-                            {/*</div>*/}
-                            {/*</Col>*/}
-                            {/*<Col xl={8} lg={12} md={12} sm={24} xs={24}>*/}
-                            {/*<div className={styles.salesRank}>*/}
-                            {/*<h4 className={styles.rankingTitle}>门店访问量排名</h4>*/}
-                            {/*<ul className={styles.rankingList}>*/}
-                            {/*{rankingListData.map((item, i) => (*/}
-                            {/*<li key={item.title}>*/}
-                            {/*<span className={i < 3 ? styles.active : ''}>{i + 1}</span>*/}
-                            {/*<span>{item.title}</span>*/}
-                            {/*<span>{numeral(item.total).format('0,0')}</span>*/}
-                            {/*</li>*/}
-                            {/*))}*/}
-                            {/*</ul>*/}
-                            {/*</div>*/}
-                            {/*</Col>*/}
-                            {/*</Row>*/}
-                            {/*</TabPane>*/}
+                            {/* <TabPane tab="访问量" key="views"> */}
+                            {/* <Row> */}
+                            {/* <Col xl={16} lg={12} md={12} sm={24} xs={24}> */}
+                            {/* <div className={styles.salesBar}> */}
+                            {/* <Bar height={292} title="访问量趋势" data={salesData}/> */}
+                            {/* </div> */}
+                            {/* </Col> */}
+                            {/* <Col xl={8} lg={12} md={12} sm={24} xs={24}> */}
+                            {/* <div className={styles.salesRank}> */}
+                            {/* <h4 className={styles.rankingTitle}>门店访问量排名</h4> */}
+                            {/* <ul className={styles.rankingList}> */}
+                            {/* {rankingListData.map((item, i) => ( */}
+                            {/* <li key={item.title}> */}
+                            {/* <span className={i < 3 ? styles.active : ''}>{i + 1}</span> */}
+                            {/* <span>{item.title}</span> */}
+                            {/* <span>{numeral(item.total).format('0,0')}</span> */}
+                            {/* </li> */}
+                            {/* ))} */}
+                            {/* </ul> */}
+                            {/* </div> */}
+                            {/* </Col> */}
+                            {/* </Row> */}
+                            {/* </TabPane> */}
                         </Tabs>
                     </div>
                 </Card>
@@ -437,11 +452,11 @@ export default class Analysis extends Component {
                             loading={loading}
                             className={styles.salesCard}
                             bordered={false}
-                            title="近七日认证方式占比"
+                            title="近七日认证客户端类型占比"
                             bodyStyle={{padding: 24}}
                             extra={
                                 <div className={styles.salesCardExtra}>
-                                    {iconGroup}
+                                    {/*{iconGroup}*/}
                                     <div className={styles.salesTypeRadio}>
                                         <Radio.Group value={salesType} onChange={this.handleChangeSalesType}>
                                             <Radio.Button value="all">全部</Radio.Button>
@@ -453,13 +468,13 @@ export default class Analysis extends Component {
                             }
                             style={{marginTop: 24, minHeight: 509}}
                         >
-                            <h4 style={{marginTop: 8, marginBottom: 32}}>认证次数</h4>
+                            <h4 style={{marginTop: 8, marginBottom: 32}}>客户端类型</h4>
                             <Pie
                                 hasLegend
                                 subTitle="认证次数"
-                                total={() => <Yuan>{salesPieData.reduce((pre, now) => now.y + pre, 0)}</Yuan>}
+                                total={() => salesPieData.reduce((pre, now) => now.y + pre, 0)}
                                 data={salesPieData}
-                                valueFormat={value => <Yuan>{value}</Yuan>}
+                                valueFormat={value => value}
                                 height={248}
                                 lineWidth={4}
                             />

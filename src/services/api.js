@@ -17,6 +17,11 @@ export async function queryRule(params) {
   return request(`/school?${stringify(params)}`);
 }
 
+// 学校列表
+export async function querySchoolLst(params) {
+  return request(`/school?${stringify(params)}`);
+}
+
 // export async function removeRule(params) {
 //   return request('/api/rule', {
 //     method: 'POST',
@@ -118,7 +123,7 @@ export async function queryHotMapData(params) {
   });
 }
 
-//
+// 日活 月活 卡片
 export async function queryActiveData(params) {
     return request('/admin/activeUsers', {
         method: 'GET',
@@ -126,7 +131,7 @@ export async function queryActiveData(params) {
     });
 }
 
-//
+// 基础用户统计 卡片
 export async function queryUserData(params) {
   return request('/admin/basicUserStatistics', {
     method: 'GET',
