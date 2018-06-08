@@ -41,7 +41,6 @@ export default class BasicForms extends PureComponent {
     });
   };
   normFile = e => {
-    console.log(e);
     if (Array.isArray(e)) {
       return e;
     }
@@ -51,8 +50,7 @@ export default class BasicForms extends PureComponent {
   // 当前控件改变时动态设置其他控件的值 怎么设置当前控件的值?
   logoOnChange = e => {
     if (e.file.status === 'done') {
-      return e.file.response.data.path;
-      this.props.form.setFieldsValue({ login_bg: e.file.response.data.path });
+      this.props.form.setFieldsValue({ logo: e.file.response.data.path });
     }
   };
 
@@ -123,6 +121,7 @@ export default class BasicForms extends PureComponent {
                 ],
               })(<Input placeholder="这个学校的纬度" />)}
             </FormItem>
+
             <FormItem {...formItemLayout} label="默认ACID">
               {getFieldDecorator('default_ac_id', {
                 rules: [
@@ -177,7 +176,7 @@ export default class BasicForms extends PureComponent {
                 </span>
               }
             >
-              {getFieldDecorator('logo', {
+              {getFieldDecorator('_logo', {
                 valuePropName: 'fileList',
                 getValueFromEvent: this.normFile,
               })(
@@ -186,6 +185,7 @@ export default class BasicForms extends PureComponent {
                   action="http://106.14.7.51//admin/Index/uploadImg"
                   listType="picture-card"
                   className="avatar-uploader"
+                  onChange={this.logoOnChange}
                 >
                   <Button>
                     <Icon type="upload" /> 选择Logo
@@ -193,6 +193,17 @@ export default class BasicForms extends PureComponent {
                 </Upload>
               )}
             </FormItem>
+
+              <FormItem {...formItemLayout}>
+                  {getFieldDecorator('logo', {
+                      rules: [
+                          {
+                              required: true,
+                              message: '选择Logo',
+                          },
+                      ],
+                  })(<Input type='hidden'/>)}
+              </FormItem>
 
             <FormItem
               {...formItemLayout}
