@@ -57,6 +57,7 @@ const proxy = {
   'POST /school': remote_url,
   'DELETE /school': remote_url,
   'PUT /school': remote_url,
+  'POST /test/index.php': 'http://localhost',
   'POST /api/rule': {
     $params: {
       pageSize: {
@@ -91,6 +92,7 @@ const proxy = {
   'GET /admin/authHotMapData': remote_url,
   'GET /admin/activeUsers': remote_url,
   'GET /admin/basicUserStatistics': remote_url,
+  'POST /admin/Index/uploadImg': remote_url, // 注意: mock 中不支持文件上传
   'GET /api/profile/basic': getProfileBasicData,
   'GET /api/profile/advanced': getProfileAdvancedData,
   'POST /api/login/account': (req, res) => {
