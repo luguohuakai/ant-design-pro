@@ -1,5 +1,5 @@
 import {fakeSubmitForm, queryFakeLst} from '../services/api';
-import {querySchoolLst,fakeSubmitSchool} from '../services/api';
+import {querySchoolLst, fakeSubmitSchool, fakeDeleteSchool} from '../services/api';
 import {message} from "antd/lib/index";
 
 export default {
@@ -17,9 +17,22 @@ export default {
                 payload: response,
             });
         },
-        *addSchool({ payload }, { call }) {
+        * addSchool({payload}, {call}) {
             yield call(fakeSubmitSchool, payload);
-            message.success('提交成功llll');
+            message.success('提交成功');
+        },
+        * deleteSchool({payload}, {call, put}) {
+            const response = yield call(fakeDeleteSchool, payload);
+            console.log(payload);
+            if (response.code === 1) {
+                const res = yield call(querySchoolLst, {page:payload.page,size:payload.size});
+                yield put({
+                    type: 'showSchoolLst',
+                    payload: res,
+                });
+            } else {
+                message.error('删除失败');
+            }
         },
         * appendFetch({payload}, {call, put}) {
             const response = yield call(queryFakeLst, payload);

@@ -39,11 +39,6 @@ export default class BasicList extends PureComponent {
         });
     };
 
-    // 删除
-    deleteSchool = (data) => {
-        console.log(data)
-    };
-
     render() {
         const {lst, loading} = this.props;
         const {schoolData} = lst;
@@ -72,6 +67,7 @@ export default class BasicList extends PureComponent {
             showQuickJumper: true,
             pageSize: Number(schoolData.per_page) ? Number(schoolData.per_page) : 10,
             total: Number(schoolData.total) ? Number(schoolData.total) : 0,
+            current: Number(schoolData.current_page) ? Number(schoolData.current_page) : 1,
             onChange: (page, pageSize) => {
                 this.props.dispatch({
                     type: 'lst/fetchSchoolLst',
@@ -92,6 +88,18 @@ export default class BasicList extends PureComponent {
             },
         };
 
+        // 删除
+        const deleteSchool = (payload) => {
+            this.props.dispatch({
+                type: 'lst/deleteSchool',
+                payload: {
+                    ...payload,
+                    page: paginationProps.current,
+                    size: paginationProps.pageSize,
+                },
+            });
+        };
+
         const ListContent = ({data: {default_ac_id, create_time, percent, status}}) => (
             <div className={styles.listContent}>
                 <div className={styles.listContentItem}>
@@ -108,14 +116,14 @@ export default class BasicList extends PureComponent {
             </div>
         );
 
+        const moreHandle = ({item, key}) => {
+            alert(key);
+        };
+
         const menu = (
-            <Menu>
-                <Menu.Item>
-                    <a>编辑</a>
-                </Menu.Item>
-                <Menu.Item>
-                    <a href="javascript:void(0);" onClick={() => this.deleteSchool(this)}>删除</a>
-                </Menu.Item>
+            <Menu onClick={moreHandle}>
+                <Menu.Item key="edit">编辑</Menu.Item>
+                <Menu.Item key="delete">删除</Menu.Item>
             </Menu>
         );
 
@@ -155,7 +163,8 @@ export default class BasicList extends PureComponent {
                         bodyStyle={{padding: '0 32px 40px 32px'}}
                         extra={extraContent}
                     >
-                        <Button href='#/lst/school-add' type="dashed" style={{width: '100%', marginBottom: 8}} icon="plus">
+                        <Button href='#/lst/school-add' type="dashed" style={{width: '100%', marginBottom: 8}}
+                                icon="plus">
                             添加
                         </Button>
                         <List
@@ -165,7 +174,8 @@ export default class BasicList extends PureComponent {
                             pagination={paginationProps}
                             dataSource={schoolData.data}
                             renderItem={item => (
-                                <List.Item actions={[<a>编辑</a>, <MoreBtn/>]}>
+                                <List.Item actions={[<a onClick={() => deleteSchool({id: item.id})}>删除</a>,
+                                    <MoreBtn data={item}/>]}>
                                     <List.Item.Meta
                                         avatar={<Avatar src={item.logo} shape="square" size="large"/>}
                                         title={<a href={item.name}>{item.name}</a>}

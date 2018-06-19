@@ -7,7 +7,6 @@ import {
   Select,
   Button,
   Card,
-  InputNumber,
   Radio,
   Icon,
   Tooltip,
@@ -28,10 +27,25 @@ const { TextArea } = Input;
 }))
 @Form.create()
 export default class BasicForms extends PureComponent {
+    constructor(props) {
+        super(props);
+
+        window.addEventListener('message', function(event) {
+            // 接收位置信息，用户选择确认位置点后选点组件会触发该事件，回传用户的位置信息
+            const loc = event.data;
+            if (loc && loc.module === 'locationPicker') {
+                props.form.setFieldsValue({
+                    lat:loc.latlng.lat,
+                    lng:loc.latlng.lng,
+                    name:loc.poiname,
+                    addr:loc.poiaddress,
+                })
+            }
+        }, false);
+    }
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
-      console.log('form-info----->', values);
       if (!err) {
         this.props.dispatch({
           type: 'lst/addSchool',
@@ -51,6 +65,11 @@ export default class BasicForms extends PureComponent {
   logoOnChange = e => {
     if (e.file.status === 'done') {
       this.props.form.setFieldsValue({ logo: e.file.response.data.path });
+    }
+  };
+  loginBgOnChange = e => {
+    if (e.file.status === 'done') {
+      this.props.form.setFieldsValue({ login_bg: e.file.response.data.path });
     }
   };
 
@@ -79,6 +98,15 @@ export default class BasicForms extends PureComponent {
 
     return (
       <PageHeaderLayout title="学校添加" content="太棒了,又一所学校即将支持小程序认证。">
+          <Card bordered={false}>
+              <FormItem {...formItemLayout} label="搜索">
+                  {getFieldDecorator('name')(
+                      <iframe id="mapPage" width="100%" height="500px" frameBorder="0"
+                              src="http://apis.map.qq.com/tools/locpicker?search=1&type=1&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&referer=myapp">
+                      </iframe>
+                  )}
+              </FormItem>
+          </Card>
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
             <FormItem {...formItemLayout} label="学校名">
@@ -182,7 +210,7 @@ export default class BasicForms extends PureComponent {
               })(
                 <Upload
                   name="logo"
-                  action="http://106.14.7.51//admin/Index/uploadImg"
+                  action="http://106.14.7.51/admin/Index/uploadImg"
                   listType="picture-card"
                   className="avatar-uploader"
                   onChange={this.logoOnChange}
@@ -198,8 +226,8 @@ export default class BasicForms extends PureComponent {
                   {getFieldDecorator('logo', {
                       rules: [
                           {
-                              required: true,
-                              message: '选择Logo',
+                              // required: true,
+                              // message: '选择Logo',
                           },
                       ],
                   })(<Input type='hidden'/>)}
@@ -213,8 +241,32 @@ export default class BasicForms extends PureComponent {
                 </span>
               }
             >
-              {getFieldDecorator('login_bg')(<Input placeholder="认证成功后的背景图片" />)}
+              {getFieldDecorator('_login_bg')(
+                  <Upload
+                      name="login_bg"
+                      action="http://106.14.7.51/admin/Index/uploadImg"
+                      listType="picture-card"
+                      className="avatar-uploader"
+                      onChange={this.loginBgOnChange}
+                  >
+                      <Button>
+                          <Icon type="upload" /> 选择背景
+                      </Button>
+                  </Upload>
+              )}
             </FormItem>
+
+              <FormItem {...formItemLayout}>
+                  {getFieldDecorator('login_bg', {
+                      rules: [
+                          {
+                              // required: true,
+                              // message: '选择背景',
+                          },
+                      ],
+                  })(<Input type='hidden'/>)}
+              </FormItem>
+
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>
                 提交

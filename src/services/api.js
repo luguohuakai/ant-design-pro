@@ -29,6 +29,17 @@ export async function fakeSubmitSchool(params) {
         body: params,
     });
 }
+
+// 删除学校
+export async function fakeDeleteSchool(params) {
+    return request(`/school/${params.id}`, {
+        method: 'DELETE',
+        body: {
+            ...params,
+            method: 'delete',
+        },
+    });
+}
 // export async function removeRule(params) {
 //   return request('/api/rule', {
 //     method: 'POST',
