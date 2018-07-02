@@ -109,10 +109,10 @@ export default class GlobalHeader extends PureComponent {
               console.log('enter', value); // eslint-disable-line
             }}
           />
-          <Tooltip title="使用文档">
+          <Tooltip title="接口文档">
             <a
               target="_blank"
-              href="http://quicklink.srun.com/docs/getting-started"
+              href="http://47.104.1.91/api/index.php"
               rel="noopener noreferrer"
               className={styles.action}
             >
