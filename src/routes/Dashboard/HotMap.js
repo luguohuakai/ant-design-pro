@@ -91,9 +91,9 @@ export default class HotMap extends Component {
 
         // 地图配置
         // const center = [104.406932,31.132006];
-        // const center = [116.322287,39.957509];
+        const center = [116.322287,39.957509];
         const {location} = hotmap;
-        const center = [location.lng,location.lat];
+        // const center = [location.lng,location.lat];
         const zoom = 14;
         const resizeEnable = true;
         const features = ['bg', 'road'];
