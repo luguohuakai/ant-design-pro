@@ -1,4 +1,4 @@
-import {queryActiveData,queryUserData} from '../services/api';
+import {queryActiveData, queryUserData, queryAuthTop10} from '../services/api';
 
 export default {
     namespace: 'analysis',
@@ -30,6 +30,15 @@ export default {
                 payload: res,
             });
         },
+        * fetchAuthTop10({payload}, {call, put}) {
+            console.log(payload)
+            const res = yield call(queryAuthTop10, payload);
+            console.error(res)
+            yield put({
+                type: 'showAuthTop10',
+                payload: '',
+            });
+        },
     },
 
     reducers: {
@@ -45,6 +54,12 @@ export default {
             return {
                 ...state,
                 ...payload.data,
+            };
+        },
+        showAuthTop10(state, {payload}) {
+            return {
+                ...state,
+                payload,
             };
         },
     },

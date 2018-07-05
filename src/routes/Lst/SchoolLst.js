@@ -37,17 +37,20 @@ export default class BasicList extends PureComponent {
                 size: 10,
             },
         });
+        this.props.dispatch({
+            type: 'lst/fetchSchoolCount',
+        });
     };
 
     render() {
         const {lst, loading} = this.props;
-        const {schoolData} = lst;
+        const {schoolData,schoolCount} = lst;
 
         const Info = ({title, value, bordered}) => (
             <div className={styles.headerInfo}>
                 <span>{title}</span>
                 <p>{value}</p>
-                {bordered && <em/>}
+                {bordered && <em />}
             </div>
         );
 
@@ -58,9 +61,20 @@ export default class BasicList extends PureComponent {
                     <RadioButton value="progress">已上线</RadioButton>
                     <RadioButton value="waiting">即将上线</RadioButton>
                 </RadioGroup>
-                <Search className={styles.extraContentSearch} placeholder="请输入" onSearch={() => ({})}/>
+                <Search className={styles.extraContentSearch} placeholder="请输入" onSearch={(value) => search(value)} />
             </div>
         );
+
+        const search = (keyword) => {
+            const like = JSON.stringify({name:keyword});
+            this.props.dispatch({
+                type: 'lst/fetchSchoolLst',
+                payload: {
+                    size: 100,
+                    like,
+                },
+            });
+        };
 
         const paginationProps = {
             showSizeChanger: true,
@@ -98,6 +112,9 @@ export default class BasicList extends PureComponent {
                     size: paginationProps.pageSize,
                 },
             });
+            this.props.dispatch({
+                type: 'lst/fetchSchoolCount',
+            });
         };
 
         const ListContent = ({data: {default_ac_id, create_time, percent, status}}) => (
@@ -111,7 +128,7 @@ export default class BasicList extends PureComponent {
                     <p>{moment(create_time).format('YYYY-MM-DD HH:mm')}</p>
                 </div>
                 <div className={styles.listContentItem}>
-                    <Progress percent={percent} status={status} strokeWidth={6} style={{width: 180}}/>
+                    <Progress percent={100}  strokeWidth={6} style={{width: 180}} />
                 </div>
             </div>
         );
@@ -141,16 +158,16 @@ export default class BasicList extends PureComponent {
                     <Card bordered={false}>
                         <Row>
                             <Col sm={6} xs={12}>
-                                <Info title="已部署学校总数" value="8个" bordered/>
+                                <Info title="已部署学校总数" value={schoolCount.count + '个'} bordered />
                             </Col>
                             <Col sm={6} xs={12}>
-                                <Info title="已正常上线总数" value="4个" bordered/>
+                                <Info title="已正常上线总数" value={schoolCount.online_count + '个'} bordered />
                             </Col>
                             <Col sm={6} xs={12}>
-                                <Info title="即将上线的" value="4个" bordered/>
+                                <Info title="即将上线的" value={schoolCount.will_online_count + '个'} bordered />
                             </Col>
                             <Col sm={6} xs={12}>
-                                <Info title="单AC学校总数" value="6个"/>
+                                <Info title="单AC学校总数" value={schoolCount.single_ac_count + '个'} />
                             </Col>
                         </Row>
                     </Card>
@@ -177,11 +194,11 @@ export default class BasicList extends PureComponent {
                                 <List.Item actions={[<a onClick={() => deleteSchool({id: item.id})}>删除</a>,
                                     <MoreBtn data={item}/>]}>
                                     <List.Item.Meta
-                                        avatar={<Avatar src={item.logo} shape="square" size="large"/>}
+                                        avatar={<Avatar src={item.logo} shape="square" size="large" />}
                                         title={<a href={item.name}>{item.name}</a>}
                                         description={item.addr}
                                     />
-                                    <ListContent data={item}/>
+                                    <ListContent data={item} />
                                 </List.Item>
                             )}
                         />

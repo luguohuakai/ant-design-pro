@@ -8,8 +8,8 @@ export default {
     },
 
     effects: {
-        * fetchHotMapData(_, {call, put}) {
-            const res = yield call(queryHotMapData);
+        * fetchHotMapData({payload}, {call, put}) {
+            const res = yield call(queryHotMapData, payload);
             yield put({
                 type: 'show',
                 payload: res,

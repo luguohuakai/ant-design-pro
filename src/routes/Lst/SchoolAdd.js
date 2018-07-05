@@ -272,7 +272,7 @@ export default class BasicForms extends PureComponent {
                 提交
               </Button>
               <Button style={{ marginLeft: 8 }} href="#/lst/school-lst">
-                取消
+                返回列表
               </Button>
             </FormItem>
           </Form>

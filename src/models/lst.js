@@ -1,5 +1,5 @@
 import {fakeSubmitForm, queryFakeLst} from '../services/api';
-import {querySchoolLst, fakeSubmitSchool, fakeDeleteSchool} from '../services/api';
+import {querySchoolLst, fakeSubmitSchool, fakeDeleteSchool, querySchoolCount} from '../services/api';
 import {message} from "antd/lib/index";
 
 export default {
@@ -7,6 +7,7 @@ export default {
 
     state: {
         schoolData: [],
+        schoolCount: [],
     },
 
     effects: {
@@ -17,13 +18,20 @@ export default {
                 payload: response,
             });
         },
+        * fetchSchoolCount(_, {call, put}) {
+            const response = yield call(querySchoolCount);
+            console.log(response)
+            yield put({
+                type: 'showSchoolCount',
+                payload: response,
+            });
+        },
         * addSchool({payload}, {call}) {
             yield call(fakeSubmitSchool, payload);
             message.success('提交成功');
         },
         * deleteSchool({payload}, {call, put}) {
             const response = yield call(fakeDeleteSchool, payload);
-            console.log(payload);
             if (response.code === 1) {
                 const res = yield call(querySchoolLst, {page:payload.page,size:payload.size});
                 yield put({
@@ -48,6 +56,12 @@ export default {
             return {
                 ...state,
                 schoolData: action.payload.data,
+            };
+        },
+        showSchoolCount(state, action) {
+            return {
+                ...state,
+                schoolCount: action.payload.data,
             };
         },
         queryLst(state, action) {

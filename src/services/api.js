@@ -22,6 +22,10 @@ export async function querySchoolLst(params) {
   return request(`/school?${stringify(params)}`);
 }
 
+export async function querySchoolCount() {
+  return request('/admin/school/schoolCount');
+}
+
 // 添加学校
 export async function fakeSubmitSchool(params) {
     return request('/school', {
@@ -135,24 +139,27 @@ export async function queryNotices() {
 
 // hotmap 热力图
 export async function queryHotMapData(params) {
-  return request('/admin/authHotMapData', {
+  return request(`/admin/authHotMapData?${stringify(params)}`, {
     method: 'GET',
-    body: params,
   });
 }
 
 // 日活 月活 卡片
 export async function queryActiveData(params) {
-    return request('/admin/activeUsers', {
+    return request(`/admin/activeUsers?${stringify(params)}`, {
         method: 'GET',
-        body: params,
+    });
+}
+
+export async function queryAuthTop10(params) {
+    return request(`/admin/authTop10?${stringify(params)}`, {
+        method: 'GET',
     });
 }
 
 // 基础用户统计 卡片
 export async function queryUserData(params) {
-  return request('/admin/basicUserStatistics', {
+  return request(`/admin/basicUserStatistics?${stringify(params)}`, {
     method: 'GET',
-    body: params,
   });
 }

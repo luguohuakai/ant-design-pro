@@ -5,47 +5,6 @@ import Heatmap from 'react-amap-plugin-heatmap';
 import { connect } from 'dva';
 import styles from './HotMap.less';
 
-// const points = [
-//   { lng: 116.191031, lat: 39.988585, count: 10 },
-//   { lng: 116.389275, lat: 39.925818, count: 60 },
-//   { lng: 116.287444, lat: 39.810742, count: 12 },
-//   { lng: 116.481707, lat: 39.940089, count: 13 },
-//   { lng: 116.410588, lat: 39.880172, count: 14 },
-//   { lng: 116.394816, lat: 39.91181, count: 15 },
-//   { lng: 116.31626, lat: 39.956306, count: 100 },
-//   { lng: 116.416002, lat: 39.952917, count: 80 },
-//   { lng: 121.50074, lat: 31.30639, count: 80 },
-// ];
-
-// config props
-// const visible = true;
-// const radius = 30;
-// const gradient = {
-//   '0.4': 'rgb(0, 255, 255)',
-//   '0.65': 'rgb(0, 110, 255)',
-//   '0.85': 'rgb(100, 0, 255)',
-//   '1.0': 'rgb(100, 0, 255)',
-// };
-// const zooms = [3, 18];
-// const dataSet = {
-//   data: data,
-//   max: 100,
-// };
-//
-// const pluginProps = {
-//   visible,
-//   radius,
-//   gradient,
-//   zooms,
-//   dataSet,
-// };
-//
-// export default () => (
-//   <Map>
-//     <Heatmap {...pluginProps} />
-//   </Map>
-// );
-
 @connect(({ hotmap, loading }) => ({
     hotmap,
     loading: loading.effects['hotmap/fetchHotMapData'],
@@ -56,6 +15,9 @@ export default class HotMap extends Component {
         const {dispatch} = this.props;
         dispatch({
             type: 'hotmap/fetchHotMapData',
+            payload: {
+                school_id: localStorage.getItem('school_id') ? localStorage.getItem('school_id') : 1,
+            },
         });
     }
 
@@ -76,7 +38,7 @@ export default class HotMap extends Component {
         const zooms = [3, 18];
         const dataSet = {
             data: points,
-            max: 10,
+            max: 10, // TODO: 数据量大时修改最大值
         };
         const opacity = [0, 0.8];
 
@@ -91,9 +53,15 @@ export default class HotMap extends Component {
 
         // 地图配置
         // const center = [104.406932,31.132006];
-        const center = [116.322287,39.957509];
+        let center = [116.322287,39.957509]; // 北京理工大学
         const {location} = hotmap;
-        // const center = [location.lng,location.lat];
+        if (location) {
+            if ('lat' in location && 'lng' in location){
+                center = [location.lng,location.lat];
+            }else {
+                center = [116.322287,39.957509];
+            }
+        }
         const zoom = 14;
         const resizeEnable = true;
         const features = ['bg', 'road'];

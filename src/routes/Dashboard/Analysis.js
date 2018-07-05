@@ -73,6 +73,12 @@ export default class Analysis extends Component {
         this.props.dispatch({
             type: 'analysis/fetchUserData',
         });
+        this.props.dispatch({
+            type: 'analysis/fetchAuthTop10',
+            payload: {
+                query_type: '7_days_ago',
+            },
+        });
     }
 
     componentWillUnmount() {
@@ -371,8 +377,8 @@ export default class Analysis extends Component {
 
                 <Card loading={loading} bordered={false} bodyStyle={{padding: 0}}>
                     <div className={styles.salesCard}>
-                        <Tabs tabBarExtraContent={salesExtra} size="large" tabBarStyle={{marginBottom: 24}}>
-                            <TabPane tab="认证方式" key="sales">
+                        <Tabs size="large" tabBarStyle={{marginBottom: 24}}>
+                            <TabPane tab="近30日认证方式" key="sales">
                                 <Row>
                                     <Col xl={16} lg={12} md={12} sm={24} xs={24}>
                                         <div className={styles.salesBar}>
@@ -385,7 +391,7 @@ export default class Analysis extends Component {
                                     </Col>
                                     <Col xl={8} lg={12} md={12} sm={24} xs={24}>
                                         <div className={styles.salesRank}>
-                                            <h4 className={styles.rankingTitle}>认证次数排名</h4>
+                                            <h4 className={styles.rankingTitle}>学校用户量排名</h4>
                                             <ul className={styles.rankingList}>
                                                 {rankingListData.map((item, i) => (
                                                     <li key={item.title}>
