@@ -1,4 +1,5 @@
-import {queryActiveData, queryUserData, queryAuthTop10} from '../services/api';
+/* eslint-disable camelcase */
+import {queryActiveData, queryUserData, querySchoolUserCountTop10, queryAuthWayCount, queryFeedbackLst} from '../services/api';
 
 export default {
     namespace: 'analysis',
@@ -13,53 +14,45 @@ export default {
         ios_total: '',
         android_total: '',
         others_total: '',
+
+        school_user_count_top_10: '',
+
+        auth_way_count: '',
+
+        feedback_lst: '',
     },
 
     effects: {
-        * fetchActiveData(_, {call, put}) {
-            const res = yield call(queryActiveData);
+        * fetchAnalysisData(_, {call, put}) {
+            const active_data = yield call(queryActiveData);
+            const user_data = yield call(queryUserData);
+            const school_user_count_top_10 = yield call(querySchoolUserCountTop10);
+            const auth_way_count = yield call(queryAuthWayCount);
+            const feedback_lst = yield call(queryFeedbackLst,{size: 16});
             yield put({
                 type: 'show',
-                payload: res,
-            });
-        },
-        * fetchUserData(_, {call, put}) {
-            const res = yield call(queryUserData);
-            yield put({
-                type: 'showUser',
-                payload: res,
-            });
-        },
-        * fetchAuthTop10({payload}, {call, put}) {
-            console.log(payload)
-            const res = yield call(queryAuthTop10, payload);
-            console.error(res)
-            yield put({
-                type: 'showAuthTop10',
-                payload: '',
+                payload: {
+                    active_data,
+                    user_data,
+                    school_user_count_top_10,
+                    auth_way_count,
+                    feedback_lst,
+                },
             });
         },
     },
 
     reducers: {
-        show(state, {payload}) {
+        show(state, {payload:{active_data,user_data,school_user_count_top_10,auth_way_count,feedback_lst}}) {
             return {
                 ...state,
-                yesterday_active: payload.data.yesterday_active,
-                month_active: payload.data.month_active,
-                recent_active: payload.data.data,
-            };
-        },
-        showUser(state, {payload}) {
-            return {
-                ...state,
-                ...payload.data,
-            };
-        },
-        showAuthTop10(state, {payload}) {
-            return {
-                ...state,
-                payload,
+                yesterday_active: active_data.data.yesterday_active,
+                month_active: active_data.data.month_active,
+                recent_active: active_data.data.data,
+                ...user_data.data,
+                school_user_count_top_10: school_user_count_top_10.data,
+                auth_way_count: auth_way_count.data,
+                feedback_lst: feedback_lst.data,
             };
         },
     },

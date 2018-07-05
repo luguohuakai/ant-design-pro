@@ -22,6 +22,10 @@ export async function querySchoolLst(params) {
   return request(`/school?${stringify(params)}`);
 }
 
+export async function queryFeedbackLst(params) {
+  return request(`/feedback?${stringify(params)}`);
+}
+
 export async function querySchoolCount() {
   return request('/admin/school/schoolCount');
 }
@@ -153,6 +157,18 @@ export async function queryActiveData(params) {
 
 export async function queryAuthTop10(params) {
     return request(`/admin/authTop10?${stringify(params)}`, {
+        method: 'GET',
+    });
+}
+
+export async function querySchoolUserCountTop10() {
+    return request('/admin/schoolUserCountTop10', {
+        method: 'GET',
+    });
+}
+
+export async function queryAuthWayCount() {
+    return request('/admin/recentAuthWay', {
         method: 'GET',
     });
 }

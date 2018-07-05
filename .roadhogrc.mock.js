@@ -55,6 +55,7 @@ const proxy = {
   'GET /api/rule': getRule,
   'GET /admin/school/schoolCount': remote_url,
   'GET /school': remote_url,
+  'GET /feedback': remote_url,
   'POST /school': remote_url,
   'DELETE /school': remote_url,
   'PUT /school': remote_url,
@@ -93,6 +94,8 @@ const proxy = {
   'GET /admin/authHotMapData': remote_url,
   'GET /admin/activeUsers': remote_url,
   'GET /admin/authTop10': remote_url,
+  'GET /admin/schoolUserCountTop10': remote_url,
+  'GET /admin/recentAuthWay': remote_url,
   'GET /admin/basicUserStatistics': remote_url,
   'POST /admin/Index/uploadImg': remote_url, // 注意: mock 中不支持文件上传
   'GET /api/profile/basic': getProfileBasicData,

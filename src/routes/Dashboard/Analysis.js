@@ -33,15 +33,6 @@ import {getTimeDistance} from '../../utils/utils';
 import styles from './Analysis.less';
 
 const {TabPane} = Tabs;
-const {RangePicker} = DatePicker;
-
-const rankingListData = [];
-for (let i = 0; i < 7; i += 1) {
-    rankingListData.push({
-        title: `xx学校 ${i} `,
-        total: 323234,
-    });
-}
 
 const Yuan = ({children}) => (
     <span
@@ -52,14 +43,13 @@ const Yuan = ({children}) => (
 @connect(({chart, analysis, loading}) => ({
     chart,
     analysis,
-    userLoading: loading.effects['analysis/fetchUserData'],
-    activeLoading: loading.effects['analysis/fetchActiveData'],
+    userLoading: loading.effects['analysis/fetchAnalysisData'],
+    activeLoading: loading.effects['analysis/fetchAnalysisData'],
     loading: loading.effects['chart/fetch'],
 }))
 export default class Analysis extends Component {
     state = {
         salesType: 'all',
-        currentTabKey: '',
         rangePickerValue: getTimeDistance('year'),
     };
 
@@ -68,16 +58,7 @@ export default class Analysis extends Component {
             type: 'chart/fetch',
         });
         this.props.dispatch({
-            type: 'analysis/fetchActiveData',
-        });
-        this.props.dispatch({
-            type: 'analysis/fetchUserData',
-        });
-        this.props.dispatch({
-            type: 'analysis/fetchAuthTop10',
-            payload: {
-                query_type: '7_days_ago',
-            },
+            type: 'analysis/fetchAnalysisData',
         });
     }
 
@@ -91,12 +72,6 @@ export default class Analysis extends Component {
     handleChangeSalesType = e => {
         this.setState({
             salesType: e.target.value,
-        });
-    };
-
-    handleTabChange = key => {
-        this.setState({
-            currentTabKey: key,
         });
     };
 
@@ -135,13 +110,34 @@ export default class Analysis extends Component {
     }
 
     render() {
-        const {rangePickerValue, salesType, currentTabKey} = this.state;
+        const {salesType} = this.state;
         const {chart, analysis, loading, userLoading, activeLoading} = this.props;
         const visitData = analysis.recent_active;
-        const {yesterday_active, month_active, user_total, yesterday_total, today_total, ios_total, android_total, others_total} = analysis;
         const {
-            searchData,
-            offlineData,
+            yesterday_active,
+            month_active,
+            user_total,
+            yesterday_total,
+            today_total,
+            ios_total,
+            android_total,
+            others_total,
+            school_user_count_top_10,
+            auth_way_count,
+            feedback_lst,
+        } = analysis;
+
+        const recentFeedback = feedback_lst.data;
+
+        const rankingListData = [];
+        for (let i = 0; i < school_user_count_top_10.length; i++) {
+            rankingListData.push({
+                title: school_user_count_top_10[i].name,
+                total: school_user_count_top_10[i].user_num,
+            });
+        }
+
+        const {
             salesTypeData,
             salesTypeDataOnline,
             salesTypeDataOffline,
@@ -166,49 +162,31 @@ export default class Analysis extends Component {
           </span>
         );
 
-        const salesExtra = (
-            <div className={styles.salesExtraWrap}>
-                <div className={styles.salesExtra}>
-                    <a className={this.isActive('today')} onClick={() => this.selectDate('today')}>
-                        今日
-                    </a>
-                    <a className={this.isActive('week')} onClick={() => this.selectDate('week')}>
-                        本周
-                    </a>
-                    <a className={this.isActive('month')} onClick={() => this.selectDate('month')}>
-                        本月
-                    </a>
-                    <a className={this.isActive('year')} onClick={() => this.selectDate('year')}>
-                        全年
-                    </a>
-                </div>
-                <RangePicker
-                    value={rangePickerValue}
-                    onChange={this.handleRangePickerChange}
-                    style={{width: 256}}
-                />
-            </div>
-        );
-
         const columns = [
             {
-                title: '用户名',
-                dataIndex: 'index',
-                key: 'index',
+                title: 'ID',
+                dataIndex: 'id',
+                key: 'id',
             },
             {
                 title: '问题概览',
-                dataIndex: 'keyword',
-                key: 'keyword',
-                render: text => <a href="/">{text}</a>,
+                dataIndex: 'contents',
+                key: 'contents',
+                render: text => <a href="/">{text = text.length > 20 ? text.slice(0,20) + '...' : text}</a>,
             },
-            // {
-            //     title: '用户数',
-            //     dataIndex: 'count',
-            //     key: 'count',
-            //     sorter: (a, b) => a.count - b.count,
-            //     className: styles.alignRight,
-            // },
+            {
+                title: '创建时间',
+                dataIndex: 'create_time',
+                key: 'create_time',
+                className: styles.alignRight,
+            },
+            {
+                title: '客户端类型',
+                dataIndex: 'client_type',
+                key: 'client_type',
+                className: styles.alignRight,
+                render: text => text === 1 ? 'iOS' : 'Android',
+            },
             // {
             //     title: '周涨幅',
             //     dataIndex: 'range',
@@ -223,33 +201,6 @@ export default class Analysis extends Component {
             // },
         ];
 
-        const activeKey = currentTabKey || (offlineData[0] && offlineData[0].name);
-
-        const CustomTab = ({data, currentTabKey: currentKey}) => (
-            <Row gutter={8} style={{width: 138, margin: '8px 0'}}>
-                <Col span={12}>
-                    <NumberInfo
-                        title={data.name}
-                        subTitle="转化率"
-                        gap={2}
-                        total={`${data.cvr * 100}%`}
-                        theme={currentKey !== data.name && 'light'}
-                    />
-                </Col>
-                <Col span={12} style={{paddingTop: 36}}>
-                    <Pie
-                        animate={false}
-                        color={currentKey !== data.name && '#BDE4FF'}
-                        inner={0.55}
-                        tooltip={false}
-                        margin={[0, 0, 0, 0]}
-                        percent={data.cvr * 100}
-                        height={64}
-                    />
-                </Col>
-            </Row>
-        );
-
         const topColResponsiveProps = {
             xs: 24,
             sm: 12,
@@ -259,12 +210,22 @@ export default class Analysis extends Component {
             style: {marginBottom: 24},
         };
         const chartData = [];
-        for (let i = 0; i < 20; i += 1) {
-            chartData.push({
-                x: (new Date().getTime()) + (1000 * 60 * 30 * i),
-                y1: Math.floor(Math.random() * 100) + 1000,
-                y2: Math.floor(Math.random() * 100) + 500,
-            });
+        if (auth_way_count) {
+            for (let i = 0; i < auth_way_count.length; i += 1) {
+                chartData.push({
+                    x: auth_way_count[i].x,
+                    y1: auth_way_count[i].y1,
+                    y2: auth_way_count[i].y2,
+                });
+            }
+        }else {
+            for (let i = 0; i < 2; i += 1) {
+                chartData.push({
+                    x: (new Date().getTime()) + (1000 * 60 * 30 * i),
+                    y1: Math.floor(Math.random() * 100) + 1000,
+                    y2: Math.floor(Math.random() * 100) + 500,
+                });
+            }
         }
         return (
             <Fragment>
@@ -378,12 +339,12 @@ export default class Analysis extends Component {
                 <Card loading={loading} bordered={false} bodyStyle={{padding: 0}}>
                     <div className={styles.salesCard}>
                         <Tabs size="large" tabBarStyle={{marginBottom: 24}}>
-                            <TabPane tab="近30日认证方式" key="sales">
+                            <TabPane tab="认证方式" key="sales">
                                 <Row>
                                     <Col xl={16} lg={12} md={12} sm={24} xs={24}>
                                         <div className={styles.salesBar}>
                                             <TimelineChart
-                                                height={200}
+                                                height={350}
                                                 data={chartData}
                                                 titleMap={{y1: '直接认证', y2: '扫码认证'}}
                                             />
@@ -445,7 +406,7 @@ export default class Analysis extends Component {
                                 rowKey={record => record.index}
                                 size="small"
                                 columns={columns}
-                                dataSource={searchData}
+                                dataSource={recentFeedback}
                                 pagination={{
                                     style: {marginBottom: 0},
                                     pageSize: 8,
