@@ -8,8 +8,6 @@ import {
     Card,
     Tabs,
     Table,
-    Radio,
-    DatePicker,
     Tooltip,
     Menu,
     Dropdown,
@@ -17,28 +15,17 @@ import {
 import numeral from 'numeral';
 import {
     ChartCard,
-    yuan,
     MiniArea,
     MiniBar,
     MiniProgress,
     Field,
-    Bar,
-    Pie,
     TimelineChart,
 } from 'components/Charts';
 import Trend from 'components/Trend';
-import NumberInfo from 'components/NumberInfo';
-import {getTimeDistance} from '../../utils/utils';
 
 import styles from './Analysis.less';
 
 const {TabPane} = Tabs;
-
-const Yuan = ({children}) => (
-    <span
-        dangerouslySetInnerHTML={{__html: yuan(children)}}
-    /> /* eslint-disable-line react/no-danger */
-);
 
 @connect(({chart, analysis, loading}) => ({
     chart,
@@ -48,10 +35,7 @@ const Yuan = ({children}) => (
     loading: loading.effects['chart/fetch'],
 }))
 export default class Analysis extends Component {
-    state = {
-        salesType: 'all',
-        rangePickerValue: getTimeDistance('year'),
-    };
+    state = {};
 
     componentDidMount() {
         this.props.dispatch({
@@ -69,49 +53,8 @@ export default class Analysis extends Component {
         });
     }
 
-    handleChangeSalesType = e => {
-        this.setState({
-            salesType: e.target.value,
-        });
-    };
-
-    handleRangePickerChange = rangePickerValue => {
-        this.setState({
-            rangePickerValue,
-        });
-
-        this.props.dispatch({
-            type: 'chart/fetchSalesData',
-        });
-    };
-
-    selectDate = type => {
-        this.setState({
-            rangePickerValue: getTimeDistance(type),
-        });
-
-        this.props.dispatch({
-            type: 'chart/fetchSalesData',
-        });
-    };
-
-    isActive(type) {
-        const {rangePickerValue} = this.state;
-        const value = getTimeDistance(type);
-        if (!rangePickerValue[0] || !rangePickerValue[1]) {
-            return;
-        }
-        if (
-            rangePickerValue[0].isSame(value[0], 'day') &&
-            rangePickerValue[1].isSame(value[1], 'day')
-        ) {
-            return styles.currentDate;
-        }
-    }
-
     render() {
-        const {salesType} = this.state;
-        const {chart, analysis, loading, userLoading, activeLoading} = this.props;
+        const {analysis, loading, userLoading, activeLoading} = this.props;
         const visitData = analysis.recent_active;
         const {
             yesterday_active,
@@ -136,16 +79,6 @@ export default class Analysis extends Component {
                 total: school_user_count_top_10[i].user_num,
             });
         }
-
-        const {
-            salesTypeData,
-            salesTypeDataOnline,
-            salesTypeDataOffline,
-        } = chart;
-        const salesPieData =
-            salesType === 'all'
-                ? salesTypeData
-                : salesType === 'online' ? salesTypeDataOnline : salesTypeDataOffline;
 
         const menu = (
             <Menu>
@@ -366,35 +299,12 @@ export default class Analysis extends Component {
                                     </Col>
                                 </Row>
                             </TabPane>
-                            {/* <TabPane tab="访问量" key="views"> */}
-                            {/* <Row> */}
-                            {/* <Col xl={16} lg={12} md={12} sm={24} xs={24}> */}
-                            {/* <div className={styles.salesBar}> */}
-                            {/* <Bar height={292} title="访问量趋势" data={salesData}/> */}
-                            {/* </div> */}
-                            {/* </Col> */}
-                            {/* <Col xl={8} lg={12} md={12} sm={24} xs={24}> */}
-                            {/* <div className={styles.salesRank}> */}
-                            {/* <h4 className={styles.rankingTitle}>门店访问量排名</h4> */}
-                            {/* <ul className={styles.rankingList}> */}
-                            {/* {rankingListData.map((item, i) => ( */}
-                            {/* <li key={item.title}> */}
-                            {/* <span className={i < 3 ? styles.active : ''}>{i + 1}</span> */}
-                            {/* <span>{item.title}</span> */}
-                            {/* <span>{numeral(item.total).format('0,0')}</span> */}
-                            {/* </li> */}
-                            {/* ))} */}
-                            {/* </ul> */}
-                            {/* </div> */}
-                            {/* </Col> */}
-                            {/* </Row> */}
-                            {/* </TabPane> */}
                         </Tabs>
                     </div>
                 </Card>
 
                 <Row gutter={24}>
-                    <Col xl={12} lg={24} md={24} sm={24} xs={24}>
+                    <Col xl={24} lg={24} md={24} sm={24} xs={24}>
                         <Card
                             loading={loading}
                             bordered={false}
@@ -411,39 +321,6 @@ export default class Analysis extends Component {
                                     style: {marginBottom: 0},
                                     pageSize: 8,
                                 }}
-                            />
-                        </Card>
-                    </Col>
-                    <Col xl={12} lg={24} md={24} sm={24} xs={24}>
-                        <Card
-                            loading={loading}
-                            className={styles.salesCard}
-                            bordered={false}
-                            title="近七日认证客户端类型占比"
-                            bodyStyle={{padding: 24}}
-                            extra={
-                                <div className={styles.salesCardExtra}>
-                                    {/*{iconGroup}*/}
-                                    <div className={styles.salesTypeRadio}>
-                                        <Radio.Group value={salesType} onChange={this.handleChangeSalesType}>
-                                            <Radio.Button value="all">全部</Radio.Button>
-                                            <Radio.Button value="online">直接认证</Radio.Button>
-                                            <Radio.Button value="offline">扫码认证</Radio.Button>
-                                        </Radio.Group>
-                                    </div>
-                                </div>
-                            }
-                            style={{marginTop: 24, minHeight: 509}}
-                        >
-                            <h4 style={{marginTop: 8, marginBottom: 32}}>客户端类型</h4>
-                            <Pie
-                                hasLegend
-                                subTitle="认证次数"
-                                total={() => salesPieData.reduce((pre, now) => now.y + pre, 0)}
-                                data={salesPieData}
-                                valueFormat={value => value}
-                                height={248}
-                                lineWidth={4}
                             />
                         </Card>
                     </Col>
