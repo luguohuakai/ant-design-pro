@@ -22,9 +22,9 @@ class ColorSimple extends React.Component {
     // 应该是受控组件。
     if ('value' in nextProps) {
       const value = nextProps.value;
-      this.setState({color: value});
-    }else {
-      this.setState({color: '#000'});
+      this.setState({ color: value });
+    } else {
+      this.setState({ color: '#000' });
     }
   }
 

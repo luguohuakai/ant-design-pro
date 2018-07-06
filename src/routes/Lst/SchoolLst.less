@@ -137,7 +137,7 @@
   }
 }
 
-@media screen and (max-width: @screen-lg) and (min-width: @screen-md) {
+@media screen and (min-width: @screen-lg) and (min-width: @screen-md) {
   .standardList {
     .listContent {
       & > div {
@@ -157,17 +157,6 @@
       & > div {
         margin-left: 24px;
       }
-      & > div:last-child {
-        top: 0;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 1400px) {
-  .standardList {
-    .listContent {
-      text-align: right;
       & > div:last-child {
         top: 0;
       }

@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
 import moment from 'moment';
@@ -152,6 +153,7 @@ export default class TableList extends PureComponent {
     selectedRows: [],
     formValues: {},
     logoLoading: false,
+    // eslint-disable-next-line linebreak-style
     logoPath: '',
   };
 

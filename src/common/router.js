@@ -73,7 +73,9 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
     },
     '/dashboard/analysis': {
-      component: dynamicWrapper(app, ['chart','analysis'], () => import('../routes/Dashboard/Analysis')),
+      component: dynamicWrapper(app, ['chart', 'analysis'], () =>
+        import('../routes/Dashboard/Analysis')
+      ),
     },
     '/dashboard/hot-map': {
       component: dynamicWrapper(app, ['hotmap'], () => import('../routes/Dashboard/HotMap')),
@@ -119,20 +121,41 @@ export const getRouterData = app => {
     '/lst/school-add': {
       component: dynamicWrapper(app, ['lst'], () => import('../routes/Lst/SchoolAdd')),
     },
+    '/lst/school-update': {
+      component: dynamicWrapper(app, ['lst'], () => import('../routes/Lst/SchoolUpdate')),
+    },
     '/lst/ac-lst': {
-      component: dynamicWrapper(app, [], () => import('../routes/Lst/AcLst')),
+      component: dynamicWrapper(app, ['ac_lst'], () => import('../routes/Lst/AcLst')),
+    },
+    '/lst/ac-add': {
+      component: dynamicWrapper(app, ['ac_lst'], () => import('../routes/Lst/AcAdd')),
+    },
+    '/lst/ac-update': {
+      component: dynamicWrapper(app, ['ac_lst'], () => import('../routes/Lst/AcUpdate')),
     },
     '/lst/ap-lst': {
-      component: dynamicWrapper(app, [], () => import('../routes/Lst/ApLst')),
+      component: dynamicWrapper(app, ['ap_lst'], () => import('../routes/Lst/ApLst')),
+    },
+    '/lst/ap-update': {
+      component: dynamicWrapper(app, ['ap_lst'], () => import('../routes/Lst/ApUpdate')),
+    },
+    '/lst/ap-add': {
+      component: dynamicWrapper(app, ['ap_lst'], () => import('../routes/Lst/ApAdd')),
     },
     '/lst/ssid-lst': {
-      component: dynamicWrapper(app, [], () => import('../routes/Lst/SsidLst')),
+      component: dynamicWrapper(app, ['ssid_lst'], () => import('../routes/Lst/SsidLst')),
+    },
+    '/lst/ssid-add': {
+      component: dynamicWrapper(app, ['ssid_lst'], () => import('../routes/Lst/SsidAdd')),
+    },
+    '/lst/ssid-update': {
+      component: dynamicWrapper(app, ['ssid_lst'], () => import('../routes/Lst/updateSsid')),
     },
     '/log/auth-log-lst': {
       component: dynamicWrapper(app, [], () => import('../routes/Log/AuthLogLst')),
     },
     '/feedback/feedback-lst': {
-      component: dynamicWrapper(app, [], () => import('../routes/Feedback/FeedbackLst')),
+      component: dynamicWrapper(app, ['feed_lst'], () => import('../routes/Feedback/FeedbackLst')),
     },
     '/list/table-list': {
       component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),

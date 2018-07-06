@@ -22,9 +22,10 @@ const FormItem = Form.Item;
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
+let id;
 
 @connect(({ loading }) => ({
-  submitting: loading.effects['lst/addSchool'],
+  submitting: loading.effects['lst/updateSchool'],
 }))
 @Form.create()
 export default class BasicForms extends PureComponent {
@@ -48,12 +49,24 @@ export default class BasicForms extends PureComponent {
       false
     );
   }
+  componentDidMount() {
+    const url = window.location.href;
+    id = url.split('=')[1];
+    this.props.dispatch({
+      type: 'lst/fetchSchoolLst',
+      payload: {
+        id,
+      },
+    });
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
+      values.id = id;
       if (!err) {
         this.props.dispatch({
-          type: 'lst/addSchool',
+          type: 'lst/updateSchool',
           payload: values,
         });
       }
@@ -185,18 +198,6 @@ export default class BasicForms extends PureComponent {
                 )}
               </div>
             </FormItem>
-            <FormItem {...formItemLayout} label="是否上线" help="当前学校是否开通并且可用">
-              <div>
-                {getFieldDecorator('is_online', {
-                  initialValue: '1',
-                })(
-                  <Radio.Group>
-                    <Radio value="1">是</Radio>
-                    <Radio value="0">否</Radio>
-                  </Radio.Group>
-                )}
-              </div>
-            </FormItem>
             <FormItem
               {...formItemLayout}
               label={
@@ -293,7 +294,7 @@ export default class BasicForms extends PureComponent {
                 提交
               </Button>
               <Button style={{ marginLeft: 8 }} href="#/lst/school-lst">
-                返回列表
+                取消
               </Button>
             </FormItem>
           </Form>

@@ -61,6 +61,29 @@ const proxy = {
   'POST /school': remote_url,
   'DELETE /school': remote_url,
   'PUT /school': remote_url,
+  //学校ap start
+  'GET /ap': remote_url,
+  'POST /ap': remote_url,
+  'DELETE /ap': remote_url,
+  'PUT /ap': remote_url,
+  // 学校ap  end
+
+  //学校ac start
+  'GET /ac': remote_url,
+  'POST /ac': remote_url,
+  'DELETE /ac': remote_url,
+  'PUT /ac': remote_url,
+  // 学校ac  end
+  //学校schoolssid start
+  'GET /schoolssid': remote_url,
+  'POST /schoolssid': remote_url,
+  'DELETE /schoolssid': remote_url,
+  'PUT /schoolssid': remote_url,
+  // 学校schoolssid  end
+  //意见
+  // 'GET /feedback': remote_url,
+  'GET /admin/dealFeedback': remote_url,
+  //end
   'POST /test/index.php': 'http://localhost',
   'POST /api/rule': {
     $params: {
