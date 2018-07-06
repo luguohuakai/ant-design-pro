@@ -14,7 +14,7 @@ const remote_url = 'http://106.14.7.51/'; // 测试环境 远程接口
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
 const proxy = {
   // 支持值为 Object 和 Array
-  'GET /api/currentUser': {
+  'GET /api/currentUsers': {
     $desc: '获取当前用户接口',
     $params: {
       pageSize: {
@@ -54,7 +54,9 @@ const proxy = {
   'GET /api/activities': getActivities,
   'GET /api/rule': getRule,
   'GET /admin/school/schoolCount': remote_url,
+  'GET /api/currentUser': remote_url + 'admin/currentUser',
   'GET /school': remote_url,
+  'GET /admin/setOnlineStatus': remote_url,
   'GET /feedback': remote_url,
   'POST /school': remote_url,
   'DELETE /school': remote_url,

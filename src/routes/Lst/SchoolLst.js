@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import React, {PureComponent} from 'react';
 import moment from 'moment';
 import {connect} from 'dva';
@@ -8,12 +9,12 @@ import {
     Col,
     Radio,
     Input,
-    Progress,
     Button,
     Icon,
     Dropdown,
     Menu,
     Avatar,
+    Switch,
 } from 'antd';
 
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -42,6 +43,38 @@ export default class BasicList extends PureComponent {
         });
     };
 
+    onChange = (e) => {
+        const status = e.target.value;
+        switch (status) {
+            case 'progress':
+                this.props.dispatch({
+                    type: 'lst/fetchSchoolLst',
+                    payload: {
+                        size: 10,
+                        is_online: 1,
+                    },
+                });
+                break;
+            case 'waiting':
+                this.props.dispatch({
+                    type: 'lst/fetchSchoolLst',
+                    payload: {
+                        size: 100,
+                        is_online: 0,
+                    },
+                });
+                break;
+            case 'all':
+            default:
+                this.props.dispatch({
+                    type: 'lst/fetchSchoolLst',
+                    payload: {
+                        size: 10,
+                    },
+                });
+        }
+    };
+
     render() {
         const {lst, loading} = this.props;
         const {schoolData,schoolCount} = lst;
@@ -56,7 +89,7 @@ export default class BasicList extends PureComponent {
 
         const extraContent = (
             <div className={styles.extraContent}>
-                <RadioGroup defaultValue="all">
+                <RadioGroup onChange={this.onChange} defaultValue="all">
                     <RadioButton value="all">全部</RadioButton>
                     <RadioButton value="progress">已上线</RadioButton>
                     <RadioButton value="waiting">即将上线</RadioButton>
@@ -117,7 +150,34 @@ export default class BasicList extends PureComponent {
             });
         };
 
-        const ListContent = ({data: {default_ac_id, create_time, percent, status}}) => (
+        const onChange = (is_online,id) => {
+            let status;
+            if (!is_online) {
+                status = 1;
+            }else {
+                status = 0;
+            }
+
+            this.props.dispatch({
+                type: 'lst/setOnlineStatus',
+                payload: {
+                    id,
+                    status,
+                },
+            });
+
+            this.props.dispatch({
+                type: 'lst/fetchSchoolCount',
+            });
+            this.props.dispatch({
+                type: 'lst/fetchSchoolLst',
+                payload: {
+                    size: 10,
+                },
+            });
+        };
+
+        const ListContent = ({data: {id, default_ac_id, create_time, is_online}}) => (
             <div className={styles.listContent}>
                 <div className={styles.listContentItem}>
                     <span>默认AC</span>
@@ -128,7 +188,7 @@ export default class BasicList extends PureComponent {
                     <p>{moment(create_time).format('YYYY-MM-DD HH:mm')}</p>
                 </div>
                 <div className={styles.listContentItem}>
-                    <Progress percent={100}  strokeWidth={6} style={{width: 180}} />
+                    <Switch onChange={() => onChange(is_online,id)} checkedChildren="已上线" unCheckedChildren="未上线"  defaultChecked={is_online === 1} />
                 </div>
             </div>
         );

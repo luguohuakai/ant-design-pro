@@ -3,9 +3,11 @@ import {querySchoolLst, fakeSubmitSchool, fakeDeleteSchool, querySchoolCount, se
 import {message} from "antd/lib/index";
 
 export default {
-    namespace: 'lst',
+    namespace: 'school_lst',
 
     state: {
+        page: 1,
+        size: 10,
         schoolData: [],
         schoolCount: [],
     },

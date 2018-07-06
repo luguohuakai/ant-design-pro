@@ -25,6 +25,9 @@ export async function querySchoolLst(params) {
 export async function queryFeedbackLst(params) {
   return request(`/feedback?${stringify(params)}`);
 }
+export async function setOnlineStatus(params) {
+  return request(`/admin/setOnlineStatus?${stringify(params)}`);
+}
 
 export async function querySchoolCount() {
   return request('/admin/school/schoolCount');

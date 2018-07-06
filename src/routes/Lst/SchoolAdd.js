@@ -178,6 +178,22 @@ export default class BasicForms extends PureComponent {
             </FormItem>
             <FormItem
               {...formItemLayout}
+              label="是否上线"
+              help="当前学校是否开通并且可用"
+            >
+              <div>
+                {getFieldDecorator('is_online', {
+                  initialValue: '1',
+                })(
+                  <Radio.Group>
+                    <Radio value="1">是</Radio>
+                    <Radio value="0">否</Radio>
+                  </Radio.Group>
+                )}
+              </div>
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
               label={
                 <span>
                   颜色
