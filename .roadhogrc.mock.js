@@ -54,7 +54,7 @@ const proxy = {
   'GET /api/activities': getActivities,
   'GET /api/rule': getRule,
   'GET /admin/school/schoolCount': remote_url,
-  'GET /api/currentUser': remote_url + 'admin/currentUser',
+  'GET /admin/currentUser': remote_url,
   'GET /school': remote_url,
   'GET /admin/setOnlineStatus': remote_url,
   'GET /feedback': remote_url,

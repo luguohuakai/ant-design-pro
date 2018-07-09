@@ -31,6 +31,8 @@ export default class BasicForms extends PureComponent {
   constructor(props) {
     super(props);
 
+    console.log(location)
+
     window.addEventListener(
       'message',
       function(event) {
@@ -111,7 +113,7 @@ export default class BasicForms extends PureComponent {
                 width="100%"
                 height="500px"
                 frameBorder="0"
-                src="http://apis.map.qq.com/tools/locpicker?search=1&type=1&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77&referer=myapp"
+                src="http://apis.map.qq.com/tools/locpicker?search=1&type=1&key=SNCBZ-IAIKX-VD74W-ZBGFH-DBNSQ-UXBE2&referer=myapp"
               />
             )}
           </FormItem>
@@ -231,6 +233,8 @@ export default class BasicForms extends PureComponent {
               })(
                 <Upload
                   name="logo"
+                  // action={location.origin + '/admin/Index/uploadImg'}
+                  // action="https://api.srun.com/admin/Index/uploadImg"
                   action="http://106.14.7.51/admin/Index/uploadImg"
                   listType="picture-card"
                   className="avatar-uploader"
@@ -265,6 +269,8 @@ export default class BasicForms extends PureComponent {
               {getFieldDecorator('_login_bg')(
                 <Upload
                   name="login_bg"
+                  // action={location.origin + '/admin/Index/uploadImg'}
+                  // action="https://api.srun.com/admin/Index/uploadImg"
                   action="http://106.14.7.51/admin/Index/uploadImg"
                   listType="picture-card"
                   className="avatar-uploader"

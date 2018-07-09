@@ -17,6 +17,11 @@ const codeMessage = {
   406: '请求的格式不可得。',
   410: '请求的资源被永久删除，且不会再得到的。',
   422: '当创建一个对象时，发生一个验证错误。',
+
+  430: '身份已过期,请重新登录',
+  431: '您的账号已在其他地方登录,请重新登录',
+  432: '请求不合法,缺失参数',
+
   500: '服务器发生错误，请检查服务器。',
   502: '网关错误。',
   503: '服务不可用，服务器暂时过载或维护。',
@@ -90,7 +95,7 @@ export default function request(url, options) {
     .catch(e => {
       const { dispatch } = store;
       const status = e.name;
-      if (status === 401) {
+      if (status === 401 || status === 430 || status === 431) {
         dispatch({
           type: 'login/logout',
         });
