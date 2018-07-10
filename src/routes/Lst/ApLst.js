@@ -46,6 +46,7 @@ export default class BasicList extends PureComponent {
         payload: values,
       });
     };
+
     const extraContent = (
       <div className={styles.extraContent}>
         <RadioGroup defaultValue="all">
@@ -61,7 +62,6 @@ export default class BasicList extends PureComponent {
         />
       </div>
     );
-
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,

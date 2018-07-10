@@ -108,7 +108,7 @@ export default class BasicList extends PureComponent {
           >
             <List
               header={<div>反馈意见</div>}
-              footer={<div>Footer</div>}
+              // footer={<div>Footer</div>}
               bordered
               loading={loading}
               pagination={paginationprops}

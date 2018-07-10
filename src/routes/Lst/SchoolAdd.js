@@ -31,7 +31,7 @@ export default class BasicForms extends PureComponent {
   constructor(props) {
     super(props);
 
-    console.log(location)
+    console.log(location);
 
     window.addEventListener(
       'message',
