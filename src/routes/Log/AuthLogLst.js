@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 import React, { PureComponent } from 'react';
 
-import { List, Card, Table, Col, Radio, Input, Button, Icon, Dropdown, Menu, Avatar } from 'antd';
+import { Card, Table, Input } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 const { Search } = Input;

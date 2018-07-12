@@ -1,16 +1,11 @@
 /* eslint-disable linebreak-style */
-import React, { PureComponent } from 'react';
-
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { List, Card, Row, Col, Radio, Input, Button, Icon, Dropdown, Menu } from 'antd';
-
+import { Table, Input, Card, Row, Col, Divider, Button } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
-import styles from './SsidLst.less';
-
-const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
 const { Search } = Input;
+import styles from './SsidLst.less';
 
 @connect(({ ssid_lst, loading }) => ({
   ssid_lst,
@@ -18,11 +13,9 @@ const { Search } = Input;
 }))
 export default class BasicList extends PureComponent {
   componentDidMount() {
-    this.props.dispatch({
+    const { dispatch } = this.props;
+    dispatch({
       type: 'ssid_lst/fetchSsidLst',
-      payload: {
-        size: 10,
-      },
     });
   }
 
@@ -47,22 +40,32 @@ export default class BasicList extends PureComponent {
         payload: values,
       });
     };
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <RadioGroup defaultValue="all">
-          <RadioButton value="all">全部</RadioButton>
-          <RadioButton value="progress">已上线</RadioButton>
-          <RadioButton value="waiting">即将上线</RadioButton>
-        </RadioGroup>
-        <Search
-          id="search"
-          className={styles.extraContentSearch}
-          placeholder="请按照ssid搜索"
-          onSearch={handleSearch}
-        />
-      </div>
-    );
 
+    const columns = [
+      {
+        title: '学校名称',
+        dataIndex: 'school_id',
+        key: 'school_id',
+      },
+      {
+        title: 'ssid',
+        dataIndex: 'ssid',
+        key: 'ssid',
+      },
+      {
+        title: '操作',
+        dataIndex: '',
+        key: 'handle',
+        width: 200,
+        render: (text, record, index) => (
+          <Fragment>
+            <a onClick={() => goToEdit(record)}>编辑</a>
+            <Divider type="vertical" />
+            <a onClick={() => deleteSsid(record)}>删除</a>
+          </Fragment>
+        ),
+      },
+    ];
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -88,7 +91,6 @@ export default class BasicList extends PureComponent {
         });
       },
     };
-
     // 删除
     const deleteSsid = payload => {
       this.props.dispatch({
@@ -103,67 +105,60 @@ export default class BasicList extends PureComponent {
     const goToEdit = payload => {
       this.props.history.push(`/lst/ssid-update?id=${payload.id}`);
     };
-
-    const ListContent = ({ data: { school_id, ssid } }) => (
+    const ListContent = ({ data: { school_name, ssid } }) => (
       <div className={styles.listContent}>
         <div className={styles.listContentItem}>
-          <span>school_id</span>
-          <p>{school_id}</p>
+          <p>{school_name}</p>
         </div>
         <div className={styles.listContentItem}>
-          <span>ssid</span>
           <p>{ssid}</p>
         </div>
       </div>
     );
-
-    const moreHandle = ({ item, key }) => {
-      // alert(key);
-      // console.log(item)
-      // this.props.history.push("/lst/ssid-update");
-    };
-
-    const menu = (
-      <Menu>
-        <Menu.Item key="edit" onClick={moreHandle}>
-          编辑
-        </Menu.Item>
-        <Menu.Item key="delete">删除</Menu.Item>
-      </Menu>
+    const extraContent = (
+      <div className={styles.extraContent}>
+        <Search
+          id="search"
+          className={styles.extraContentSearch}
+          placeholder="请根据ssid查找"
+          onSearch={handleSearch}
+          // onSearch={value => search(value)}
+        />
+      </div>
     );
-
-    const MoreBtn = ({ data: { id } }) => (
-      <Dropdown data={id} overlay={menu}>
-        <a>
-          更多{id} <Icon type="down" />
-        </a>
-      </Dropdown>
-    );
-
+    // const search = keyword => {
+    //     const like = JSON.stringify({ name: keyword });
+    //     this.props.dispatch({
+    //         type: 'lst/fetchSsidLst',
+    //         payload: {
+    //             size: 100,
+    //             like,
+    //         },
+    //     });
+    // };
     return (
       <PageHeaderLayout>
         <div className={styles.standardList}>
           <Card bordered={false}>
             <Row>
               <Col sm={6} xs={12}>
-                <Info title="已部署学校总数" value="8个" bordered />
+                <Info title="用户总数" value="8" bordered />
               </Col>
               <Col sm={6} xs={12}>
-                <Info title="已正常上线总数" value="4个" bordered />
+                <Info title="Android总数" value="4" bordered />
               </Col>
               <Col sm={6} xs={12}>
-                <Info title="即将上线的" value="4个" bordered />
+                <Info title="IOS总数" value="4" bordered />
               </Col>
               <Col sm={6} xs={12}>
-                <Info title="单AC学校总数" value="18个" />
+                <Info title="其他" value="18" />
               </Col>
             </Row>
           </Card>
-
           <Card
             className={styles.listCard}
             bordered={false}
-            title="schoolssid列表"
+            title="用戶列表"
             style={{ marginTop: 24 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
             extra={extraContent}
@@ -176,19 +171,16 @@ export default class BasicList extends PureComponent {
             >
               添加
             </Button>
-            <List
-              size="large"
+            <Table
               rowKey="id"
               loading={loading}
-              pagination={paginationProps}
+              columns={columns}
               dataSource={ssidData.data}
+              pagination={paginationProps}
+              // onSelectRow={this.handleSelectRows}
+              // onChange={this.handleStandardTableChange}
               renderItem={item => (
-                <List.Item
-                  actions={[
-                    <a onClick={() => deleteSsid({ id: item.id })}>删除</a>,
-                    <a onClick={() => goToEdit({ id: item.id })}>编辑</a>,
-                  ]}
-                >
+                <List.Item>
                   <ListContent data={item} />
                 </List.Item>
               )}

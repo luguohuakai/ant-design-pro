@@ -68,7 +68,7 @@ const menuData = [
         path: 'ap-lst',
       },
       {
-        name: 'SSID管理',
+        name: '热点管理',
         path: 'ssid-lst',
       },
     ],

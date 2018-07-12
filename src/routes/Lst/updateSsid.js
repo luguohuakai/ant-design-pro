@@ -24,7 +24,8 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 let id = '';
 
-@connect(({ loading }) => ({
+@connect(({ ssid_lst, loading }) => ({
+  ssid_lst,
   submitting: loading.effects['ssid_lst/updateSsid'],
 }))
 @Form.create()
@@ -36,7 +37,7 @@ export default class BasicForms extends PureComponent {
     const url = window.location.href;
     id = url.split('=')[1];
     this.props.dispatch({
-      type: 'ssid_lst/fetchSchoolLst',
+      type: 'ssid_lst/fetchSsidDetail',
       payload: {
         id,
       },
@@ -60,7 +61,8 @@ export default class BasicForms extends PureComponent {
   render() {
     const { submitting } = this.props;
     const { getFieldDecorator } = this.props.form;
-
+    const { ssid_lst } = this.props;
+    const { ssidDetail } = ssid_lst;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -86,6 +88,7 @@ export default class BasicForms extends PureComponent {
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
             <FormItem {...formItemLayout} label="school_id">
               {getFieldDecorator('school_id', {
+                initialValue: ssidDetail.school_id,
                 rules: [
                   {
                     required: true,
@@ -96,6 +99,7 @@ export default class BasicForms extends PureComponent {
             </FormItem>
             <FormItem {...formItemLayout} label="ssid">
               {getFieldDecorator('ssid', {
+                initialValue: ssidDetail.ssid,
                 rules: [
                   {
                     required: true,
@@ -110,7 +114,7 @@ export default class BasicForms extends PureComponent {
                 提交
               </Button>
               <Button style={{ marginLeft: 8 }} href="#/lst/ssid-lst">
-                取消
+                返回列表
               </Button>
             </FormItem>
           </Form>

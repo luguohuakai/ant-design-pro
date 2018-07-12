@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { List, Card, Radio, Input } from 'antd';
+import { List, Card, Radio, Input, Table } from 'antd';
 
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './FeedbackLst.less';
@@ -25,6 +25,7 @@ export default class BasicList extends PureComponent {
   render() {
     const { feed_lst, loading } = this.props;
     const { feedbackData } = feed_lst;
+    const { dealfeedbackData } = feed_lst;
     const ListContent = ({ data: { phone, contents, create_time } }) => (
       <div className={styles.listContent}>
         {/*<div className={styles.listContentItem}>*/}
@@ -60,16 +61,55 @@ export default class BasicList extends PureComponent {
         />
       </div>
     );
+    const columns = [
+      {
+        title: '序号',
+        dataIndex: 'id',
+        key: 'id',
+      },
+      {
+        title: '手机号',
+        dataIndex: 'phone',
+        key: 'phone',
+      },
+      {
+        title: '反馈内容',
+        dataIndex: 'contents',
+        key: 'contents',
+      },
+      {
+        title: 'create_time',
+        dataIndex: 'create_time',
+        key: 'create_time',
+      },
+      {
+        title: '操作',
+        dataIndex: '',
+        key: 'handle',
+        width: 100,
+        render: (text, record, index) => (
+          <Fragment>
+            <a onClick={() => onChange(record)}>未处理</a>
+          </Fragment>
+        ),
+      },
+    ];
 
-    const deal = payload => {
-      const feed_id = {
-        id: payload.id,
-      };
+    const onChange = payload => {
       this.props.dispatch({
         type: 'feed_lst/fetchdealLst',
-        payload: feed_id,
+        payload: {
+          ...payload,
+        },
       });
+      if (payload.is_deal === 1) {
+        // console.log(dealfeedbackData);
+      } else {
+        alert('3333');
+      }
+      console.log(payload);
     };
+
     const paginationprops = {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -106,15 +146,14 @@ export default class BasicList extends PureComponent {
             bodyStyle={{ padding: '0 32px 40px 32px' }}
             extra={extraContent}
           >
-            <List
-              header={<div>反馈意见</div>}
-              // footer={<div>Footer</div>}
-              bordered
+            <Table
+              rowKey="id"
               loading={loading}
-              pagination={paginationprops}
+              columns={columns}
               dataSource={feedbackData.data}
+              pagination={paginationprops}
               renderItem={item => (
-                <List.Item actions={[<a onClick={() => deal({ id: item.id })}>未处理</a>]}>
+                <List.Item>
                   <ListContent data={item} />
                 </List.Item>
               )}

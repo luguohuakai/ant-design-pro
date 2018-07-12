@@ -1,5 +1,11 @@
 /* eslint-disable linebreak-style */
-import { queryApLst, fakeSubmitAp, fakeDeleteAp, updateAp } from '../services/api';
+import {
+  queryApLstOrDetail,
+  fakeSubmitAp,
+  fakeDeleteAp,
+  updateAp,
+  queryApLst,
+} from '../services/api';
 import { message } from 'antd/lib/index';
 
 export default {
@@ -7,6 +13,7 @@ export default {
 
   state: {
     apData: [],
+    apDetail: [],
   },
 
   effects: {
@@ -18,6 +25,15 @@ export default {
         payload: response,
       });
     },
+    // 获取AC详情
+    *fetchApDetail({ payload }, { call, put }) {
+      const response = yield call(queryApLstOrDetail, payload);
+      console.error(response);
+      yield put({
+        type: 'showApDetail',
+        payload: response,
+      });
+    },
     *addAp({ payload }, { call }) {
       yield call(fakeSubmitAp, payload);
       message.success('提交成功');
@@ -26,11 +42,12 @@ export default {
       const response = yield call(fakeDeleteAp, payload);
       console.log(payload);
       if (response.code === 1) {
-        const res = yield call(queryApLst, { page: payload.page, size: payload.size });
+        const res = yield call(queryApLstOrDetail, { page: payload.page, size: payload.size });
         yield put({
           type: 'showApLst',
           payload: res,
         });
+        message.success('删除成功');
       } else {
         message.error('删除失败');
       }
@@ -47,6 +64,13 @@ export default {
       return {
         ...state,
         apData: action.payload.data,
+      };
+    },
+    showApDetail(state, { payload }) {
+      console.error(payload);
+      return {
+        ...state,
+        apDetail: payload.data,
       };
     },
   },

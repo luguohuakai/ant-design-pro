@@ -1,7 +1,7 @@
 /* eslint-disable linebreak-style */
 import React, { PureComponent } from 'react';
 
-import { Table, Input, List, Card, Button, Icon, Row, Col } from 'antd';
+import { Table, Input, Card, Row, Col } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 const { Search } = Input;
@@ -17,36 +17,40 @@ export default class BasicList extends PureComponent {
     );
     const columns = [
       {
-        title: '用户ID',
+        title: 'id',
+        dataIndex: 'id',
+      },
+      {
+        title: '头像',
+        dataIndex: 'head',
+      },
+      {
+        title: '微信的openID',
+        dataIndex: 'openid',
+      },
+
+      {
+        title: '微信昵称',
         dataIndex: 'name',
       },
       {
-        title: '账号',
-        dataIndex: 'age',
-      },
-      {
-        title: '姓名',
-        dataIndex: 'address',
-      },
-      {
-        title: '状态',
-        dataIndex: 'status',
+        title: '注册时间',
+        dataIndex: 'time',
       },
       {
         title: '操作',
         dataIndex: '',
         // fixed: 'right',
-        fixed: 'right',
         width: 200,
         render: text => (
           <span>
-            <a href="#">删除</a>
-            <span className="ant-divider" />
-            <a href="#">编辑</a>
-            <span className="ant-divider" />
-            <a href="#" className="ant-dropdown-link">
-              更多 <Icon type="down" />
-            </a>
+            <a href="#/lst/user-details">详情</a>
+            {/*<span className="ant-divider" />*/}
+            {/*<a href="#">编辑</a>*/}
+            {/*<span className="ant-divider" />*/}
+            {/*<a href="#" className="ant-dropdown-link">*/}
+            {/*更多 <Icon type="down" />*/}
+            {/*</a>*/}
           </span>
         ),
       },
@@ -56,7 +60,7 @@ export default class BasicList extends PureComponent {
         <Search
           id="search"
           className={styles.extraContentSearch}
-          placeholder="请輸入"
+          placeholder="请輸入微信昵称"
           // onSearch={handleSearch}
         />
       </div>
@@ -64,38 +68,43 @@ export default class BasicList extends PureComponent {
     const data = [
       {
         key: '1',
-        name: '15',
-        age: 158649889,
-        address: '张安',
-        status: '已在线',
+        id: '15',
+        head: '',
+        openid: 158649889,
+        name: '张安',
+        time: '2018-7-12 13:47:45',
       },
       {
         key: '2',
-        name: '18',
-        age: 123589977,
-        address: '张安',
-        status: '已在线',
+        id: '18',
+        head: '',
+        openid: 123589977,
+        name: '张安',
+        time: '2018-7-12 13:47:45',
       },
       {
         key: '3',
-        name: '23',
-        age: 123589977,
-        address: '张安',
-        status: '已在线',
+        id: '23',
+        head: '',
+        openid: 123589977,
+        name: '张安',
+        time: '2018-7-12 13:47:45',
       },
       {
         key: '4',
-        name: '28',
-        age: 123589977789,
-        address: '张安',
-        status: '已在线',
+        id: '28',
+        head: '',
+        openid: 123589977789,
+        name: '张安',
+        time: '2018-7-12 13:47:45',
       },
       {
         key: '5',
-        name: '25',
-        age: 12358997789,
-        address: '张安',
-        status: '已在线',
+        id: '25',
+        head: '',
+        openid: 12358997789,
+        name: '张安',
+        time: '2018-7-12 13:47:45',
       },
     ];
     return (
@@ -104,16 +113,16 @@ export default class BasicList extends PureComponent {
           <Card bordered={false}>
             <Row>
               <Col sm={6} xs={12}>
-                <Info title="已部署学校总数" value="8个" bordered />
+                <Info title="用户总数" value="8" bordered />
               </Col>
               <Col sm={6} xs={12}>
-                <Info title="已正常上线总数" value="4个" bordered />
+                <Info title="Android总数" value="4" bordered />
               </Col>
               <Col sm={6} xs={12}>
-                <Info title="即将上线的" value="4个" bordered />
+                <Info title="IOS总数" value="4" bordered />
               </Col>
               <Col sm={6} xs={12}>
-                <Info title="单AC学校总数" value="18个" />
+                <Info title="其他" value="18" />
               </Col>
             </Row>
           </Card>
@@ -125,14 +134,6 @@ export default class BasicList extends PureComponent {
             bodyStyle={{ padding: '0 32px 40px 32px' }}
             extra={extraContent}
           >
-            <Button
-              // onClick={handleAdd}
-              type="dashed"
-              style={{ width: '100%', marginBottom: 8 }}
-              icon="plus"
-            >
-              添加
-            </Button>
             <Table columns={columns} dataSource={data} />
           </Card>
         </div>

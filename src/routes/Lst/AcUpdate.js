@@ -24,7 +24,8 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 let id = '';
 
-@connect(({ loading }) => ({
+@connect(({ ac_lst, loading }) => ({
+  ac_lst,
   submitting: loading.effects['ac_lst/updateAc'],
 }))
 @Form.create()
@@ -36,7 +37,7 @@ export default class BasicForms extends PureComponent {
     const url = window.location.href;
     id = url.split('=')[1];
     this.props.dispatch({
-      type: 'ac_lst/fetchSchoolLst',
+      type: 'ac_lst/fetchAcDetail',
       payload: {
         id,
       },
@@ -60,7 +61,9 @@ export default class BasicForms extends PureComponent {
   render() {
     const { submitting } = this.props;
     const { getFieldDecorator } = this.props.form;
-
+    const { ac_lst } = this.props;
+    const { acDetail } = ac_lst;
+    // console.log('woshidetail:',acDetail)
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -86,16 +89,18 @@ export default class BasicForms extends PureComponent {
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
             <FormItem {...formItemLayout} label="默认ACID">
               {getFieldDecorator('ac_id', {
+                initialValue: acDetail.ac_id,
                 rules: [
                   {
                     required: true,
                     message: '请输入ACID',
                   },
                 ],
-              })(<Input placeholder="这个学校的ACID" />)}
+              })(<Input placeholder="这个555学校的ACID" />)}
             </FormItem>
             <FormItem {...formItemLayout} label="school_id">
               {getFieldDecorator('school_id', {
+                initialValue: acDetail.school_id,
                 rules: [
                   {
                     required: true,
@@ -106,6 +111,7 @@ export default class BasicForms extends PureComponent {
             </FormItem>
             <FormItem {...formItemLayout} label="note">
               {getFieldDecorator('note', {
+                initialValue: acDetail.note,
                 rules: [
                   {
                     required: true,
@@ -119,7 +125,7 @@ export default class BasicForms extends PureComponent {
                 提交
               </Button>
               <Button style={{ marginLeft: 8 }} href="#/lst/ac-lst">
-                取消
+                返回列表
               </Button>
             </FormItem>
           </Form>

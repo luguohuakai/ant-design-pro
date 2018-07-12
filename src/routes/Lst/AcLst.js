@@ -1,7 +1,21 @@
 /* eslint-disable linebreak-style */
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { List, Card, Row, Col, Radio, Input, Button, Icon, Dropdown, Menu, Avatar } from 'antd';
+import {
+  List,
+  Card,
+  Row,
+  Col,
+  Radio,
+  Input,
+  Divider,
+  Button,
+  Icon,
+  Dropdown,
+  Menu,
+  Avatar,
+  Table,
+} from 'antd';
 
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
@@ -46,6 +60,17 @@ export default class BasicList extends PureComponent {
         payload: values,
       });
     };
+
+    // const search = keyword => {
+    //     const like = JSON.stringify({ name: keyword });
+    //     this.props.dispatch({
+    //         type: 'ac_lst/fetchAcLst',
+    //         payload: {
+    //             size: 100,
+    //             like,
+    //         },
+    //     });
+    // };
     const extraContent = (
       <div className={styles.extraContent}>
         <RadioGroup defaultValue="all">
@@ -61,7 +86,31 @@ export default class BasicList extends PureComponent {
         />
       </div>
     );
-
+    const columns = [
+      {
+        title: 'AC_id',
+        dataIndex: 'ac_id',
+        key: 'ac_id',
+      },
+      {
+        title: '学校名称',
+        dataIndex: 'school_id',
+        key: 'school_id',
+      },
+      {
+        title: '操作',
+        dataIndex: '',
+        key: 'handle',
+        width: 200,
+        render: (text, record, index) => (
+          <Fragment>
+            <a onClick={() => goToEdit(record)}>编辑</a>
+            <Divider type="vertical" />
+            <a onClick={() => deleteAc(record)}>删除</a>
+          </Fragment>
+        ),
+      },
+    ];
     const paginationProps = {
       showSizeChanger: true,
       showQuickJumper: true,
@@ -107,11 +156,11 @@ export default class BasicList extends PureComponent {
           <p>{ac_id}</p>
         </div>
         <div className={styles.listContentItem}>
-          <span>schoolID</span>
+          <span>学校名称</span>
           <p>{school_id}</p>
         </div>
         <div className={styles.listContentItem}>
-          <span>note</span>
+          <span>备注</span>
           <p>{note}</p>
         </div>
       </div>
@@ -174,19 +223,14 @@ export default class BasicList extends PureComponent {
             >
               添加
             </Button>
-            <List
-              size="large"
+            <Table
               rowKey="id"
               loading={loading}
-              pagination={paginationProps}
+              columns={columns}
               dataSource={acData.data}
+              pagination={paginationProps}
               renderItem={item => (
-                <List.Item
-                  actions={[
-                    <a onClick={() => deleteAc({ id: item.id })}>删除</a>,
-                    <a onClick={() => goToEdit({ id: item.id })}>修改</a>,
-                  ]}
-                >
+                <List.Item>
                   <ListContent data={item} />
                 </List.Item>
               )}

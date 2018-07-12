@@ -1,7 +1,21 @@
 /* eslint-disable linebreak-style */
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import { List, Card, Row, Col, Radio, Input, Button, Icon, Dropdown, Menu, Avatar } from 'antd';
+import {
+  List,
+  Card,
+  Row,
+  Col,
+  Radio,
+  Input,
+  Button,
+  Icon,
+  Dropdown,
+  Menu,
+  Avatar,
+  Table,
+  Divider,
+} from 'antd';
 
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
@@ -123,26 +137,41 @@ export default class BasicList extends PureComponent {
         </div>
       </div>
     );
-    //
-    // const moreHandle = ({item, key}) => {
-    //     alert(key);
-    // };
-    //
-    // const menu = (
-    //     <Menu onClick={moreHandle}>
-    //         <Menu.Item key="edit">编辑</Menu.Item>
-    //         <Menu.Item key="delete">删除</Menu.Item>
-    //     </Menu>
-    // );
-
-    // const MoreBtn = () => (
-    //     <Dropdown overlay={menu}>
-    //         <a>
-    //             更多 <Icon type="down"/>
-    //         </a>
-    //     </Dropdown>
-    // );
-
+    const columns = [
+      {
+        title: 'ap_name',
+        dataIndex: 'ap_name',
+        key: 'ap_name',
+      },
+      {
+        title: 'ip_addr',
+        dataIndex: 'ip_addr',
+        key: 'ip_addr',
+      },
+      {
+        title: 'ap_model',
+        dataIndex: 'ap_model',
+        key: 'ap_model',
+      },
+      {
+        title: 'ap_mac',
+        dataIndex: 'ap_mac',
+        key: 'ap_mac',
+      },
+      {
+        title: '操作',
+        dataIndex: '',
+        key: 'handle',
+        width: 200,
+        render: (text, record) => (
+          <Fragment>
+            <a onClick={() => goToEdit(record)}>编辑</a>
+            <Divider type="vertical" />
+            <a onClick={() => deleteAp(record)}>删除</a>
+          </Fragment>
+        ),
+      },
+    ];
     return (
       <PageHeaderLayout>
         <div className={styles.standardList}>
@@ -179,19 +208,14 @@ export default class BasicList extends PureComponent {
             >
               添加
             </Button>
-            <List
-              size="large"
+            <Table
               rowKey="id"
               loading={loading}
-              pagination={paginationProps}
+              columns={columns}
               dataSource={apData.data}
+              pagination={paginationProps}
               renderItem={item => (
-                <List.Item
-                  actions={[
-                    <a onClick={() => deleteAp({ id: item.id })}>删除</a>,
-                    <a onClick={() => goToEdit({ id: item.id })}>修改</a>,
-                  ]}
-                >
+                <List.Item>
                   <ListContent data={item} />
                 </List.Item>
               )}

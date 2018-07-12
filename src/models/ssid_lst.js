@@ -1,6 +1,12 @@
 /* eslint-disable linebreak-style */
 
-import { querySsidLst, fakeSubmitSsid, fakeDeleteSsid, updateSsid } from '../services/api';
+import {
+  querySsidLstOrDetail,
+  fakeSubmitSsid,
+  fakeDeleteSsid,
+  updateSsid,
+  querySsidLst,
+} from '../services/api';
 
 import { message } from 'antd/lib/index';
 
@@ -9,6 +15,7 @@ export default {
 
   state: {
     ssidData: [],
+    ssidDetail: [],
   },
 
   effects: {
@@ -20,6 +27,15 @@ export default {
         payload: response,
       });
     },
+    // 获取ssid详情
+    *fetchSsidDetail({ payload }, { call, put }) {
+      const response = yield call(querySsidLstOrDetail, payload);
+      console.error(response);
+      yield put({
+        type: 'showSsidDetail',
+        payload: response,
+      });
+    },
     *addSsid({ payload }, { call }) {
       yield call(fakeSubmitSsid, payload);
       message.success('提交成功');
@@ -28,11 +44,12 @@ export default {
       const response = yield call(fakeDeleteSsid, payload);
       // console.log(payload);
       if (response.code === 1) {
-        const res = yield call(querySsidLst, { page: payload.page, size: payload.size });
+        const res = yield call(querySsidLstOrDetail, { page: payload.page, size: payload.size });
         yield put({
           type: 'showSsidLst',
           payload: res,
         });
+        message.success('删除成功');
       } else {
         message.error('删除失败');
       }
@@ -49,6 +66,13 @@ export default {
       return {
         ...state,
         ssidData: action.payload.data,
+      };
+    },
+    showSsidDetail(state, { payload }) {
+      console.error(payload);
+      return {
+        ...state,
+        ssidDetail: payload.data,
       };
     },
   },

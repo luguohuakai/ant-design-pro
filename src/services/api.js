@@ -42,11 +42,30 @@ export async function fakeSubmitSchool(params) {
   });
 }
 
-// ac列表
-export async function queryAcLst(params) {
-  return request(`/ac?${stringify(params)}`);
+// ac列表或详情
+export async function queryAcLstOrDetail(params) {
+  if (params && 'id' in params) {
+    return request(`/ac/${params.id}`);
+  } else {
+    return request(`/ac`);
+  }
 }
-
+// ap列表或详情
+export async function queryApLstOrDetail(params) {
+  if (params && 'id' in params) {
+    return request(`/ap/${params.id}`);
+  } else {
+    return request(`/ap`);
+  }
+}
+// ssid列表或详情
+export async function querySsidLstOrDetail(params) {
+  if (params && 'id' in params) {
+    return request(`/schoolssid/${params.id}`);
+  } else {
+    return request(`/schoolssid`);
+  }
+}
 // 添加ac
 export async function fakeSubmitAC(params) {
   return request('/ac', {
@@ -59,18 +78,24 @@ export async function fakeSubmitAC(params) {
 export async function queryApLst(params) {
   return request(`/ap?${stringify(params)}`);
 }
-
+// ac列表
+export async function queryAcLst(params) {
+  return request(`/ac?${stringify(params)}`);
+}
+// ssid列表
+export async function querySsidLst(params) {
+  return request(`/schoolssid?${stringify(params)}`);
+}
+// Feedback列表
+export async function querybackLst(params) {
+  return request(`/feedback?${stringify(params)}`);
+}
 // 添加ap
 export async function fakeSubmitAp(params) {
   return request('/ap', {
     method: 'POST',
     body: params,
   });
-}
-
-// Ssid列表
-export async function querySsidLst(params) {
-  return request(`/schoolssid?${stringify(params)}`);
 }
 
 // 添加Ssid
@@ -168,7 +193,11 @@ export async function fakeDeleteSsid(params) {
 
 //意见反馈列表
 export async function queryfeedbackLst(params) {
-  return request(`/feedback?${stringify(params)}`);
+  if (params && 'id' in params) {
+    return request(`/feedback/${params.id}`);
+  } else {
+    return request(`/feedback`);
+  }
 }
 //已处理意见
 export async function querydealLst(params) {

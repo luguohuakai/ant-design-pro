@@ -24,7 +24,8 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 let id = '';
 
-@connect(({ loading }) => ({
+@connect(({ ap_lst, loading }) => ({
+  ap_lst,
   submitting: loading.effects['ap_lst/updateAp'],
 }))
 @Form.create()
@@ -36,7 +37,7 @@ export default class BasicForms extends PureComponent {
     const url = window.location.href;
     id = url.split('=')[1];
     this.props.dispatch({
-      type: 'ap_lst/fetchSchoolLst',
+      type: 'ap_lst/fetchApDetail',
       payload: {
         id,
       },
@@ -60,7 +61,8 @@ export default class BasicForms extends PureComponent {
   render() {
     const { submitting } = this.props;
     const { getFieldDecorator } = this.props.form;
-
+    const { ap_lst } = this.props;
+    const { apDetail } = ap_lst;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -86,6 +88,7 @@ export default class BasicForms extends PureComponent {
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
             <FormItem {...formItemLayout} label="默认ACID">
               {getFieldDecorator('ap_name', {
+                initialValue: apDetail.ap_name,
                 rules: [
                   {
                     required: true,
@@ -96,6 +99,7 @@ export default class BasicForms extends PureComponent {
             </FormItem>
             <FormItem {...formItemLayout} label="ip_addr">
               {getFieldDecorator('ip_addr', {
+                initialValue: apDetail.ip_addr,
                 rules: [
                   {
                     required: true,
@@ -106,6 +110,7 @@ export default class BasicForms extends PureComponent {
             </FormItem>
             <FormItem {...formItemLayout} label="ap_model">
               {getFieldDecorator('ap_model', {
+                initialValue: apDetail.ap_model,
                 rules: [
                   {
                     required: true,
@@ -116,6 +121,7 @@ export default class BasicForms extends PureComponent {
             </FormItem>
             <FormItem {...formItemLayout} label="ap_mac">
               {getFieldDecorator('ap_mac', {
+                initialValue: apDetail.ap_mac,
                 rules: [
                   {
                     required: true,
@@ -130,7 +136,7 @@ export default class BasicForms extends PureComponent {
                 提交
               </Button>
               <Button style={{ marginLeft: 8 }} href="#/lst/ap-lst">
-                取消
+                返回列表
               </Button>
             </FormItem>
           </Form>

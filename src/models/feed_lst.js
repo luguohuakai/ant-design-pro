@@ -1,6 +1,6 @@
 /* eslint-disable linebreak-style */
 
-import { queryfeedbackLst, querydealLst } from '../services/api';
+import { queryfeedbackLst, querydealLst, querybackLst } from '../services/api';
 import { message } from 'antd/lib/index';
 
 export default {
@@ -8,21 +8,26 @@ export default {
 
   state: {
     feedbackData: [],
+    dealfeedbackData: [],
   },
 
   effects: {
     //意见反馈
     *fetchFeedbackLst({ payload }, { call, put }) {
-      const response = yield call(queryfeedbackLst, payload);
+      const response = yield call(querybackLst, payload);
       yield put({
         type: 'showFeedbackLst',
         payload: response,
       });
     },
-    *fetchdealLst({ payload }, { call }) {
+    *fetchdealLst({ payload }, { call, put }) {
       const response = yield call(querydealLst, payload);
-      if (response.code === 1) {
-        message.error(response.msg);
+      yield put({
+        type: 'dealFeedbackLst',
+        payload: response,
+      });
+      if (response.code > 1) {
+        message.success(response.msg);
       } else {
         message.error(response.msg);
       }
@@ -31,10 +36,17 @@ export default {
 
   reducers: {
     showFeedbackLst(state, action) {
-      console.error(action);
+      // console.error(action);
       return {
         ...state,
         feedbackData: action.payload.data,
+      };
+    },
+    dealFeedbackLst(state, { payload }) {
+      console.error(payload);
+      return {
+        ...state,
+        dealfeedbackData: payload.data,
       };
     },
   },
