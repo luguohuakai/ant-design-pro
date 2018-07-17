@@ -190,23 +190,6 @@ export default class BasicList extends PureComponent {
     return (
       <PageHeaderLayout>
         <div className={styles.standardList}>
-          <Card bordered={false}>
-            <Row>
-              <Col sm={6} xs={12}>
-                <Info title="已部署学校总数" value="8个" bordered />
-              </Col>
-              <Col sm={6} xs={12}>
-                <Info title="已正常上线总数" value="4个" bordered />
-              </Col>
-              <Col sm={6} xs={12}>
-                <Info title="即将上线的" value="4个" bordered />
-              </Col>
-              <Col sm={6} xs={12}>
-                <Info title="单AC学校总数" value="18个" />
-              </Col>
-            </Row>
-          </Card>
-
           <Card
             className={styles.listCard}
             bordered={false}
