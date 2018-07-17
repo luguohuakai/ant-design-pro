@@ -39,6 +39,7 @@ export default class BasicList extends PureComponent {
                   dataSource={data}
                   renderItem={item => (
                     <List.Item>
+                      <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
                       <List.Item.Meta
                         avatar={
                           <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />

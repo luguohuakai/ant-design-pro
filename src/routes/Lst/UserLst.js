@@ -1,13 +1,48 @@
 /* eslint-disable linebreak-style */
-import React, { PureComponent } from 'react';
+import React, { PureComponent, Fragment } from 'react';
+import { connect } from 'dva';
+import {
+  List,
+  Card,
+  Row,
+  Col,
+  Radio,
+  Input,
+  Divider,
+  Button,
+  Icon,
+  Dropdown,
+  Menu,
+  Avatar,
+  Table,
+} from 'antd';
 
-import { Table, Input, Card, Row, Col } from 'antd';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
+import styles from './AcLst.less';
+
+const RadioButton = Radio.Button;
+const RadioGroup = Radio.Group;
 const { Search } = Input;
-import styles from './UserLst.less';
+
+@connect(({ user_lst, loading }) => ({
+  user_lst,
+  loading: loading.models.user_lst,
+}))
 export default class BasicList extends PureComponent {
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'user_lst/fetchUserLst',
+      payload: {
+        size: 10,
+      },
+    });
+  }
+
   render() {
+    const { user_lst, loading } = this.props;
+    const { userData } = user_lst;
+
     const Info = ({ title, value, bordered }) => (
       <div className={styles.headerInfo}>
         <span>{title}</span>
@@ -15,126 +50,183 @@ export default class BasicList extends PureComponent {
         {bordered && <em />}
       </div>
     );
+    //搜索
+    const handleSearch = () => {
+      const values = {
+        wx_nick_name: search.value,
+      };
+      this.props.dispatch({
+        type: 'user_lst/fetchUserLst',
+        payload: values,
+      });
+    };
+
+    const extraContent = (
+      <div className={styles.extraContent}>
+        <RadioGroup defaultValue="all">
+          <RadioButton value="all">全部</RadioButton>
+          <RadioButton value="progress">已上线</RadioButton>
+          <RadioButton value="waiting">即将上线</RadioButton>
+        </RadioGroup>
+        <Search
+          id="search"
+          className={styles.extraContentSearch}
+          placeholder="请按微信昵称搜索"
+          onSearch={handleSearch}
+        />
+      </div>
+    );
     const columns = [
       {
         title: 'id',
         dataIndex: 'id',
+        key: 'id',
       },
       {
         title: '头像',
-        dataIndex: 'head',
+        key: 'wx_avatar_url',
+        render: index => <Avatar src={index.wx_avatar_url} shape="square" size="large" />,
       },
       {
-        title: '微信的openID',
-        dataIndex: 'openid',
+        title: 'open_id',
+        dataIndex: 'open_id',
+        key: 'open_id',
       },
-
       {
         title: '微信昵称',
-        dataIndex: 'name',
+        dataIndex: 'wx_nick_name',
+        key: 'wx_nick_name',
+      },
+      {
+        title: '登录次数',
+        dataIndex: 'today_times',
+        key: 'today_times',
+      },
+      {
+        title: '设备类型',
+        dataIndex: 'client_type',
+        key: 'client_type',
       },
       {
         title: '注册时间',
-        dataIndex: 'time',
+        dataIndex: 'create_time',
+        key: 'create_time',
       },
       {
         title: '操作',
         dataIndex: '',
-        // fixed: 'right',
+        key: 'handle',
         width: 200,
-        render: text => (
-          <span>
-            <a href="#/lst/user-details">详情</a>
-            {/*<span className="ant-divider" />*/}
-            {/*<a href="#">编辑</a>*/}
-            {/*<span className="ant-divider" />*/}
-            {/*<a href="#" className="ant-dropdown-link">*/}
-            {/*更多 <Icon type="down" />*/}
-            {/*</a>*/}
-          </span>
+        render: (text, record, index) => (
+          <Fragment>
+            <a onClick={() => goToEdit(record)}>编辑</a>
+            <Divider type="vertical" />
+            <a onClick={() => deleteUser(record)}>删除</a>
+          </Fragment>
         ),
       },
     ];
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <Search
-          id="search"
-          className={styles.extraContentSearch}
-          placeholder="请輸入微信昵称"
-          // onSearch={handleSearch}
-        />
-      </div>
+
+    const paginationProps = {
+      showSizeChanger: true,
+      showQuickJumper: true,
+      pageSize: Number(userData.per_page) ? Number(userData.per_page) : 10,
+      total: Number(userData.total) ? Number(userData.total) : 0,
+      current: Number(userData.current_page) ? Number(userData.current_page) : 1,
+      onChange: (page, pageSize) => {
+        this.props.dispatch({
+          type: 'user_lst/fetchUserLst',
+          payload: {
+            page,
+            size: pageSize,
+          },
+        });
+      },
+      onShowSizeChange: (current, size) => {
+        this.props.dispatch({
+          type: 'user_lst/fetchUserLst',
+          payload: {
+            page: current,
+            size,
+          },
+        });
+      },
+    };
+
+    // 删除
+    const deleteUser = payload => {
+      this.props.dispatch({
+        type: 'user_lst/deleteUser',
+        payload: {
+          ...payload,
+          page: paginationProps.current,
+          size: paginationProps.pageSize,
+        },
+      });
+    };
+
+    const moreHandle = ({ item, key }) => {
+      alert(key);
+    };
+    const goToEdit = payload => {
+      this.props.history.push(`/lst/user-update?id=${payload.id}`);
+    };
+
+    const menu = (
+      <Menu onClick={moreHandle}>
+        <Menu.Item key="edit">编辑</Menu.Item>
+        <Menu.Item key="delete">删除</Menu.Item>
+      </Menu>
     );
-    const data = [
-      {
-        key: '1',
-        id: '15',
-        head: '',
-        openid: 158649889,
-        name: '张安',
-        time: '2018-7-12 13:47:45',
-      },
-      {
-        key: '2',
-        id: '18',
-        head: '',
-        openid: 123589977,
-        name: '张安',
-        time: '2018-7-12 13:47:45',
-      },
-      {
-        key: '3',
-        id: '23',
-        head: '',
-        openid: 123589977,
-        name: '张安',
-        time: '2018-7-12 13:47:45',
-      },
-      {
-        key: '4',
-        id: '28',
-        head: '',
-        openid: 123589977789,
-        name: '张安',
-        time: '2018-7-12 13:47:45',
-      },
-      {
-        key: '5',
-        id: '25',
-        head: '',
-        openid: 12358997789,
-        name: '张安',
-        time: '2018-7-12 13:47:45',
-      },
-    ];
+
+    const MoreBtn = () => (
+      <Dropdown overlay={menu}>
+        <a>
+          更多 <Icon type="down" />
+        </a>
+      </Dropdown>
+    );
+
     return (
       <PageHeaderLayout>
         <div className={styles.standardList}>
           <Card bordered={false}>
             <Row>
               <Col sm={6} xs={12}>
-                <Info title="用户总数" value="8" bordered />
+                <Info title="已部署学校总数" value="8个" bordered />
               </Col>
               <Col sm={6} xs={12}>
-                <Info title="Android总数" value="4" bordered />
+                <Info title="已正常上线总数" value="4个" bordered />
               </Col>
               <Col sm={6} xs={12}>
-                <Info title="IOS总数" value="4" bordered />
+                <Info title="即将上线的" value="4个" bordered />
               </Col>
               <Col sm={6} xs={12}>
-                <Info title="其他" value="18" />
+                <Info title="单AC学校总数" value="18个" />
               </Col>
             </Row>
           </Card>
+
           <Card
             className={styles.listCard}
             bordered={false}
-            title="用戶列表"
+            title="用户列表"
             style={{ marginTop: 24 }}
             bodyStyle={{ padding: '0 32px 40px 32px' }}
             extra={extraContent}
           >
-            <Table columns={columns} dataSource={data} />
+            <Table
+              rowKey="id"
+              loading={loading}
+              columns={columns}
+              dataSource={userData.data}
+              pagination={paginationProps}
+              renderItem={item => (
+                <List.Item>
+                  {/*avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}*/}
+                </List.Item>
+              )}
+            />
           </Card>
         </div>
       </PageHeaderLayout>

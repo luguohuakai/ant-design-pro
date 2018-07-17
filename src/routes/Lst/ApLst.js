@@ -37,11 +37,14 @@ export default class BasicList extends PureComponent {
         size: 10,
       },
     });
+    this.props.dispatch({
+      type: 'ap_lst/fetchApCount',
+    });
   }
 
   render() {
     const { ap_lst, loading } = this.props;
-    const { apData } = ap_lst;
+    const { apData, apCount } = ap_lst;
 
     const Info = ({ title, value, bordered }) => (
       <div className={styles.headerInfo}>
@@ -117,7 +120,7 @@ export default class BasicList extends PureComponent {
       this.props.history.push(`/lst/ap-update?id=${payload.id}`);
     };
 
-    const ListContent = ({ data: { ap_name, ip_addr, ap_model, ap_mac } }) => (
+    const ListContent = ({ data: { ap_name, ip_addr, ap_mac } }) => (
       <div className={styles.listContent}>
         <div className={styles.listContentItem}>
           <span>ap_name</span>
@@ -128,10 +131,6 @@ export default class BasicList extends PureComponent {
           <p>{ip_addr}</p>
         </div>
         <div className={styles.listContentItem}>
-          <span>ap_model</span>
-          <p>{ip_addr}</p>
-        </div>
-        <div className={styles.listContentItem}>
           <span>ap_mac</span>
           <p>{ap_mac}</p>
         </div>
@@ -139,19 +138,14 @@ export default class BasicList extends PureComponent {
     );
     const columns = [
       {
-        title: 'ap_name',
+        title: 'ap名字',
         dataIndex: 'ap_name',
         key: 'ap_name',
       },
       {
-        title: 'ip_addr',
+        title: '地址',
         dataIndex: 'ip_addr',
         key: 'ip_addr',
-      },
-      {
-        title: 'ap_model',
-        dataIndex: 'ap_model',
-        key: 'ap_model',
       },
       {
         title: 'ap_mac',
@@ -177,18 +171,18 @@ export default class BasicList extends PureComponent {
         <div className={styles.standardList}>
           <Card bordered={false}>
             <Row>
-              <Col sm={6} xs={12}>
-                <Info title="已部署学校总数" value="8个" bordered />
+              <Col>
+                <Info title="已部署学校总数" value={apCount.count + '个'} bordered />
               </Col>
-              <Col sm={6} xs={12}>
-                <Info title="已正常上线总数" value="4个" bordered />
-              </Col>
-              <Col sm={6} xs={12}>
-                <Info title="即将上线的" value="4个" bordered />
-              </Col>
-              <Col sm={6} xs={12}>
-                <Info title="单AC学校总数" value="18个" />
-              </Col>
+              {/*<Col sm={6} xs={12}>*/}
+              {/*<Info title="已正常上线总数" value="4个" bordered />*/}
+              {/*</Col>*/}
+              {/*<Col sm={6} xs={12}>*/}
+              {/*<Info title="即将上线的" value="4个" bordered />*/}
+              {/*</Col>*/}
+              {/*<Col sm={6} xs={12}>*/}
+              {/*<Info title="单AC学校总数" value="18个" />*/}
+              {/*</Col>*/}
             </Row>
           </Card>
 

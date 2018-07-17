@@ -5,6 +5,7 @@ import {
   fakeDeleteAp,
   updateAp,
   queryApLst,
+  queryApCount,
 } from '../services/api';
 import { message } from 'antd/lib/index';
 
@@ -14,6 +15,7 @@ export default {
   state: {
     apData: [],
     apDetail: [],
+    apCount: [],
   },
 
   effects: {
@@ -28,9 +30,18 @@ export default {
     // 获取AC详情
     *fetchApDetail({ payload }, { call, put }) {
       const response = yield call(queryApLstOrDetail, payload);
-      console.error(response);
+      // console.error(response);
       yield put({
         type: 'showApDetail',
+        payload: response,
+      });
+    },
+    //ac总数
+    *fetchApCount(_, { call, put }) {
+      const response = yield call(queryApCount);
+      console.log(response);
+      yield put({
+        type: 'showApCount',
         payload: response,
       });
     },
@@ -40,7 +51,7 @@ export default {
     },
     *deleteAp({ payload }, { call, put }) {
       const response = yield call(fakeDeleteAp, payload);
-      console.log(payload);
+      // console.log(payload);
       if (response.code === 1) {
         const res = yield call(queryApLstOrDetail, { page: payload.page, size: payload.size });
         yield put({
@@ -60,7 +71,7 @@ export default {
 
   reducers: {
     showApLst(state, action) {
-      console.error(action);
+      // console.error(action);
       return {
         ...state,
         apData: action.payload.data,
@@ -71,6 +82,12 @@ export default {
       return {
         ...state,
         apDetail: payload.data,
+      };
+    },
+    showApCount(state, action) {
+      return {
+        ...state,
+        apCount: action.payload.data,
       };
     },
   },

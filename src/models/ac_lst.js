@@ -1,5 +1,5 @@
 /* eslint-disable linebreak-style */
-import { fakeSubmitForm, queryFakeLst } from '../services/api';
+import { fakeSubmitForm, queryFakeLst, queryAcCount } from '../services/api';
 
 import {
   queryAcLstOrDetail,
@@ -16,6 +16,7 @@ export default {
   state: {
     acData: [],
     acDetail: [],
+    acCount: [],
   },
 
   effects: {
@@ -31,13 +32,21 @@ export default {
     // 获取AC详情
     *fetchAcDetail({ payload }, { call, put }) {
       const response = yield call(queryAcLstOrDetail, payload);
-      console.error(response);
+      // console.error(response);
       yield put({
         type: 'showAcDetail',
         payload: response,
       });
     },
-
+    //ac总数
+    *fetchAcCount(_, { call, put }) {
+      const response = yield call(queryAcCount);
+      console.log(response);
+      yield put({
+        type: 'showAcCount',
+        payload: response,
+      });
+    },
     *addAc({ payload }, { call }) {
       yield call(fakeSubmitAC, payload);
       message.success('提交成功');
@@ -77,17 +86,23 @@ export default {
       };
     },
     showAcLst(state, action) {
-      console.error(action);
+      // console.error(action);
       return {
         ...state,
         acData: action.payload.data,
       };
     },
     showAcDetail(state, { payload }) {
-      console.error(payload);
+      // console.error(payload);
       return {
         ...state,
         acDetail: payload.data,
+      };
+    },
+    showAcCount(state, action) {
+      return {
+        ...state,
+        acCount: action.payload.data,
       };
     },
   },

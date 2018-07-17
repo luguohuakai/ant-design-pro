@@ -17,11 +17,14 @@ export default class BasicList extends PureComponent {
     dispatch({
       type: 'ssid_lst/fetchSsidLst',
     });
+    this.props.dispatch({
+      type: 'ssid_lst/fetchSsidCount',
+    });
   }
 
   render() {
     const { ssid_lst, loading } = this.props;
-    const { ssidData } = ssid_lst;
+    const { ssidData, ssidCount } = ssid_lst;
 
     const Info = ({ title, value, bordered }) => (
       <div className={styles.headerInfo}>
@@ -126,32 +129,13 @@ export default class BasicList extends PureComponent {
         />
       </div>
     );
-    // const search = keyword => {
-    //     const like = JSON.stringify({ name: keyword });
-    //     this.props.dispatch({
-    //         type: 'lst/fetchSsidLst',
-    //         payload: {
-    //             size: 100,
-    //             like,
-    //         },
-    //     });
-    // };
     return (
       <PageHeaderLayout>
         <div className={styles.standardList}>
           <Card bordered={false}>
             <Row>
-              <Col sm={6} xs={12}>
-                <Info title="用户总数" value="8" bordered />
-              </Col>
-              <Col sm={6} xs={12}>
-                <Info title="Android总数" value="4" bordered />
-              </Col>
-              <Col sm={6} xs={12}>
-                <Info title="IOS总数" value="4" bordered />
-              </Col>
-              <Col sm={6} xs={12}>
-                <Info title="其他" value="18" />
+              <Col>
+                <Info title="用户总数" value={ssidCount.count + '个'} bordered />
               </Col>
             </Row>
           </Card>

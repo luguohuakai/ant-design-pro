@@ -37,11 +37,14 @@ export default class BasicList extends PureComponent {
         size: 10,
       },
     });
+    this.props.dispatch({
+      type: 'ac_lst/fetchAcCount',
+    });
   }
 
   render() {
     const { ac_lst, loading } = this.props;
-    const { acData } = ac_lst;
+    const { acData, acCount } = ac_lst;
 
     const Info = ({ title, value, bordered }) => (
       <div className={styles.headerInfo}>
@@ -61,16 +64,6 @@ export default class BasicList extends PureComponent {
       });
     };
 
-    // const search = keyword => {
-    //     const like = JSON.stringify({ name: keyword });
-    //     this.props.dispatch({
-    //         type: 'ac_lst/fetchAcLst',
-    //         payload: {
-    //             size: 100,
-    //             like,
-    //         },
-    //     });
-    // };
     const extraContent = (
       <div className={styles.extraContent}>
         <RadioGroup defaultValue="all">
@@ -147,6 +140,9 @@ export default class BasicList extends PureComponent {
           size: paginationProps.pageSize,
         },
       });
+      this.props.dispatch({
+        type: 'lst/fetchAcCount',
+      });
     };
 
     const ListContent = ({ data: { ac_id, school_id, note } }) => (
@@ -192,18 +188,18 @@ export default class BasicList extends PureComponent {
         <div className={styles.standardList}>
           <Card bordered={false}>
             <Row>
-              <Col sm={6} xs={12}>
-                <Info title="已部署学校总数" value="8个" bordered />
+              <Col>
+                <Info title="已部署学校总数" value={acCount.count + '个'} bordered />
               </Col>
-              <Col sm={6} xs={12}>
-                <Info title="已正常上线总数" value="4个" bordered />
-              </Col>
-              <Col sm={6} xs={12}>
-                <Info title="即将上线的" value="4个" bordered />
-              </Col>
-              <Col sm={6} xs={12}>
-                <Info title="单AC学校总数" value="18个" />
-              </Col>
+              {/*<Col sm={6} xs={12}>*/}
+              {/*<Info title="已正常上线总数" value="4个" bordered />*/}
+              {/*</Col>*/}
+              {/*<Col sm={6} xs={12}>*/}
+              {/*<Info title="即将上线的" value="4个" bordered />*/}
+              {/*</Col>*/}
+              {/*<Col sm={6} xs={12}>*/}
+              {/*<Info title="单AC学校总数" value="18个" />*/}
+              {/*</Col>*/}
             </Row>
           </Card>
 

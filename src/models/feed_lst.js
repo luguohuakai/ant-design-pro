@@ -21,7 +21,7 @@ export default {
       });
     },
     *fetchdealLst({ payload }, { call, put }) {
-      const response = yield call(querydealLst, payload);
+      const response = yield call(querydealLst, { id: payload.id });
       yield put({
         type: 'dealFeedbackLst',
         payload: response,

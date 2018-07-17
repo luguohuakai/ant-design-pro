@@ -33,7 +33,15 @@ export async function setOnlineStatus(params) {
 export async function querySchoolCount() {
   return request('/admin/school/schoolCount');
 }
-
+export async function queryAcCount() {
+  return request('/admin/acCount');
+}
+export async function queryApCount() {
+  return request('/admin/apCount');
+}
+export async function querySsidCount() {
+  return request('/admin/ssidCount');
+}
 // 添加学校
 export async function fakeSubmitSchool(params) {
   return request('/school', {
@@ -66,6 +74,14 @@ export async function querySsidLstOrDetail(params) {
     return request(`/schoolssid`);
   }
 }
+// log列表或详情
+export async function queryLogLstOrDetail(params) {
+  if (params && 'id' in params) {
+    return request(`/log/${params.id}`);
+  } else {
+    return request(`/log`);
+  }
+}
 // 添加ac
 export async function fakeSubmitAC(params) {
   return request('/ac', {
@@ -85,6 +101,14 @@ export async function queryAcLst(params) {
 // ssid列表
 export async function querySsidLst(params) {
   return request(`/schoolssid?${stringify(params)}`);
+}
+//log列表
+export async function queryLogLst(params) {
+  return request(`/log?${stringify(params)}`);
+}
+//user列表
+export async function queryUserLst(params) {
+  return request(`/user?${stringify(params)}`);
 }
 // Feedback列表
 export async function querybackLst(params) {
@@ -135,7 +159,16 @@ export async function updateAp(params) {
     },
   });
 }
-
+//修改user
+export async function updateUser(params) {
+  return request(`/user/${params.id}`, {
+    method: 'PUT',
+    body: {
+      ...params,
+      method: 'PUT',
+    },
+  });
+}
 //修改Ssid
 export async function updateSsid(params) {
   return request(`/schoolssid/${params.id}`, {
@@ -179,7 +212,16 @@ export async function fakeDeleteAp(params) {
     },
   });
 }
-
+//删除user
+export async function fakeDeleteUser(params) {
+  return request(`/user/${params.id}`, {
+    method: 'DELETE',
+    body: {
+      ...params,
+      method: 'delete',
+    },
+  });
+}
 //删除school_ssid
 export async function fakeDeleteSsid(params) {
   return request(`/schoolssid/${params.id}`, {

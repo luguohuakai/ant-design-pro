@@ -61,6 +61,15 @@ const proxy = {
   'POST /school': remote_url,
   'DELETE /school': remote_url,
   'PUT /school': remote_url,
+  //用户列表
+  'GET /user': remote_url,
+  'DELETE /user': remote_url,
+  'PUT /user': remote_url,
+  // end
+  //ac总数
+  'GET /admin/acCount': remote_url,
+  'GET /admin/apCount': remote_url,
+  'GET /admin/ssidCount': remote_url,
   //学校ap start
   'GET /ap': remote_url,
   'POST /ap': remote_url,
@@ -80,6 +89,9 @@ const proxy = {
   'DELETE /schoolssid': remote_url,
   'PUT /schoolssid': remote_url,
   // 学校schoolssid  end
+  //日志start
+  'GET /log': remote_url,
+  //日志end
   //意见
   // 'GET /feedback': remote_url,
   'GET /admin/dealFeedback': remote_url,

@@ -113,10 +113,13 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/AdvancedForm')),
     },
     '/lst/user-lst': {
-      component: dynamicWrapper(app, [], () => import('../routes/Lst/UserLst')),
+      component: dynamicWrapper(app, ['user_lst'], () => import('../routes/Lst/UserLst')),
     },
     '/lst/user-details': {
-      component: dynamicWrapper(app, [], () => import('../routes/Lst/userdetails')),
+      component: dynamicWrapper(app, ['user_lst'], () => import('../routes/Lst/userdetails')),
+    },
+    '/lst/user-update': {
+      component: dynamicWrapper(app, ['user_lst'], () => import('../routes/Lst/updateUser')),
     },
     '/lst/school-lst': {
       component: dynamicWrapper(app, ['lst'], () => import('../routes/Lst/SchoolLst')),
@@ -154,8 +157,11 @@ export const getRouterData = app => {
     '/lst/ssid-update': {
       component: dynamicWrapper(app, ['ssid_lst'], () => import('../routes/Lst/updateSsid')),
     },
+    '/lst/log-details': {
+      component: dynamicWrapper(app, ['log_lst'], () => import('../routes/Log/AuthLogDetails')),
+    },
     '/log/auth-log-lst': {
-      component: dynamicWrapper(app, [], () => import('../routes/Log/AuthLogLst')),
+      component: dynamicWrapper(app, ['log_lst'], () => import('../routes/Log/AuthLogLst')),
     },
     '/feedback/feedback-lst': {
       component: dynamicWrapper(app, ['feed_lst'], () => import('../routes/Feedback/FeedbackLst')),

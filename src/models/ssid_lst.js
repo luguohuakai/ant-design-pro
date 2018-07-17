@@ -6,6 +6,7 @@ import {
   fakeDeleteSsid,
   updateSsid,
   querySsidLst,
+  querySsidCount,
 } from '../services/api';
 
 import { message } from 'antd/lib/index';
@@ -16,6 +17,7 @@ export default {
   state: {
     ssidData: [],
     ssidDetail: [],
+    ssidCount: [],
   },
 
   effects: {
@@ -30,9 +32,18 @@ export default {
     // 获取ssid详情
     *fetchSsidDetail({ payload }, { call, put }) {
       const response = yield call(querySsidLstOrDetail, payload);
-      console.error(response);
+      // console.error(response);
       yield put({
         type: 'showSsidDetail',
+        payload: response,
+      });
+    },
+    //ac总数
+    *fetchSsidCount(_, { call, put }) {
+      const response = yield call(querySsidCount);
+      // console.log(response);
+      yield put({
+        type: 'showSsidCount',
         payload: response,
       });
     },
@@ -62,17 +73,23 @@ export default {
 
   reducers: {
     showSsidLst(state, action) {
-      console.error(action);
+      // console.error(action);
       return {
         ...state,
         ssidData: action.payload.data,
       };
     },
     showSsidDetail(state, { payload }) {
-      console.error(payload);
+      // console.error(payload);
       return {
         ...state,
         ssidDetail: payload.data,
+      };
+    },
+    showSsidCount(state, action) {
+      return {
+        ...state,
+        ssidCount: action.payload.data,
       };
     },
   },
