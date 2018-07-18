@@ -4,15 +4,8 @@ import { connect } from 'dva';
 import {
   List,
   Card,
-  Row,
-  Col,
   Radio,
   Input,
-  Button,
-  Icon,
-  Dropdown,
-  Menu,
-  Avatar,
   Table,
   Divider,
 } from 'antd';
@@ -63,11 +56,6 @@ export default class BasicList extends PureComponent {
 
     const extraContent = (
       <div className={styles.extraContent}>
-        <RadioGroup defaultValue="all">
-          <RadioButton value="all">全部</RadioButton>
-          <RadioButton value="progress">已上线</RadioButton>
-          <RadioButton value="waiting">即将上线</RadioButton>
-        </RadioGroup>
         <Search
           id="search"
           className={styles.extraContentSearch}
@@ -106,32 +94,33 @@ export default class BasicList extends PureComponent {
     };
     const columns = [
       {
-        title: 'id',
+        title: 'ID',
         dataIndex: 'id',
         key: 'id',
       },
+        {
+            title: '账户',
+            dataIndex: 'account',
+            key: 'account',
+        },
+      // {
+      //   title: 'uid',
+      //   dataIndex: 'uid',
+      //   key: 'uid',
+      // },
       {
-        title: 'uid',
-        dataIndex: 'uid',
-        key: 'uid',
-      },
-      {
-        title: 'school_id',
+        title: 'School_id',
         dataIndex: 'school_id',
         key: 'school_id',
       },
+
       {
-        title: '账户',
-        dataIndex: 'account',
-        key: 'account',
-      },
-      {
-        title: 'ssid',
+        title: 'Ssid',
         dataIndex: 'ssid',
         key: 'ssid',
       },
       {
-        title: 'bssid',
+        title: 'Bssid',
         dataIndex: 'bssid',
         key: 'bssid',
       },

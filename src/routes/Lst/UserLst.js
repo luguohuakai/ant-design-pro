@@ -63,11 +63,6 @@ export default class BasicList extends PureComponent {
 
     const extraContent = (
       <div className={styles.extraContent}>
-        <RadioGroup defaultValue="all">
-          <RadioButton value="all">全部</RadioButton>
-          <RadioButton value="progress">已上线</RadioButton>
-          <RadioButton value="waiting">即将上线</RadioButton>
-        </RadioGroup>
         <Search
           id="search"
           className={styles.extraContentSearch}
@@ -98,7 +93,7 @@ export default class BasicList extends PureComponent {
         key: 'wx_nick_name',
       },
       {
-        title: '登录次数',
+        title: '今日登录次数',
         dataIndex: 'today_times',
         key: 'today_times',
       },

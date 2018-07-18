@@ -47,11 +47,11 @@ export default class BasicList extends PureComponent {
     const columns = [
       {
         title: '学校名称',
-        dataIndex: 'school_id',
-        key: 'school_id',
+        dataIndex: 'school_name',
+        key: 'school_name',
       },
       {
-        title: 'ssid',
+        title: 'SSID',
         dataIndex: 'ssid',
         key: 'ssid',
       },
@@ -108,10 +108,10 @@ export default class BasicList extends PureComponent {
     const goToEdit = payload => {
       this.props.history.push(`/lst/ssid-update?id=${payload.id}`);
     };
-    const ListContent = ({ data: { school_name, ssid } }) => (
+    const ListContent = ({ data: { school_id, ssid } }) => (
       <div className={styles.listContent}>
         <div className={styles.listContentItem}>
-          <p>{school_name}</p>
+          <p>{school_id}</p>
         </div>
         <div className={styles.listContentItem}>
           <p>{ssid}</p>
@@ -125,7 +125,6 @@ export default class BasicList extends PureComponent {
           className={styles.extraContentSearch}
           placeholder="请根据ssid查找"
           onSearch={handleSearch}
-          // onSearch={value => search(value)}
         />
       </div>
     );
@@ -135,7 +134,7 @@ export default class BasicList extends PureComponent {
           <Card bordered={false}>
             <Row>
               <Col>
-                <Info title="用户总数" value={ssidCount.count + '个'} bordered />
+                <Info title="Ssid总数" value={ssidCount.count + '个'} bordered />
               </Col>
             </Row>
           </Card>

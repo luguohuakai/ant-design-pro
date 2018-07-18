@@ -8,11 +8,6 @@ import {
   Select,
   Button,
   Card,
-  Radio,
-  Icon,
-  Tooltip,
-  Upload,
-  message,
 } from 'antd';
 import ColorSimple from 'components/SketchPicker';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
@@ -37,7 +32,7 @@ export default class BasicForms extends PureComponent {
     const url = window.location.href;
     id = url.split('=')[1];
     this.props.dispatch({
-      type: 'user_lst/fetchUserLst',
+      type: 'user_lst/fetchUserDetail',
       payload: {
         id,
       },
@@ -62,7 +57,7 @@ export default class BasicForms extends PureComponent {
     const { submitting } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { user_lst } = this.props;
-    const { userData } = user_lst;
+    const {userDetail} = user_lst;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -83,41 +78,41 @@ export default class BasicForms extends PureComponent {
     };
 
     return (
-      <PageHeaderLayout title="学校添加" content="太棒了,又一所学校即将支持小程序认证。">
+      <PageHeaderLayout title="用户添加" content="太棒了,又一所学校即将支持小程序认证。">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
+            <FormItem {...formItemLayout} label="id">
+              {getFieldDecorator('id', {
+                initialValue: userDetail.id,
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入默认id',
+                  },
+                ],
+              })(<Input placeholder="这个学校的id" />)}
+            </FormItem>
+            <FormItem {...formItemLayout} label="昵称">
+              {getFieldDecorator('wx_nick_name', {
+                initialValue: userDetail.wx_nick_name,
+                rules: [
+                  {
+                    required: true,
+                    message: '微信昵称',
+                  },
+                ],
+              })(<Input placeholder="微信昵称" />)}
+            </FormItem>
             <FormItem {...formItemLayout} label="school_id">
               {getFieldDecorator('school_id', {
-                initialValue: userData.school_id,
+                initialValue: userDetail.school_id,
                 rules: [
                   {
                     required: true,
-                    message: '请输入默认school_id',
+                    message: '请输入school_id',
                   },
                 ],
-              })(<Input placeholder="这个学校的school_id" />)}
-            </FormItem>
-            <FormItem {...formItemLayout} label="登录次数">
-              {getFieldDecorator('today_times', {
-                initialValue: userData.today_times,
-                rules: [
-                  {
-                    required: true,
-                    message: '今日登录次数',
-                  },
-                ],
-              })(<Input placeholder="登录次数" />)}
-            </FormItem>
-            <FormItem {...formItemLayout} label="设备类型">
-              {getFieldDecorator('client_type', {
-                initialValue: userData.client_type,
-                rules: [
-                  {
-                    required: true,
-                    message: '请输入设备类型',
-                  },
-                ],
-              })(<Input placeholder="这个学校的client_type" />)}
+              })(<Input placeholder="请输入school_id" />)}
             </FormItem>
 
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>

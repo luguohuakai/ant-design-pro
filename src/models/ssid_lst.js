@@ -32,13 +32,13 @@ export default {
     // 获取ssid详情
     *fetchSsidDetail({ payload }, { call, put }) {
       const response = yield call(querySsidLstOrDetail, payload);
-      // console.error(response);
+      console.error(response);
       yield put({
         type: 'showSsidDetail',
         payload: response,
       });
     },
-    //ac总数
+    //ssid总数
     *fetchSsidCount(_, { call, put }) {
       const response = yield call(querySsidCount);
       // console.log(response);
@@ -73,7 +73,7 @@ export default {
 
   reducers: {
     showSsidLst(state, action) {
-      // console.error(action);
+      console.error(action);
       return {
         ...state,
         ssidData: action.payload.data,

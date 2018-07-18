@@ -22,15 +22,15 @@ export default {
     },
     *fetchdealLst({ payload }, { call, put }) {
       const response = yield call(querydealLst, { id: payload.id });
-      yield put({
-        type: 'dealFeedbackLst',
-        payload: response,
-      });
-      if (response.code > 1) {
-        message.success(response.msg);
-      } else {
-        message.error(response.msg);
-      }
+      // yield put({
+      //   type: 'dealFeedbackLst',
+      //   payload: response,
+      // });
+        if (response.code > 0) {
+            message.success(response.msg);
+        } else {
+            message.error(response.msg);
+        }
     },
   },
 
@@ -43,7 +43,7 @@ export default {
       };
     },
     dealFeedbackLst(state, { payload }) {
-      console.error(payload);
+      // console.error(payload);
       return {
         ...state,
         dealfeedbackData: payload.data,

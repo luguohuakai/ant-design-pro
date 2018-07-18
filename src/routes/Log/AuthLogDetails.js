@@ -38,7 +38,7 @@ export default class BasicForms extends PureComponent {
     const { log_lst } = this.props;
     const { logDetail } = log_lst;
     return (
-      <PageHeaderLayout title="学校添加" content="太棒了,又一所学校即将支持小程序认证。">
+      <PageHeaderLayout title="日志详情" content="太棒了,又一所学校即将支持小程序认证。">
         <Card bordered={false} gutter={24}>
           <DescriptionList size="large" title="日志详情" style={{ marginBottom: 32 }}>
             <Description term="id">{logDetail.id}</Description>

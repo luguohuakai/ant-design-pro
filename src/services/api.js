@@ -49,7 +49,14 @@ export async function fakeSubmitSchool(params) {
     body: params,
   });
 }
-
+// user列表或详情
+export async function queryUserLstOrDetail(params) {
+    if (params && 'id' in params) {
+        return request(`/user/${params.id}`);
+    } else {
+        return request(`/user`);
+    }
+}
 // ac列表或详情
 export async function queryAcLstOrDetail(params) {
   if (params && 'id' in params) {

@@ -66,11 +66,6 @@ export default class BasicList extends PureComponent {
 
     const extraContent = (
       <div className={styles.extraContent}>
-        <RadioGroup defaultValue="all">
-          <RadioButton value="all">全部</RadioButton>
-          <RadioButton value="progress">已上线</RadioButton>
-          <RadioButton value="waiting">即将上线</RadioButton>
-        </RadioGroup>
         <Search
           id="search"
           className={styles.extraContentSearch}
@@ -81,14 +76,14 @@ export default class BasicList extends PureComponent {
     );
     const columns = [
       {
-        title: 'AC_id',
+        title: 'ACID',
         dataIndex: 'ac_id',
         key: 'ac_id',
       },
       {
         title: '学校名称',
-        dataIndex: 'school_id',
-        key: 'school_id',
+        dataIndex: 'school_name',
+        key: 'school_name',
       },
       {
         title: '操作',
@@ -189,17 +184,8 @@ export default class BasicList extends PureComponent {
           <Card bordered={false}>
             <Row>
               <Col>
-                <Info title="已部署学校总数" value={acCount.count + '个'} bordered />
+                <Info title="AC总数" value={acCount.count + '个'} bordered />
               </Col>
-              {/*<Col sm={6} xs={12}>*/}
-              {/*<Info title="已正常上线总数" value="4个" bordered />*/}
-              {/*</Col>*/}
-              {/*<Col sm={6} xs={12}>*/}
-              {/*<Info title="即将上线的" value="4个" bordered />*/}
-              {/*</Col>*/}
-              {/*<Col sm={6} xs={12}>*/}
-              {/*<Info title="单AC学校总数" value="18个" />*/}
-              {/*</Col>*/}
             </Row>
           </Card>
 

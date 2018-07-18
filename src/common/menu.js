@@ -1,3 +1,4 @@
+/* eslint-disable linebreak-style */
 import { isUrl } from '../utils/utils';
 
 const menuData = [

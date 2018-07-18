@@ -24,27 +24,20 @@ export default class BasicList extends PureComponent {
   }
   render() {
     const { feed_lst, loading } = this.props;
-    const { feedbackData } = feed_lst;
-    const { dealfeedbackData } = feed_lst;
+    const { feedbackData ,dealfeedbackData } = feed_lst;
     const ListContent = ({ data: { phone, contents, create_time } }) => (
       <div className={styles.listContent}>
-        {/*<div className={styles.listContentItem}>*/}
-        {/*<span>手机号</span>*/}
-        {/*<p>{phone}</p>*/}
-        {/*</div>*/}
         <div className={styles.listContentItem}>
-          {/*<span>反馈意见</span>*/}
           <p>{contents}</p>
         </div>
         <div className={styles.listContentItem}>
-          {/*<span>创建时间</span>*/}
           <p>{create_time}</p>
         </div>
       </div>
     );
     const handleSearch = () => {
       const values = {
-        contents: search.value,
+          phone: search.value,
       };
       this.props.dispatch({
         type: `feed_lst/fetchFeedbackLst`,
@@ -56,11 +49,36 @@ export default class BasicList extends PureComponent {
         <Search
           id="search"
           className={styles.extraContentSearch}
-          placeholder="请按照意见内容搜索"
+          placeholder="请按照手机号搜索"
           onSearch={handleSearch}
         />
       </div>
     );
+      const paginationprops = {
+          showSizeChanger: true,
+          showQuickJumper: true,
+          pageSize: Number(feedbackData.per_page) ? Number(feedbackData.per_page) : 10,
+          total: Number(feedbackData.total) ? Number(feedbackData.total) : 0,
+          current: Number(feedbackData.current_page) ? Number(feedbackData.current_page) : 1,
+          onChange: (page, pageSize) => {
+              this.props.dispatch({
+                  type: 'feed_lst/fetchFeedbackLst',
+                  payload: {
+                      page,
+                      size: pageSize,
+                  },
+              });
+          },
+          onShowSizeChange: (current, size) => {
+              this.props.dispatch({
+                  type: 'feed_lst/fetchFeedbackLst',
+                  payload: {
+                      page: current,
+                      size,
+                  },
+              });
+          },
+      };
     const columns = [
       {
         title: '序号',
@@ -78,7 +96,7 @@ export default class BasicList extends PureComponent {
         key: 'contents',
       },
       {
-        title: 'create_time',
+        title: '反馈时间',
         dataIndex: 'create_time',
         key: 'create_time',
       },
@@ -89,7 +107,7 @@ export default class BasicList extends PureComponent {
         width: 100,
         render: (text, record, index) => (
           <Fragment>
-            <a onClick={() => onChange(record)}>未处理</a>
+            <a onClick={() => onChange(record)}>{record.is_deal === 1 ? '已处理' : '未处理'}</a>
           </Fragment>
         ),
       },
@@ -98,43 +116,22 @@ export default class BasicList extends PureComponent {
     const onChange = payload => {
       this.props.dispatch({
         type: 'feed_lst/fetchdealLst',
-        payload: {
-          ...payload,
-        },
+          payload: {
+              ...payload,
+              page: paginationprops.current,
+              size: paginationprops.pageSize,
+          },
       });
-      if (payload.is_deal === 1) {
-        // console.log(dealfeedbackData);
-      } else {
-        alert('3333');
-      }
-      console.log(payload);
+        this.props.dispatch({
+            type: 'feed_lst/fetchFeedbackLst',
+            payload: {
+                size: 10,
+                is_deal:1,
+            },
+        });
     };
 
-    const paginationprops = {
-      showSizeChanger: true,
-      showQuickJumper: true,
-      pageSize: Number(feedbackData.per_page) ? Number(feedbackData.per_page) : 10,
-      total: Number(feedbackData.total) ? Number(feedbackData.total) : 0,
-      current: Number(feedbackData.current_page) ? Number(feedbackData.current_page) : 1,
-      onChange: (page, pageSize) => {
-        this.props.dispatch({
-          type: 'feed_lst/fetchFeedbackLst',
-          payload: {
-            page,
-            size: pageSize,
-          },
-        });
-      },
-      onShowSizeChange: (current, size) => {
-        this.props.dispatch({
-          type: 'feed_lst/fetchFeedbackLst',
-          payload: {
-            page: current,
-            size,
-          },
-        });
-      },
-    };
+
     return (
       <PageHeaderLayout>
         <div className={styles.standardList}>
