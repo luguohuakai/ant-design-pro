@@ -102,7 +102,7 @@ export default class BasicForms extends PureComponent {
     };
 
     return (
-      <PageHeaderLayout title="SSID添加" content="太棒了,又一所学校即将支持小程序认证。">
+      <PageHeaderLayout title="SSID添加">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
             <FormItem {...formItemLayout} label="SCHOOL_ID">
@@ -131,7 +131,7 @@ export default class BasicForms extends PureComponent {
                 提交
               </Button>
               <Button style={{ marginLeft: 8 }} href="#/lst/ssid-lst">
-                取消
+              返回列表
               </Button>
             </FormItem>
           </Form>

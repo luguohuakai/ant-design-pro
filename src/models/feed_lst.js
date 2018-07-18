@@ -26,11 +26,11 @@ export default {
       //   type: 'dealFeedbackLst',
       //   payload: response,
       // });
-        if (response.code > 0) {
-            message.success(response.msg);
-        } else {
-            message.error(response.msg);
-        }
+      if (response.code > 0) {
+        message.success(response.msg);
+      } else {
+        message.error(response.msg);
+      }
     },
   },
 

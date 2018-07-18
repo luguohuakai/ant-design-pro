@@ -84,7 +84,7 @@ export default class BasicForms extends PureComponent {
     };
 
     return (
-      <PageHeaderLayout title="AC修改" content="太棒了,又一所学校即将支持小程序认证。">
+      <PageHeaderLayout title="AC修改">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
             <FormItem {...formItemLayout} label="ACID">

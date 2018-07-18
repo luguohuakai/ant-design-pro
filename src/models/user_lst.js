@@ -1,6 +1,6 @@
 /* eslint-disable linebreak-style */
 
-import { queryUserLst, updateUser, fakeDeleteUser,queryUserLstOrDetail } from '../services/api';
+import { queryUserLst, updateUser, fakeDeleteUser, queryUserLstOrDetail } from '../services/api';
 import { message } from 'antd/lib/index';
 
 export default {
@@ -8,7 +8,7 @@ export default {
 
   state: {
     userData: [],
-    userDetail:[],
+    userDetail: [],
   },
 
   effects: {
@@ -20,15 +20,15 @@ export default {
         payload: response,
       });
     },
-      // 获取AC详情
-      *fetchUserDetail({ payload }, { call, put }) {
-          const response = yield call(queryUserLstOrDetail, payload);
-          // console.error(response);
-          yield put({
-              type: 'showUserDetail',
-              payload: response,
-          });
-      },
+    // 获取AC详情
+    *fetchUserDetail({ payload }, { call, put }) {
+      const response = yield call(queryUserLstOrDetail, payload);
+      // console.error(response);
+      yield put({
+        type: 'showUserDetail',
+        payload: response,
+      });
+    },
     *deleteUser({ payload }, { call }) {
       const response = yield call(fakeDeleteUser, payload);
       // console.log(payload);
