@@ -1,14 +1,7 @@
 /* eslint-disable linebreak-style */
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import {
-  Form,
-  Input,
-  DatePicker,
-  Select,
-  Button,
-  Card,
-} from 'antd';
+import { Form, Input, DatePicker, Select, Button, Card } from 'antd';
 import ColorSimple from 'components/SketchPicker';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './SchoolAdd.less';
@@ -57,7 +50,7 @@ export default class BasicForms extends PureComponent {
     const { submitting } = this.props;
     const { getFieldDecorator } = this.props.form;
     const { user_lst } = this.props;
-    const {userDetail} = user_lst;
+    const { userDetail } = user_lst;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -81,16 +74,16 @@ export default class BasicForms extends PureComponent {
       <PageHeaderLayout title="用户添加" content="太棒了,又一所学校即将支持小程序认证。">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-            <FormItem {...formItemLayout} label="id">
+            <FormItem {...formItemLayout} label="ID">
               {getFieldDecorator('id', {
                 initialValue: userDetail.id,
                 rules: [
                   {
                     required: true,
-                    message: '请输入默认id',
+                    message: '请输入默认ID',
                   },
                 ],
-              })(<Input placeholder="这个学校的id" />)}
+              })(<Input placeholder="这个学校的ID" />)}
             </FormItem>
             <FormItem {...formItemLayout} label="昵称">
               {getFieldDecorator('wx_nick_name', {
@@ -103,16 +96,16 @@ export default class BasicForms extends PureComponent {
                 ],
               })(<Input placeholder="微信昵称" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="school_id">
+            <FormItem {...formItemLayout} label="SCHOOL_ID">
               {getFieldDecorator('school_id', {
                 initialValue: userDetail.school_id,
                 rules: [
                   {
                     required: true,
-                    message: '请输入school_id',
+                    message: '请输入SCHOOL_ID',
                   },
                 ],
-              })(<Input placeholder="请输入school_id" />)}
+              })(<Input placeholder="请输入SCHOOL_ID" />)}
             </FormItem>
 
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>

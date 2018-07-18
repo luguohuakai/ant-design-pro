@@ -58,7 +58,7 @@ export default class BasicForms extends PureComponent {
       <PageHeaderLayout title="AP添加" content="太棒了,又一所学校即将支持小程序认证。">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-            <FormItem {...formItemLayout} label="默认ACID">
+            <FormItem {...formItemLayout} label="AP_NAME">
               {getFieldDecorator('ap_name', {
                 rules: [
                   {
@@ -68,35 +68,25 @@ export default class BasicForms extends PureComponent {
                 ],
               })(<Input placeholder="这个学校的ap_name" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="ip_addr">
+            <FormItem {...formItemLayout} label="地址">
               {getFieldDecorator('ip_addr', {
                 rules: [
                   {
                     required: true,
-                    message: '请输入学校的ap_mac',
+                    message: '请输入学校的地址',
                   },
                 ],
-              })(<Input placeholder="请输入学校的ap_mac" />)}
+              })(<Input placeholder="请输入学校的地址" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="ap_model">
-              {getFieldDecorator('ap_model', {
-                rules: [
-                  {
-                    required: true,
-                    message: '请输入备注',
-                  },
-                ],
-              })(<Input placeholder="ap_model" />)}
-            </FormItem>
-            <FormItem {...formItemLayout} label="ap_mac">
+            <FormItem {...formItemLayout} label="AP_MAC">
               {getFieldDecorator('ap_mac', {
                 rules: [
                   {
                     required: true,
-                    message: '请输入学校的ap_mac',
+                    message: '请输入Ap_mac',
                   },
                 ],
-              })(<Input placeholder="请输入学校的ap_mac" />)}
+              })(<Input placeholder="请输入AP_MAC" />)}
             </FormItem>
 
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>

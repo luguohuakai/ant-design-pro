@@ -1,21 +1,7 @@
 /* eslint-disable linebreak-style */
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import {
-  List,
-  Card,
-  Row,
-  Col,
-  Radio,
-  Input,
-  Button,
-  Icon,
-  Dropdown,
-  Menu,
-  Avatar,
-  Table,
-  Divider,
-} from 'antd';
+import { List, Card, Row, Col, Radio, Input, Button, Table, Divider } from 'antd';
 
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
@@ -143,7 +129,7 @@ export default class BasicList extends PureComponent {
         key: 'ip_addr',
       },
       {
-        title: 'AP_mac',
+        title: 'AP_MAC',
         dataIndex: 'ap_mac',
         key: 'ap_mac',
       },

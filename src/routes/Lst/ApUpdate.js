@@ -86,18 +86,18 @@ export default class BasicForms extends PureComponent {
       <PageHeaderLayout title="AP修改" content="太棒了,又一所学校即将支持小程序认证。">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-            <FormItem {...formItemLayout} label="默认ACID">
+            <FormItem {...formItemLayout} label="AP_NAME">
               {getFieldDecorator('ap_name', {
                 initialValue: apDetail.ap_name,
                 rules: [
                   {
                     required: true,
-                    message: '请输入ap_name',
+                    message: '请输入AP_NAME',
                   },
                 ],
-              })(<Input placeholder="这个学校的ap_name" />)}
+              })(<Input placeholder="这个学校的AP_NAME" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="ip_addr">
+            <FormItem {...formItemLayout} label="地址">
               {getFieldDecorator('ip_addr', {
                 initialValue: apDetail.ip_addr,
                 rules: [
@@ -108,27 +108,16 @@ export default class BasicForms extends PureComponent {
                 ],
               })(<Input placeholder="请输入学校的ap_mac" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="ap_model">
-              {getFieldDecorator('ap_model', {
-                initialValue: apDetail.ap_model,
-                rules: [
-                  {
-                    required: true,
-                    message: '请输入备注',
-                  },
-                ],
-              })(<Input placeholder="ap_model" />)}
-            </FormItem>
-            <FormItem {...formItemLayout} label="ap_mac">
+            <FormItem {...formItemLayout} label="AP_MAC">
               {getFieldDecorator('ap_mac', {
                 initialValue: apDetail.ap_mac,
                 rules: [
                   {
                     required: true,
-                    message: '请输入学校的ap_mac',
+                    message: '请输入AP_MAC',
                   },
                 ],
-              })(<Input placeholder="请输入学校的ap_mac" />)}
+              })(<Input placeholder="请输入AP_MAC" />)}
             </FormItem>
 
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>

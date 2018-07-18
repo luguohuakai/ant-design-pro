@@ -70,7 +70,7 @@ export default class BasicForms extends PureComponent {
       <PageHeaderLayout title="AC添加" content="太棒了,又一所学校即将支持小程序认证。">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-            <FormItem {...formItemLayout} label="默认ACID">
+            <FormItem {...formItemLayout} label="ACID">
               {getFieldDecorator('ac_id', {
                 rules: [
                   {
@@ -80,7 +80,7 @@ export default class BasicForms extends PureComponent {
                 ],
               })(<Input placeholder="这个学校的ACID" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="school_id">
+            <FormItem {...formItemLayout} label="SCHOOL_ID">
               {getFieldDecorator('school_id', {
                 rules: [
                   {
@@ -90,7 +90,7 @@ export default class BasicForms extends PureComponent {
                 ],
               })(<Input placeholder="请输入学校的school_id" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="note">
+            <FormItem {...formItemLayout} label="NOTE">
               {getFieldDecorator('note', {
                 rules: [
                   {

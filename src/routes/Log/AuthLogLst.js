@@ -1,14 +1,7 @@
 /* eslint-disable linebreak-style */
 import React, { PureComponent, Fragment } from 'react';
 import { connect } from 'dva';
-import {
-  List,
-  Card,
-  Radio,
-  Input,
-  Table,
-  Divider,
-} from 'antd';
+import { List, Card, Radio, Input, Table } from 'antd';
 
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
@@ -98,29 +91,29 @@ export default class BasicList extends PureComponent {
         dataIndex: 'id',
         key: 'id',
       },
-        {
-            title: '账户',
-            dataIndex: 'account',
-            key: 'account',
-        },
+      {
+        title: '账户',
+        dataIndex: 'account',
+        key: 'account',
+      },
       // {
       //   title: 'uid',
       //   dataIndex: 'uid',
       //   key: 'uid',
       // },
       {
-        title: 'School_id',
+        title: 'SCHOOL_ID',
         dataIndex: 'school_id',
         key: 'school_id',
       },
 
       {
-        title: 'Ssid',
+        title: 'SSID',
         dataIndex: 'ssid',
         key: 'ssid',
       },
       {
-        title: 'Bssid',
+        title: 'BSSID',
         dataIndex: 'bssid',
         key: 'bssid',
       },

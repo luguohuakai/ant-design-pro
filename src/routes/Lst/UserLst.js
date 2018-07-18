@@ -73,7 +73,7 @@ export default class BasicList extends PureComponent {
     );
     const columns = [
       {
-        title: 'id',
+        title: 'ID',
         dataIndex: 'id',
         key: 'id',
       },
@@ -83,7 +83,7 @@ export default class BasicList extends PureComponent {
         render: index => <Avatar src={index.wx_avatar_url} shape="square" size="large" />,
       },
       {
-        title: 'open_id',
+        title: 'OPENID',
         dataIndex: 'open_id',
         key: 'open_id',
       },
