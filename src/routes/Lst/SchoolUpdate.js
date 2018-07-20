@@ -24,7 +24,8 @@ const { RangePicker } = DatePicker;
 const { TextArea } = Input;
 let id;
 
-@connect(({ loading }) => ({
+@connect(({ lst, loading }) => ({
+  lst,
   submitting: loading.effects['lst/updateSchool'],
 }))
 @Form.create()
@@ -53,7 +54,7 @@ export default class BasicForms extends PureComponent {
     const url = window.location.href;
     id = url.split('=')[1];
     this.props.dispatch({
-      type: 'lst/fetchSchoolLst',
+      type: 'lst/fetchSchoolDetail',
       payload: {
         id,
       },
@@ -71,6 +72,7 @@ export default class BasicForms extends PureComponent {
         });
       }
     });
+    // alert('111111');
   };
   normFile = e => {
     if (Array.isArray(e)) {
@@ -94,7 +96,8 @@ export default class BasicForms extends PureComponent {
   render() {
     const { submitting } = this.props;
     const { getFieldDecorator } = this.props.form;
-
+    const { lst } = this.props;
+    const { schoolDetail } = lst;
     const formItemLayout = {
       labelCol: {
         xs: { span: 24 },
@@ -133,6 +136,7 @@ export default class BasicForms extends PureComponent {
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
             <FormItem {...formItemLayout} label="学校名">
               {getFieldDecorator('name', {
+                initialValue: schoolDetail.name,
                 rules: [
                   {
                     required: true,
@@ -163,6 +167,7 @@ export default class BasicForms extends PureComponent {
             </FormItem>
             <FormItem {...formItemLayout} label="纬度">
               {getFieldDecorator('lat', {
+                initialValue: schoolDetail.lat,
                 rules: [
                   {
                     required: true,

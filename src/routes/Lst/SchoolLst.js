@@ -95,7 +95,7 @@ export default class BasicList extends PureComponent {
         </RadioGroup>
         <Search
           className={styles.extraContentSearch}
-          placeholder="请输入"
+          placeholder="请按照地址进行搜索"
           onSearch={value => search(value)}
         />
       </div>
@@ -152,7 +152,10 @@ export default class BasicList extends PureComponent {
         type: 'lst/fetchSchoolCount',
       });
     };
-
+    //编辑
+    const goToEdit = payload => {
+      this.props.history.push(`/lst/school-update?id=${payload.id}`);
+    };
     const onChange = (is_online, id) => {
       let status;
       if (!is_online) {
@@ -266,7 +269,7 @@ export default class BasicList extends PureComponent {
                 <List.Item
                   actions={[
                     <a onClick={() => deleteSchool({ id: item.id })}>删除</a>,
-                    <MoreBtn data={item} />,
+                    <a onClick={() => goToEdit({ id: item.id })}>编辑</a>,
                   ]}
                 >
                   <List.Item.Meta

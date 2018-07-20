@@ -98,18 +98,18 @@ export default class BasicForms extends PureComponent {
                 ],
               })(<Input placeholder="这个555学校的ACID" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="SCHOOL_ID">
+            <FormItem {...formItemLayout} label="学校ID">
               {getFieldDecorator('school_id', {
                 initialValue: acDetail.school_id,
                 rules: [
                   {
                     required: true,
-                    message: '请输入学校的school_id',
+                    message: '请输入学校的ID',
                   },
                 ],
-              })(<Input placeholder="请输入学校的school_id" />)}
+              })(<Input placeholder="请输入学校的ID" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="NOTE">
+            <FormItem {...formItemLayout} label="备注">
               {getFieldDecorator('note', {
                 initialValue: acDetail.note,
                 rules: [

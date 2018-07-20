@@ -71,41 +71,41 @@ export default class BasicForms extends PureComponent {
     };
 
     return (
-      <PageHeaderLayout title="用户添加">
+      <PageHeaderLayout title="用户修改">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-            <FormItem {...formItemLayout} label="ID">
-              {getFieldDecorator('id', {
-                initialValue: userDetail.id,
-                rules: [
-                  {
-                    required: true,
-                    message: '请输入默认ID',
-                  },
-                ],
-              })(<Input placeholder="这个学校的ID" />)}
-            </FormItem>
-            <FormItem {...formItemLayout} label="昵称">
-              {getFieldDecorator('wx_nick_name', {
-                initialValue: userDetail.wx_nick_name,
-                rules: [
-                  {
-                    required: true,
-                    message: '微信昵称',
-                  },
-                ],
-              })(<Input placeholder="微信昵称" />)}
-            </FormItem>
-            <FormItem {...formItemLayout} label="SCHOOL_ID">
+            <FormItem {...formItemLayout} label="学校ID">
               {getFieldDecorator('school_id', {
                 initialValue: userDetail.school_id,
                 rules: [
                   {
                     required: true,
-                    message: '请输入SCHOOL_ID',
+                    message: '请输入学校的ID',
                   },
                 ],
-              })(<Input placeholder="请输入SCHOOL_ID" />)}
+              })(<Input placeholder="这个学校的ID" />)}
+            </FormItem>
+            <FormItem {...formItemLayout} label="设备类型">
+              {getFieldDecorator('client_type', {
+                initialValue: userDetail.client_type,
+                rules: [
+                  {
+                    required: true,
+                    message: '设备类型',
+                  },
+                ],
+              })(<Input placeholder="请输入设备类型" />)}
+            </FormItem>
+            <FormItem {...formItemLayout} label="今日登录次数">
+              {getFieldDecorator('today_times', {
+                initialValue: userDetail.today_times,
+                rules: [
+                  {
+                    required: true,
+                    message: '请输入今日登录次数',
+                  },
+                ],
+              })(<Input placeholder="请输入今日登录次数" />)}
             </FormItem>
 
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>

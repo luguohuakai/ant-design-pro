@@ -95,9 +95,7 @@ export default class Analysis extends Component {
         title: '问题概览',
         dataIndex: 'contents',
         key: 'contents',
-        render: text => (
-          <a href="/">{(text = text.length > 20 ? text.slice(0, 20) + '...' : text)}</a>
-        ),
+        render: text => <span>{(text = text.length > 20 ? text.slice(0, 20) + '...' : text)}</span>,
       },
       {
         title: '创建时间',

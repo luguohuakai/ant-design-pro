@@ -65,6 +65,14 @@ export async function queryAcLstOrDetail(params) {
     return request(`/ac`);
   }
 }
+//学校列表或详情
+export async function querySchoolLstOrDetail(params) {
+  if (params && 'id' in params) {
+    return request(`/school/${params.id}`);
+  } else {
+    return request(`/school`);
+  }
+}
 // ap列表或详情
 export async function queryApLstOrDetail(params) {
   if (params && 'id' in params) {

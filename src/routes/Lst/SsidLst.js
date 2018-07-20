@@ -34,13 +34,23 @@ export default class BasicList extends PureComponent {
       </div>
     );
     //搜索
-    const handleSearch = () => {
-      const values = {
-        ssid: search.value,
-      };
+    // const handleSearch = () => {
+    //   const values = {
+    //     ssid: search.value,
+    //   };
+    //   this.props.dispatch({
+    //     type: `ssid_lst/fetchSsidLst`,
+    //     payload: values,
+    //   });
+    // };
+    const search = keyword => {
+      const extra = JSON.stringify({ name: keyword });
       this.props.dispatch({
-        type: `ssid_lst/fetchSsidLst`,
-        payload: values,
+        type: 'ssid_lst/fetchSsidLst',
+        payload: {
+          size: 10,
+          extra,
+        },
       });
     };
 
@@ -123,8 +133,9 @@ export default class BasicList extends PureComponent {
         <Search
           id="search"
           className={styles.extraContentSearch}
-          placeholder="请根据ssid查找"
-          onSearch={handleSearch}
+          placeholder="请根据SSID查找"
+          // onSearch={handleSearch}
+          onSearch={value => search(value)}
         />
       </div>
     );

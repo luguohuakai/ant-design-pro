@@ -93,6 +93,11 @@ export default class BasicList extends PureComponent {
         key: 'wx_nick_name',
       },
       {
+        title: '学校ID',
+        dataIndex: 'school_id',
+        key: 'school_id',
+      },
+      {
         title: '今日登录次数',
         dataIndex: 'today_times',
         key: 'today_times',

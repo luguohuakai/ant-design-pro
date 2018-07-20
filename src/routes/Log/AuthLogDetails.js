@@ -38,18 +38,18 @@ export default class BasicForms extends PureComponent {
     const { log_lst } = this.props;
     const { logDetail } = log_lst;
     return (
-      <PageHeaderLayout title="日志详情" content="太棒了,又一所学校即将支持小程序认证。">
+      <PageHeaderLayout title="日志详情">
         <Card bordered={false} gutter={24}>
           <DescriptionList size="large" title="日志详情" style={{ marginBottom: 32 }}>
-            <Description term="id">{logDetail.id}</Description>
-            <Description term="uid">{logDetail.uid}</Description>
-            <Description term="姓名">{logDetail.account}</Description>
-            <Description term="bssid">{logDetail.bssid}</Description>
-            <Description term="school_id">{logDetail.school_id}</Description>
+            <Description term="ID">{logDetail.id}</Description>
+            <Description term="用户ID">{logDetail.uid}</Description>
+            <Description term="账号">{logDetail.account}</Description>
+            <Description term="Bssid">{logDetail.bssid}</Description>
+            <Description term="学校ID">{logDetail.school_id}</Description>
+            <Description term="经度">{logDetail.lng}</Description>
+            <Description term="纬度">{logDetail.lat}</Description>
             <Description term="登录时间">{logDetail.create_time}</Description>
             <Description term="更新时间">{logDetail.update_time}</Description>
-            <Description term="经度">{logDetail.lat}</Description>
-            <Description term="纬度">{logDetail.lng}</Description>
           </DescriptionList>
         </Card>
       </PageHeaderLayout>

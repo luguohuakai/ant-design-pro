@@ -54,23 +54,32 @@ export default class BasicList extends PureComponent {
       </div>
     );
     //搜索
-    const handleSearch = () => {
-      const values = {
-        ac_id: search.value,
-      };
+    // const handleSearch = () => {
+    //   const values = {
+    //     school_name: search.value,
+    //   };
+    //   this.props.dispatch({
+    //     type: `ac_lst/fetchAcLst`,
+    //     payload: values,
+    //   });
+    // };
+    const search = keyword => {
+      const extra = JSON.stringify({ name: keyword });
       this.props.dispatch({
-        type: `ac_lst/fetchAcLst`,
-        payload: values,
+        type: 'ac_lst/fetchAcLst',
+        payload: {
+          size: 10,
+          extra,
+        },
       });
     };
-
     const extraContent = (
       <div className={styles.extraContent}>
         <Search
           id="search"
           className={styles.extraContentSearch}
-          placeholder="请输入ac_id搜索"
-          onSearch={handleSearch}
+          placeholder="请按照学校名称搜索"
+          onSearch={value => search(value)}
         />
       </div>
     );

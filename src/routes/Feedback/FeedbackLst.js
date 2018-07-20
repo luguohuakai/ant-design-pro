@@ -35,6 +35,7 @@ export default class BasicList extends PureComponent {
         </div>
       </div>
     );
+
     const handleSearch = () => {
       const values = {
         phone: search.value,
@@ -50,10 +51,21 @@ export default class BasicList extends PureComponent {
           id="search"
           className={styles.extraContentSearch}
           placeholder="请按照手机号搜索"
-          onSearch={handleSearch}
+          onSearch={value => search(value)}
         />
       </div>
     );
+    const search = keyword => {
+      const like = JSON.stringify({ phone: keyword });
+      this.props.dispatch({
+        type: 'feed_lst/fetchFeedbackLst',
+        payload: {
+          size: 100,
+          like,
+        },
+      });
+    };
+
     const paginationprops = {
       showSizeChanger: true,
       showQuickJumper: true,

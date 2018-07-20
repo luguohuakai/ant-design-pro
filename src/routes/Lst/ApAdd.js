@@ -58,17 +58,17 @@ export default class BasicForms extends PureComponent {
       <PageHeaderLayout title="AP添加">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-            <FormItem {...formItemLayout} label="AP_NAME">
+            <FormItem {...formItemLayout} label="AP名称">
               {getFieldDecorator('ap_name', {
                 rules: [
                   {
                     required: true,
-                    message: '请输入ap_name',
+                    message: '请输入AP名称',
                   },
                 ],
-              })(<Input placeholder="这个学校的ap_name" />)}
+              })(<Input placeholder="请输入AP名称" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="地址">
+            <FormItem {...formItemLayout} label="IP地址">
               {getFieldDecorator('ip_addr', {
                 rules: [
                   {
@@ -78,15 +78,15 @@ export default class BasicForms extends PureComponent {
                 ],
               })(<Input placeholder="请输入学校的地址" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="AP_MAC">
+            <FormItem {...formItemLayout} label="APMAC">
               {getFieldDecorator('ap_mac', {
                 rules: [
                   {
                     required: true,
-                    message: '请输入Ap_mac',
+                    message: '请输入APMAC',
                   },
                 ],
-              })(<Input placeholder="请输入AP_MAC" />)}
+              })(<Input placeholder="请输入APMAC" />)}
             </FormItem>
 
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>

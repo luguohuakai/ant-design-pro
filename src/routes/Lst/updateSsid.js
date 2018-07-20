@@ -86,16 +86,16 @@ export default class BasicForms extends PureComponent {
       <PageHeaderLayout title="SSID修改">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-            <FormItem {...formItemLayout} label="SCHOOL_ID">
+            <FormItem {...formItemLayout} label="学校ID">
               {getFieldDecorator('school_id', {
                 initialValue: ssidDetail.school_id,
                 rules: [
                   {
                     required: true,
-                    message: '请输入默认SCHOOL_ID',
+                    message: '请输入默认学校ID',
                   },
                 ],
-              })(<Input placeholder="这个学校的SCHOOL_ID" />)}
+              })(<Input placeholder="请输入默认学校ID" />)}
             </FormItem>
             <FormItem {...formItemLayout} label="SSID">
               {getFieldDecorator('ssid', {

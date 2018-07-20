@@ -55,7 +55,7 @@ export default class BasicList extends PureComponent {
         <Search
           id="search"
           className={styles.extraContentSearch}
-          placeholder="请按照ap_name搜索"
+          placeholder="请按照AP名称搜索"
           onSearch={handleSearch}
         />
       </div>
@@ -119,17 +119,17 @@ export default class BasicList extends PureComponent {
     );
     const columns = [
       {
-        title: 'AP名字',
+        title: 'AP名称',
         dataIndex: 'ap_name',
         key: 'ap_name',
       },
       {
-        title: '地址',
+        title: 'IP地址',
         dataIndex: 'ip_addr',
         key: 'ip_addr',
       },
       {
-        title: 'AP_MAC',
+        title: 'APMAC',
         dataIndex: 'ap_mac',
         key: 'ap_mac',
       },

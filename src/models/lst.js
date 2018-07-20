@@ -5,6 +5,7 @@ import {
   fakeDeleteSchool,
   querySchoolCount,
   setOnlineStatus,
+  querySchoolLstOrDetail,
 } from '../services/api';
 import { message } from 'antd/lib/index';
 
@@ -14,6 +15,7 @@ export default {
   state: {
     schoolData: [],
     schoolCount: [],
+    schoolDetail: [],
   },
 
   effects: {
@@ -24,7 +26,15 @@ export default {
         payload: response,
       });
     },
-
+    // 获取school详情
+    *fetchSchoolDetail({ payload }, { call, put }) {
+      const response = yield call(querySchoolLstOrDetail, payload);
+      // console.error(response);
+      yield put({
+        type: 'showSchoolDetail',
+        payload: response,
+      });
+    },
     *setOnlineStatus({ payload }, { call }) {
       const response = yield call(setOnlineStatus, payload);
       if (response.code > 0) {
@@ -77,6 +87,13 @@ export default {
       return {
         ...state,
         schoolCount: action.payload.data,
+      };
+    },
+    showSchoolDetail(state, { payload }) {
+      console.error(payload);
+      return {
+        ...state,
+        apDetail: payload.data,
       };
     },
     queryLst(state, action) {

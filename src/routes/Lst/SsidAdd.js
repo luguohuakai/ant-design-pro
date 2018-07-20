@@ -105,15 +105,15 @@ export default class BasicForms extends PureComponent {
       <PageHeaderLayout title="SSID添加">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-            <FormItem {...formItemLayout} label="SCHOOL_ID">
+            <FormItem {...formItemLayout} label="学校ID">
               {getFieldDecorator('school_id', {
                 rules: [
                   {
                     required: true,
-                    message: '请输入默认school_id',
+                    message: '请输入默认学校ID',
                   },
                 ],
-              })(<Input placeholder="这个学校的school_id" />)}
+              })(<Input placeholder="这个学校的ID" />)}
             </FormItem>
             <FormItem {...formItemLayout} label="SSID">
               {getFieldDecorator('ssid', {
@@ -131,7 +131,7 @@ export default class BasicForms extends PureComponent {
                 提交
               </Button>
               <Button style={{ marginLeft: 8 }} href="#/lst/ssid-lst">
-              返回列表
+                返回列表
               </Button>
             </FormItem>
           </Form>
