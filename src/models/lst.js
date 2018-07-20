@@ -1,112 +1,112 @@
-import { fakeSubmitForm, queryFakeLst } from '../services/api';
+import {fakeSubmitForm, queryFakeLst} from '../services/api';
 import {
-  querySchoolLst,
-  fakeSubmitSchool,
-  fakeDeleteSchool,
-  querySchoolCount,
-  setOnlineStatus,
-  querySchoolLstOrDetail,
+    querySchoolLst,
+    fakeSubmitSchool,
+    fakeDeleteSchool,
+    querySchoolCount,
+    setOnlineStatus,
+    querySchoolLstOrDetail,
 } from '../services/api';
-import { message } from 'antd/lib/index';
+import {message} from 'antd/lib/index';
 
 export default {
-  namespace: 'lst',
+    namespace: 'lst',
 
-  state: {
-    schoolData: [],
-    schoolCount: [],
-    schoolDetail: [],
-  },
-
-  effects: {
-    *fetchSchoolLst({ payload }, { call, put }) {
-      const response = yield call(querySchoolLst, payload);
-      yield put({
-        type: 'showSchoolLst',
-        payload: response,
-      });
-    },
-    // 获取school详情
-    *fetchSchoolDetail({ payload }, { call, put }) {
-      const response = yield call(querySchoolLstOrDetail, payload);
-      // console.error(response);
-      yield put({
-        type: 'showSchoolDetail',
-        payload: response,
-      });
-    },
-    *setOnlineStatus({ payload }, { call }) {
-      const response = yield call(setOnlineStatus, payload);
-      if (response.code > 0) {
-        message.success(response.msg);
-      } else {
-        message.error(response.msg);
-      }
+    state: {
+        schoolData: [],
+        schoolCount: [],
+        schoolDetail: false,
     },
 
-    *fetchSchoolCount(_, { call, put }) {
-      const response = yield call(querySchoolCount);
-      yield put({
-        type: 'showSchoolCount',
-        payload: response,
-      });
-    },
-    *addSchool({ payload }, { call }) {
-      yield call(fakeSubmitSchool, payload);
-      message.success('提交成功');
-    },
-    *deleteSchool({ payload }, { call, put }) {
-      const response = yield call(fakeDeleteSchool, payload);
-      if (response.code === 1) {
-        const res = yield call(querySchoolLst, { page: payload.page, size: payload.size });
-        yield put({
-          type: 'showSchoolLst',
-          payload: res,
-        });
-      } else {
-        message.error('删除失败');
-      }
-    },
-    *appendFetch({ payload }, { call, put }) {
-      const response = yield call(queryFakeLst, payload);
-      yield put({
-        type: 'appendLst',
-        payload: Array.isArray(response) ? response : [],
-      });
-    },
-  },
+    effects: {
+        * fetchSchoolLst({payload}, {call, put}) {
+            const response = yield call(querySchoolLst, payload);
+            yield put({
+                type: 'showSchoolLst',
+                payload: response,
+            });
+        },
+        // 获取school详情
+        * fetchSchoolDetail({payload}, {call, put}) {
+            const response = yield call(querySchoolLstOrDetail, payload);
+            // console.error(response);
+            yield put({
+                type: 'showSchoolDetail',
+                payload: response,
+            });
+        },
+        * setOnlineStatus({payload}, {call}) {
+            const response = yield call(setOnlineStatus, payload);
+            if (response.code > 0) {
+                message.success(response.msg);
+            } else {
+                message.error(response.msg);
+            }
+        },
 
-  reducers: {
-    showSchoolLst(state, action) {
-      return {
-        ...state,
-        schoolData: action.payload.data,
-      };
+        * fetchSchoolCount(_, {call, put}) {
+            const response = yield call(querySchoolCount);
+            yield put({
+                type: 'showSchoolCount',
+                payload: response,
+            });
+        },
+        * addSchool({payload}, {call}) {
+            yield call(fakeSubmitSchool, payload);
+            message.success('提交成功');
+        },
+        * deleteSchool({payload}, {call, put}) {
+            const response = yield call(fakeDeleteSchool, payload);
+            if (response.code === 1) {
+                const res = yield call(querySchoolLst, {page: payload.page, size: payload.size});
+                yield put({
+                    type: 'showSchoolLst',
+                    payload: res,
+                });
+            } else {
+                message.error('删除失败');
+            }
+        },
+        * appendFetch({payload}, {call, put}) {
+            const response = yield call(queryFakeLst, payload);
+            yield put({
+                type: 'appendLst',
+                payload: Array.isArray(response) ? response : [],
+            });
+        },
     },
-    showSchoolCount(state, action) {
-      return {
-        ...state,
-        schoolCount: action.payload.data,
-      };
+
+    reducers: {
+        showSchoolLst(state, action) {
+            return {
+                ...state,
+                schoolData: action.payload.data,
+            };
+        },
+        showSchoolCount(state, action) {
+            return {
+                ...state,
+                schoolCount: action.payload.data,
+            };
+        },
+        showSchoolDetail(state, {payload}) {
+            console.error(payload);
+            return {
+                ...state,
+                schoolDetail: payload.data,
+            };
+        },
+        queryLst(state, action) {
+            return {
+                ...state,
+                lst: action.payload,
+            };
+        },
+        appendLst(state, action) {
+            return {
+                ...state,
+                lst: state.lst.concat(action.payload),
+            };
+        },
     },
-    showSchoolDetail(state, { payload }) {
-      console.error(payload);
-      return {
-        ...state,
-        apDetail: payload.data,
-      };
-    },
-    queryLst(state, action) {
-      return {
-        ...state,
-        lst: action.payload,
-      };
-    },
-    appendLst(state, action) {
-      return {
-        ...state,
-        lst: state.lst.concat(action.payload),
-      };
-    },
-  },
 };
