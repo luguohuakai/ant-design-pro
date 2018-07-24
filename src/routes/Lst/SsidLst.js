@@ -133,7 +133,7 @@ export default class BasicList extends PureComponent {
         <Search
           id="search"
           className={styles.extraContentSearch}
-          placeholder="请根据SSID查找"
+          placeholder="请根据学校名称查找"
           // onSearch={handleSearch}
           onSearch={value => search(value)}
         />
