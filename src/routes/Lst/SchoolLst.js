@@ -152,7 +152,7 @@ export default class BasicList extends PureComponent {
         type: 'lst/fetchSchoolCount',
       });
     };
-    //编辑
+    // 编辑
     const goToEdit = payload => {
       this.props.history.push(`/lst/school-update?id=${payload.id}`);
     };
@@ -185,14 +185,22 @@ export default class BasicList extends PureComponent {
 
     const ListContent = ({ data: { id, default_ac_id, create_time, is_online } }) => (
       <div className={styles.listContent}>
+
+        <div className={styles.listContentItem}>
+          <span>ID</span>
+          <p>{id}</p>
+        </div>
+
         <div className={styles.listContentItem}>
           <span>默认AC</span>
           <p>{default_ac_id}</p>
         </div>
+
         <div className={styles.listContentItem}>
           <span>创建时间</span>
           <p>{moment(create_time).format('YYYY-MM-DD HH:mm')}</p>
         </div>
+
         <div className={styles.listContentItem}>
           <Switch
             onChange={() => onChange(is_online, id)}
