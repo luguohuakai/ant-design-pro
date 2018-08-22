@@ -89,6 +89,14 @@ export async function querySsidLstOrDetail(params) {
     return request(`/schoolssid`);
   }
 }
+//prize的列表或详情
+export async function queryPrizeLstOrDetail(params) {
+  if (params && 'id' in params) {
+    return request(`/set_prize/${params.id}`);
+  } else {
+    return request(`/set_prize`);
+  }
+}
 // log列表或详情
 export async function queryLogLstOrDetail(params) {
   if (params && 'id' in params) {
@@ -117,6 +125,10 @@ export async function queryAcLst(params) {
 export async function querySsidLst(params) {
   return request(`/schoolssid?${stringify(params)}`);
 }
+// prize列表
+export async function queryPrizeLst(params) {
+  return request(`/set_prize?${stringify(params)}`);
+}
 //log列表
 export async function queryLogLst(params) {
   return request(`/log?${stringify(params)}`);
@@ -140,6 +152,13 @@ export async function fakeSubmitAp(params) {
 // 添加Ssid
 export async function fakeSubmitSsid(params) {
   return request('/schoolssid', {
+    method: 'POST',
+    body: params,
+  });
+}
+// 添加Prize
+export async function fakeSubmitPrize(params) {
+  return request('/set_prize', {
     method: 'POST',
     body: params,
   });
@@ -194,7 +213,16 @@ export async function updateSsid(params) {
     },
   });
 }
-
+//修改Prize
+export async function updatePrize(params) {
+  return request(`/set_prize/${params.id}`, {
+    method: 'PUT',
+    body: {
+      ...params,
+      method: 'PUT',
+    },
+  });
+}
 // 删除学校
 export async function fakeDeleteSchool(params) {
   return request(`/school/${params.id}`, {
@@ -247,7 +275,16 @@ export async function fakeDeleteSsid(params) {
     },
   });
 }
-
+//删除Prize
+export async function fakeDeletePrize(params) {
+  return request(`/set_prize/${params.id}`, {
+    method: 'DELETE',
+    body: {
+      ...params,
+      method: 'delete',
+    },
+  });
+}
 //意见反馈列表
 export async function queryfeedbackLst(params) {
   if (params && 'id' in params) {

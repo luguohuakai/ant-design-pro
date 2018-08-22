@@ -89,6 +89,11 @@ const proxy = {
   'DELETE /schoolssid': remote_url,
   'PUT /schoolssid': remote_url,
   // 学校schoolssid  end
+  //奖项
+  'GET /set_prize': remote_url,
+  'POST /set_prize': remote_url,
+  'DELETE /set_prize': remote_url,
+  'PUT /set_prize': remote_url,
   //日志start
   'GET /log': remote_url,
   //日志end

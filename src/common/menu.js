@@ -72,6 +72,10 @@ const menuData = [
         name: '热点管理',
         path: 'ssid-lst',
       },
+      {
+        name: '奖品管理',
+        path: 'prize',
+      },
     ],
   },
   {

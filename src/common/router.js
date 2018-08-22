@@ -160,6 +160,15 @@ export const getRouterData = app => {
     '/lst/log-details': {
       component: dynamicWrapper(app, ['log_lst'], () => import('../routes/Log/AuthLogDetails')),
     },
+    '/lst/prize': {
+      component: dynamicWrapper(app, ['prize_lst'], () => import('../routes/Lst/PrizeLst')),
+    },
+    '/lst/update-prize': {
+      component: dynamicWrapper(app, ['prize_lst'], () => import('../routes/Lst/updatePrize')),
+    },
+    '/lst/add-prize': {
+      component: dynamicWrapper(app, ['prize_lst'], () => import('../routes/Lst/PrizeAdd')),
+    },
     '/log/auth-log-lst': {
       component: dynamicWrapper(app, ['log_lst'], () => import('../routes/Log/AuthLogLst')),
     },
