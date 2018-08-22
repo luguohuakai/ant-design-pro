@@ -30,7 +30,9 @@ const { TextArea } = Input;
 export default class BasicForms extends PureComponent {
   constructor(props) {
     super(props);
+
   }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -42,7 +44,17 @@ export default class BasicForms extends PureComponent {
       }
     });
   };
-
+    normFile = e => {
+        if (Array.isArray(e)) {
+            return e;
+        }
+        return e && e.fileList;
+    };
+    logoOnChange = e => {
+        if (e.file.status === 'done') {
+            this.props.form.setFieldsValue({ img: e.file.response.data.path });
+        }
+    };
   render() {
     const { submitting } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -70,7 +82,7 @@ export default class BasicForms extends PureComponent {
       <PageHeaderLayout title="prize添加">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-            <FormItem {...formItemLayout} label="shool_id">
+            <FormItem {...formItemLayout} label="SCHOOLID">
               {getFieldDecorator('school_id', {
                 rules: [
                   {
@@ -90,15 +102,52 @@ export default class BasicForms extends PureComponent {
                 ],
               })(<Input placeholder="请输入学校ID" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="desc">
+              <FormItem
+                  {...formItemLayout}
+                  label={
+                      <span>
+                  图片<em className={styles.optional}>（选填）</em>
+                </span>
+                  }
+              >
+                  {getFieldDecorator('_img', {
+                      valuePropName: 'fileList',
+                      getValueFromEvent: this.normFile,
+                  })(
+                      <Upload
+                          name="img"
+                          // action={location.origin + '/admin/Index/uploadImg'}
+                          // action="https://api.srun.com/admin/Index/uploadImg"
+                          action="http://106.14.7.51/admin/Index/uploadImg"
+                          listType="picture-card"
+                          className="avatar-uploader"
+                          onChange={this.logoOnChange}
+                      >
+                          <Button>
+                              <Icon type="upload" /> 选择图片
+                          </Button>
+                      </Upload>
+                  )}
+              </FormItem>
+
+              <FormItem {...formItemLayout}>
+                  {getFieldDecorator('img', {
+                      rules: [
+                          {
+
+                          },
+                      ],
+                  })(<Input type="hidden" />)}
+              </FormItem>
+            <FormItem {...formItemLayout} label="描述">
               {getFieldDecorator('desc', {
                 rules: [
                   {
                     required: true,
-                    message: '请输入desc',
+                    message: '请输入描述',
                   },
                 ],
-              })(<Input placeholder="请标明desc" />)}
+              })(<Input placeholder="请标明描述" />)}
             </FormItem>
             <FormItem {...submitFormLayout} style={{ marginTop: 32 }}>
               <Button type="primary" htmlType="submit" loading={submitting}>

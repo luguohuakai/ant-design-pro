@@ -86,7 +86,7 @@ export default class BasicForms extends PureComponent {
       <PageHeaderLayout title="prize修改">
         <Card bordered={false}>
           <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-            <FormItem {...formItemLayout} label="学校ID">
+            <FormItem {...formItemLayout} label="title">
               {getFieldDecorator('title', {
                 initialValue: prizeDetail.school_id,
                 rules: [
@@ -97,13 +97,24 @@ export default class BasicForms extends PureComponent {
                 ],
               })(<Input placeholder="请输入默认学校ID" />)}
             </FormItem>
-            <FormItem {...formItemLayout} label="desc">
-              {getFieldDecorator('desc', {
+            <FormItem {...formItemLayout} label="学校ID">
+                {getFieldDecorator('school_id', {
+                    initialValue: prizeDetail.school_id,
+                    rules: [
+                        {
+                            required: true,
+                            message: '请输入默认学校ID',
+                        },
+                    ],
+                })(<Input placeholder="请输入默认学校ID" />)}
+            </FormItem>
+            <FormItem {...formItemLayout} label="描述">
+              {getFieldDecorator('描述', {
                 initialValue: prizeDetail.desc,
                 rules: [
                   {
                     required: true,
-                    message: '请输入默认desc',
+                    message: '请输入默认描述',
                   },
                 ],
               })(<Input placeholder="这个学校的desc" />)}

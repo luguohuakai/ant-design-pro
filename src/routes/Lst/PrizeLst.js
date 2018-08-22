@@ -92,15 +92,20 @@ export default class BasicList extends PureComponent {
         key: 'school_id',
       },
       {
-        title: 'desc',
+        title: '描述',
         dataIndex: 'desc',
         key: 'desc',
       },
-      {
-        title: 'img',
-        dataIndex: 'img',
-        key: 'img',
-      },
+        {
+            title: 'img',
+            key: 'img',
+            render: index => <Avatar src={index.img} shape="square" size="large" />,
+        },
+        {
+            title: '开奖时间',
+            dataIndex: 'open_time',
+            key: 'open_time',
+        },
       {
         title: '操作',
         dataIndex: '',
