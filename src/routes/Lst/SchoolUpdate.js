@@ -256,7 +256,8 @@ export default class BasicForms extends PureComponent {
                 <div>
                   <Upload
                     name="logo"
-                    action="http://106.14.7.51/admin/Index/uploadImg"
+                    // action="http://106.14.7.51/admin/Index/uploadImg"
+                    action={location.origin + '/admin/Index/uploadImg'}
                     listType="picture-card"
                     className="avatar-uploader"
                     // disabled={this.state.fileList.length ===1}
@@ -300,7 +301,8 @@ export default class BasicForms extends PureComponent {
                 <div>
                   <Upload
                     name="login_bg"
-                    action="http://106.14.7.51/admin/Index/uploadImg"
+                    // action="http://106.14.7.51/admin/Index/uploadImg"
+                    action={location.origin + '/admin/Index/uploadImg'}
                     listType="picture-card"
                     className="avatar-uploader"
                     fileList={fileList1}
