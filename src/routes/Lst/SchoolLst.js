@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 import React, { PureComponent } from 'react';
 import moment from 'moment';
 import { connect } from 'dva';
@@ -185,7 +184,6 @@ export default class BasicList extends PureComponent {
 
     const ListContent = ({ data: { id, default_ac_id, create_time, is_online } }) => (
       <div className={styles.listContent}>
-
         <div className={styles.listContentItem}>
           <span>ID</span>
           <p>{id}</p>

@@ -1,4 +1,4 @@
-/* eslint-disable linebreak-style */
+/* eslint-disable linebreak-style,react/jsx-indent */
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Form, Input, Button, Card, Radio, Icon, Tooltip, Upload, Avatar } from 'antd';
@@ -8,6 +8,7 @@ import styles from './SchoolAdd.less';
 
 const FormItem = Form.Item;
 let id;
+let url = 'http://106.14.7.51/';
 
 @connect(({ lst, loading }) => ({
   lst,
@@ -21,10 +22,12 @@ export default class BasicForms extends PureComponent {
     // window.removeEventListener('message', this.fillForm, false);
     window.addEventListener('message', this.fillForm, false);
   }
+
   state = {
     fileList: [],
     fileList1: [],
   };
+
   componentDidMount() {
     const url = window.location.href;
     id = url.split('=')[1];
@@ -79,7 +82,9 @@ export default class BasicForms extends PureComponent {
   logoOnChange = e => {
     let fileList = e.fileList;
     if (e.file.status === 'done') {
+      console.log(e.file.response.data.path);
       this.props.form.setFieldsValue({ logo: e.file.response.data.path });
+      this.setState({ logo: e.file.response.data.path });
     }
     this.setState({ fileList });
   };
@@ -129,7 +134,9 @@ export default class BasicForms extends PureComponent {
         sm: { span: 10, offset: 7 },
       },
     };
-
+    // this.setState({logo:schoolDetail.logo},()=>{
+    //     console.log(this.state.logo,schoolDetail.logo)
+    // })
     return (
       <PageHeaderLayout title="学校添加" content="太棒了,又一所学校即将支持小程序认证。">
         <Card bordered={false}>
@@ -223,7 +230,7 @@ export default class BasicForms extends PureComponent {
               {...formItemLayout}
               label={
                 <span>
-                  颜色
+                  l 颜色
                   <em className={styles.optional}>
                     （选填）
                     <Tooltip title="当前学校的主色调">
@@ -235,7 +242,7 @@ export default class BasicForms extends PureComponent {
               help="当前学校的主色调"
             >
               {getFieldDecorator('color', {
-                initialValue: '#000',
+                initialValue: '#00FF00',
               })(<ColorSimple />)}
             </FormItem>
 
@@ -243,33 +250,28 @@ export default class BasicForms extends PureComponent {
               {...formItemLayout}
               label={
                 <span>
-                  {' '}
                   Logo<em className={styles.optional}>（选填）</em>
                 </span>
               }
             >
+              {' '}
               <span>(*一次只能选择一张)</span>
               {getFieldDecorator('_logo', {
                 valuePropName: 'setFieldsValue',
                 getValueFromEvent: this.normFile,
               })(
-                <div>
-                  <Upload
-                    name="logo"
-                    // action="http://106.14.7.51/admin/Index/uploadImg"
-                    action={location.origin + '/admin/Index/uploadImg'}
-                    listType="picture-card"
-                    className="avatar-uploader"
-                    // disabled={this.state.fileList.length ===1}
-                    fileList={fileList}
-                    onChange={this.logoOnChange}
-                  >
-                    {fileList.length >= 1 ? null : uploadButton}
-                  </Upload>
-                </div>
+                <Upload
+                  name="logo"
+                  action="http://106.14.7.51/admin/Index/uploadImg"
+                  listType="picture-card"
+                  className="avatar-uploader"
+                  fileList={fileList}
+                  onChange={this.logoOnChange}
+                >
+                  {fileList.length >= 1 ? null : uploadButton}
+                </Upload>
               )}
             </FormItem>
-
             <FormItem
               {...formItemLayout}
               label={
@@ -286,7 +288,13 @@ export default class BasicForms extends PureComponent {
                     // message: '选择Logo',
                   },
                 ],
-              })(<Avatar shape="square" size="large" src="" />)}
+              })(
+                <Avatar
+                  shape="square"
+                  size="large"
+                  src={'http://106.14.7.51/' + schoolDetail.logo}
+                />
+              )}
             </FormItem>
 
             <FormItem
@@ -297,20 +305,20 @@ export default class BasicForms extends PureComponent {
                 </span>
               }
             >
+              {' '}
+              <span>(*一次只能选择一张)</span>
               {getFieldDecorator('_login_bg')(
-                <div>
-                  <Upload
-                    name="login_bg"
-                    // action="http://106.14.7.51/admin/Index/uploadImg"
-                    action={location.origin + '/admin/Index/uploadImg'}
-                    listType="picture-card"
-                    className="avatar-uploader"
-                    fileList={fileList1}
-                    onChange={this.loginBgOnChange}
-                  >
-                    {fileList1.length >= 1 ? null : uploadButton1}
-                  </Upload>
-                </div>
+                <Upload
+                  name="login_bg"
+                  action="http://106.14.7.51/admin/Index/uploadImg"
+                  listType="picture-card"
+                  className="avatar-uploader"
+                  multiple={false}
+                  fileList={fileList1}
+                  onChange={this.loginBgOnChange}
+                >
+                  {fileList1.length >= 1 ? null : uploadButton1}
+                </Upload>
               )}
             </FormItem>
 
@@ -319,11 +327,12 @@ export default class BasicForms extends PureComponent {
               label={
                 <span>
                   {' '}
-                  背景<em className={styles.optional}>原背景</em>
+                  原login_bg<em className={styles.optional}>原login_bg</em>
                 </span>
               }
             >
               {getFieldDecorator('login_bg', {
+                // getInitialState:schoolDetail.login_bg+'1111',
                 rules: [
                   {
                     // required: true,
@@ -334,7 +343,7 @@ export default class BasicForms extends PureComponent {
                 <Avatar
                   shape="square"
                   size="large"
-                  src="http://106.14.7.51/upload/logo/20180704/474a955961f1ca0be7a3b057816ae487.png"
+                  src={'http://106.14.7.51/' + schoolDetail.login_bg}
                 />
               )}
             </FormItem>
