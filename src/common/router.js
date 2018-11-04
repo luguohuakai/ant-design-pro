@@ -1,276 +1,281 @@
-import { createElement } from 'react';
+import {createElement} from 'react';
 import dynamic from 'dva/dynamic';
 import pathToRegexp from 'path-to-regexp';
-import { getMenuData } from './menu';
+import {getMenuData} from './menu';
 
 let routerDataCache;
 
 const modelNotExisted = (app, model) =>
-  // eslint-disable-next-line
-  !app._models.some(({ namespace }) => {
-    return namespace === model.substring(model.lastIndexOf('/') + 1);
-  });
+    // eslint-disable-next-line
+    !app._models.some(({namespace}) => {
+        return namespace === model.substring(model.lastIndexOf('/') + 1);
+    });
 
 // wrapper of dynamic
 const dynamicWrapper = (app, models, component) => {
-  // () => require('module')
-  // transformed by babel-plugin-dynamic-import-node-sync
-  if (component.toString().indexOf('.then(') < 0) {
-    models.forEach(model => {
-      if (modelNotExisted(app, model)) {
-        // eslint-disable-next-line
-        app.model(require(`../models/${model}`).default);
-      }
+    // () => require('module')
+    // transformed by babel-plugin-dynamic-import-node-sync
+    if (component.toString().indexOf('.then(') < 0) {
+        models.forEach(model => {
+            if (modelNotExisted(app, model)) {
+                // eslint-disable-next-line
+                app.model(require(`../models/${model}`).default);
+            }
+        });
+        return props => {
+            if (!routerDataCache) {
+                routerDataCache = getRouterData(app);
+            }
+            return createElement(component().default, {
+                ...props,
+                routerData: routerDataCache,
+            });
+        };
+    }
+    // () => import('module')
+    return dynamic({
+        app,
+        models: () =>
+            models.filter(model => modelNotExisted(app, model)).map(m => import(`../models/${m}.js`)),
+        // add routerData prop
+        component: () => {
+            if (!routerDataCache) {
+                routerDataCache = getRouterData(app);
+            }
+            return component().then(raw => {
+                const Component = raw.default || raw;
+                return props =>
+                    createElement(Component, {
+                        ...props,
+                        routerData: routerDataCache,
+                    });
+            });
+        },
     });
-    return props => {
-      if (!routerDataCache) {
-        routerDataCache = getRouterData(app);
-      }
-      return createElement(component().default, {
-        ...props,
-        routerData: routerDataCache,
-      });
-    };
-  }
-  // () => import('module')
-  return dynamic({
-    app,
-    models: () =>
-      models.filter(model => modelNotExisted(app, model)).map(m => import(`../models/${m}.js`)),
-    // add routerData prop
-    component: () => {
-      if (!routerDataCache) {
-        routerDataCache = getRouterData(app);
-      }
-      return component().then(raw => {
-        const Component = raw.default || raw;
-        return props =>
-          createElement(Component, {
-            ...props,
-            routerData: routerDataCache,
-          });
-      });
-    },
-  });
 };
 
 function getFlatMenuData(menus) {
-  let keys = {};
-  menus.forEach(item => {
-    if (item.children) {
-      keys[item.path] = { ...item };
-      keys = { ...keys, ...getFlatMenuData(item.children) };
-    } else {
-      keys[item.path] = { ...item };
-    }
-  });
-  return keys;
+    let keys = {};
+    menus.forEach(item => {
+        if (item.children) {
+            keys[item.path] = {...item};
+            keys = {...keys, ...getFlatMenuData(item.children)};
+        } else {
+            keys[item.path] = {...item};
+        }
+    });
+    return keys;
 }
 
 export const getRouterData = app => {
-  const routerConfig = {
-    '/': {
-      component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout')),
-    },
-    '/dashboard/analysis': {
-      component: dynamicWrapper(app, ['chart', 'analysis'], () =>
-        import('../routes/Dashboard/Analysis')
-      ),
-    },
-    '/dashboard/hot-map': {
-      component: dynamicWrapper(app, ['hotmap'], () => import('../routes/Dashboard/HotMap')),
-    },
-    '/dashboard/monitor': {
-      component: dynamicWrapper(app, ['monitor'], () => import('../routes/Dashboard/Monitor')),
-    },
-    '/dashboard/workplace': {
-      component: dynamicWrapper(app, ['project', 'activities', 'chart'], () =>
-        import('../routes/Dashboard/Workplace')
-      ),
-      // hideInBreadcrumb: true,
-      // name: '工作台',
-      // authority: 'admin',
-    },
-    '/form/basic-form': {
-      component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm')),
-    },
-    '/form/step-form': {
-      component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm')),
-    },
-    '/form/step-form/info': {
-      name: '分步表单（填写转账信息）',
-      component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step1')),
-    },
-    '/form/step-form/confirm': {
-      name: '分步表单（确认转账信息）',
-      component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step2')),
-    },
-    '/form/step-form/result': {
-      name: '分步表单（完成）',
-      component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step3')),
-    },
-    '/form/advanced-form': {
-      component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/AdvancedForm')),
-    },
-    '/lst/user-lst': {
-      component: dynamicWrapper(app, ['user_lst'], () => import('../routes/Lst/UserLst')),
-    },
-    '/lst/user-details': {
-      component: dynamicWrapper(app, ['user_lst'], () => import('../routes/Lst/userdetails')),
-    },
-    '/lst/user-update': {
-      component: dynamicWrapper(app, ['user_lst'], () => import('../routes/Lst/updateUser')),
-    },
-    '/lst/school-lst': {
-      component: dynamicWrapper(app, ['lst'], () => import('../routes/Lst/SchoolLst')),
-    },
-    '/lst/school-add': {
-      component: dynamicWrapper(app, ['lst'], () => import('../routes/Lst/SchoolAdd')),
-    },
-    '/lst/school-update': {
-      component: dynamicWrapper(app, ['lst'], () => import('../routes/Lst/SchoolUpdate')),
-    },
-    '/lst/ac-lst': {
-      component: dynamicWrapper(app, ['ac_lst'], () => import('../routes/Lst/AcLst')),
-    },
-    '/lst/ac-add': {
-      component: dynamicWrapper(app, ['ac_lst'], () => import('../routes/Lst/AcAdd')),
-    },
-    '/lst/ac-update': {
-      component: dynamicWrapper(app, ['ac_lst'], () => import('../routes/Lst/AcUpdate')),
-    },
-    '/lst/ap-lst': {
-      component: dynamicWrapper(app, ['ap_lst'], () => import('../routes/Lst/ApLst')),
-    },
-    '/lst/ap-update': {
-      component: dynamicWrapper(app, ['ap_lst'], () => import('../routes/Lst/ApUpdate')),
-    },
-    '/lst/ap-add': {
-      component: dynamicWrapper(app, ['ap_lst'], () => import('../routes/Lst/ApAdd')),
-    },
-    '/lst/ssid-lst': {
-      component: dynamicWrapper(app, ['ssid_lst'], () => import('../routes/Lst/SsidLst')),
-    },
-    '/lst/ssid-add': {
-      component: dynamicWrapper(app, ['ssid_lst'], () => import('../routes/Lst/SsidAdd')),
-    },
-    '/lst/ssid-update': {
-      component: dynamicWrapper(app, ['ssid_lst'], () => import('../routes/Lst/updateSsid')),
-    },
-    '/lst/log-details': {
-      component: dynamicWrapper(app, ['log_lst'], () => import('../routes/Log/AuthLogDetails')),
-    },
-    '/lst/prize': {
-      component: dynamicWrapper(app, ['prize_lst'], () => import('../routes/Lst/PrizeLst')),
-    },
-    '/lst/update-prize': {
-      component: dynamicWrapper(app, ['prize_lst'], () => import('../routes/Lst/updatePrize')),
-    },
-    '/lst/add-prize': {
-      component: dynamicWrapper(app, ['prize_lst'], () => import('../routes/Lst/PrizeAdd')),
-    },
-    '/log/auth-log-lst': {
-      component: dynamicWrapper(app, ['log_lst'], () => import('../routes/Log/AuthLogLst')),
-    },
-    '/feedback/feedback-lst': {
-      component: dynamicWrapper(app, ['feed_lst'], () => import('../routes/Feedback/FeedbackLst')),
-    },
-    '/list/table-list': {
-      component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),
-    },
-    '/list/school-list': {
-      component: dynamicWrapper(app, ['rule'], () => import('../routes/List/SchoolList')),
-    },
-    '/list/basic-list': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/List/BasicList')),
-    },
-    '/list/card-list': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/List/CardList')),
-    },
-    '/list/search': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/List/List')),
-    },
-    '/list/search/projects': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/List/Projects')),
-    },
-    '/list/search/applications': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/List/Applications')),
-    },
-    '/list/search/articles': {
-      component: dynamicWrapper(app, ['list'], () => import('../routes/List/Articles')),
-    },
-    '/profile/basic': {
-      component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/BasicProfile')),
-    },
-    '/profile/advanced': {
-      component: dynamicWrapper(app, ['profile'], () =>
-        import('../routes/Profile/AdvancedProfile')
-      ),
-    },
-    '/result/success': {
-      component: dynamicWrapper(app, [], () => import('../routes/Result/Success')),
-    },
-    '/result/fail': {
-      component: dynamicWrapper(app, [], () => import('../routes/Result/Error')),
-    },
-    '/exception/403': {
-      component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),
-    },
-    '/exception/404': {
-      component: dynamicWrapper(app, [], () => import('../routes/Exception/404')),
-    },
-    '/exception/500': {
-      component: dynamicWrapper(app, [], () => import('../routes/Exception/500')),
-    },
-    '/exception/trigger': {
-      component: dynamicWrapper(app, ['error'], () =>
-        import('../routes/Exception/triggerException')
-      ),
-    },
-    '/user': {
-      component: dynamicWrapper(app, [], () => import('../layouts/UserLayout')),
-    },
-    '/user/login': {
-      component: dynamicWrapper(app, ['login'], () => import('../routes/User/Login')),
-    },
-    '/user/register': {
-      component: dynamicWrapper(app, ['register'], () => import('../routes/User/Register')),
-    },
-    '/user/register-result': {
-      component: dynamicWrapper(app, [], () => import('../routes/User/RegisterResult')),
-    },
-    // '/user/:id': {
-    //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
-    // },
-  };
-  // Get name from ./menu.js or just set it in the router data.
-  const menuData = getFlatMenuData(getMenuData());
+    const routerConfig = {
+        // 登录
+        '/': {component: dynamicWrapper(app, ['user', 'login'], () => import('../layouts/BasicLayout'))},
+        // 数据监测
+        '/dashboard/analysis': {component: dynamicWrapper(app, ['chart', 'analysis'], () => import('../routes/Dashboard/Analysis'))},
+        // 热力图
+        '/dashboard/hot-map': {component: dynamicWrapper(app, ['hotmap'], () => import('../routes/Dashboard/HotMap'))},
 
-  // Route configuration data
-  // eg. {name,authority ...routerConfig }
-  const routerData = {};
-  // The route matches the menu
-  Object.keys(routerConfig).forEach(path => {
-    // Regular match item name
-    // eg.  router /user/:id === /user/chen
-    const pathRegexp = pathToRegexp(path);
-    const menuKey = Object.keys(menuData).find(key => pathRegexp.test(`${key}`));
-    let menuItem = {};
-    // If menuKey is not empty
-    if (menuKey) {
-      menuItem = menuData[menuKey];
-    }
-    let router = routerConfig[path];
-    // If you need to configure complex parameter routing,
-    // https://github.com/ant-design/ant-design-pro-site/blob/master/docs/router-and-nav.md#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E8%B7%AF%E7%94%B1%E8%8F%9C%E5%8D%95
-    // eg . /list/:type/user/info/:id
-    router = {
-      ...router,
-      name: router.name || menuItem.name,
-      authority: router.authority || menuItem.authority,
-      hideInBreadcrumb: router.hideInBreadcrumb || menuItem.hideInBreadcrumb,
+        '/dashboard/monitor': {component: dynamicWrapper(app, ['monitor'], () => import('../routes/Dashboard/Monitor'))},
+        '/dashboard/workplace': {
+            component: dynamicWrapper(app, ['project', 'activities', 'chart'], () => import('../routes/Dashboard/Workplace')),
+            // hideInBreadcrumb: true,
+            // name: '工作台',
+            // authority: 'admin',
+        },
+        '/form/basic-form': {component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/BasicForm'))},
+        '/form/step-form': {component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm'))},
+        '/form/step-form/info': {
+            name: '分步表单（填写转账信息）',
+            component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step1')),
+        },
+        '/form/step-form/confirm': {
+            name: '分步表单（确认转账信息）',
+            component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step2')),
+        },
+        '/form/step-form/result': {
+            name: '分步表单（完成）',
+            component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/StepForm/Step3')),
+        },
+        '/form/advanced-form': {
+            component: dynamicWrapper(app, ['form'], () => import('../routes/Forms/AdvancedForm')),
+        },
+
+        // 用户管理
+        '/lst/user-lst': {
+            component: dynamicWrapper(app, ['user_lst'], () => import('../routes/Lst/UserLst')),
+        },
+        '/lst/user-details': {
+            component: dynamicWrapper(app, ['user_lst'], () => import('../routes/Lst/userdetails')),
+        },
+        '/lst/user-update': {
+            component: dynamicWrapper(app, ['user_lst'], () => import('../routes/Lst/updateUser')),
+        },
+
+        // 学校管理
+        '/lst/school-lst': {
+            component: dynamicWrapper(app, ['lst'], () => import('../routes/Lst/SchoolLst')),
+        },
+        '/lst/school-add': {
+            component: dynamicWrapper(app, ['lst'], () => import('../routes/Lst/SchoolAdd')),
+        },
+        '/lst/school-update': {
+            component: dynamicWrapper(app, ['lst'], () => import('../routes/Lst/SchoolUpdate')),
+        },
+
+        // AC管理
+        '/lst/ac-lst': {
+            component: dynamicWrapper(app, ['ac_lst'], () => import('../routes/Lst/AcLst')),
+        },
+        '/lst/ac-add': {
+            component: dynamicWrapper(app, ['ac_lst'], () => import('../routes/Lst/AcAdd')),
+        },
+        '/lst/ac-update': {
+            component: dynamicWrapper(app, ['ac_lst'], () => import('../routes/Lst/AcUpdate')),
+        },
+
+        // AP管理
+        '/lst/ap-lst': {
+            component: dynamicWrapper(app, ['ap_lst'], () => import('../routes/Lst/ApLst')),
+        },
+        '/lst/ap-update': {
+            component: dynamicWrapper(app, ['ap_lst'], () => import('../routes/Lst/ApUpdate')),
+        },
+        '/lst/ap-add': {
+            component: dynamicWrapper(app, ['ap_lst'], () => import('../routes/Lst/ApAdd')),
+        },
+
+        // 热点管理
+        '/lst/ssid-lst': {
+            component: dynamicWrapper(app, ['ssid_lst'], () => import('../routes/Lst/SsidLst')),
+        },
+        '/lst/ssid-add': {
+            component: dynamicWrapper(app, ['ssid_lst'], () => import('../routes/Lst/SsidAdd')),
+        },
+        '/lst/ssid-update': {
+            component: dynamicWrapper(app, ['ssid_lst'], () => import('../routes/Lst/updateSsid')),
+        },
+
+        // 奖品管理
+        '/lst/prize': {
+            component: dynamicWrapper(app, ['prize_lst'], () => import('../routes/Lst/PrizeLst')),
+        },
+        '/lst/update-prize': {
+            component: dynamicWrapper(app, ['prize_lst'], () => import('../routes/Lst/updatePrize')),
+        },
+        '/lst/add-prize': {
+            component: dynamicWrapper(app, ['prize_lst'], () => import('../routes/Lst/PrizeAdd')),
+        },
+
+        // 积分/礼品
+        '/gift/gift-lst': {
+            component: dynamicWrapper(app, ['gift'], () => import('../routes/Gift/giftList')),
+        },
+        '/gift/gift-add': {
+            component: dynamicWrapper(app, ['gift'], () => import('../routes/Gift/giftAdd')),
+        },
+
+        // 日志管理
+        '/log/auth-log-lst': {
+            component: dynamicWrapper(app, ['log_lst'], () => import('../routes/Log/AuthLogLst')),
+        },
+        '/lst/log-details': {
+            component: dynamicWrapper(app, ['log_lst'], () => import('../routes/Log/AuthLogDetails')),
+        },
+
+        // 意见反馈
+        '/feedback/feedback-lst': {
+            component: dynamicWrapper(app, ['feed_lst'], () => import('../routes/Feedback/FeedbackLst')),
+        },
+
+        '/list/table-list': {
+            component: dynamicWrapper(app, ['rule'], () => import('../routes/List/TableList')),
+        },
+        '/list/school-list': {
+            component: dynamicWrapper(app, ['rule'], () => import('../routes/List/SchoolList')),
+        },
+        '/list/basic-list': {
+            component: dynamicWrapper(app, ['list'], () => import('../routes/List/BasicList')),
+        },
+        '/list/card-list': {
+            component: dynamicWrapper(app, ['list'], () => import('../routes/List/CardList')),
+        },
+        '/list/search': {
+            component: dynamicWrapper(app, ['list'], () => import('../routes/List/List')),
+        },
+        '/list/search/projects': {
+            component: dynamicWrapper(app, ['list'], () => import('../routes/List/Projects')),
+        },
+        '/list/search/applications': {
+            component: dynamicWrapper(app, ['list'], () => import('../routes/List/Applications')),
+        },
+        '/list/search/articles': {
+            component: dynamicWrapper(app, ['list'], () => import('../routes/List/Articles')),
+        },
+        '/profile/basic': {
+            component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/BasicProfile')),
+        },
+        '/profile/advanced': {component: dynamicWrapper(app, ['profile'], () => import('../routes/Profile/AdvancedProfile'))},
+        '/result/success': {component: dynamicWrapper(app, [], () => import('../routes/Result/Success'))},
+        '/result/fail': {component: dynamicWrapper(app, [], () => import('../routes/Result/Error'))},
+        '/exception/403': {
+            component: dynamicWrapper(app, [], () => import('../routes/Exception/403')),
+        },
+        '/exception/404': {
+            component: dynamicWrapper(app, [], () => import('../routes/Exception/404')),
+        },
+        '/exception/500': {
+            component: dynamicWrapper(app, [], () => import('../routes/Exception/500')),
+        },
+        '/exception/trigger': {
+            component: dynamicWrapper(app, ['error'], () =>
+                import('../routes/Exception/triggerException')
+            ),
+        },
+        '/user': {
+            component: dynamicWrapper(app, [], () => import('../layouts/UserLayout')),
+        },
+        '/user/login': {
+            component: dynamicWrapper(app, ['login'], () => import('../routes/User/Login')),
+        },
+        '/user/register': {
+            component: dynamicWrapper(app, ['register'], () => import('../routes/User/Register')),
+        },
+        '/user/register-result': {
+            component: dynamicWrapper(app, [], () => import('../routes/User/RegisterResult')),
+        },
+        // '/user/:id': {
+        //   component: dynamicWrapper(app, [], () => import('../routes/User/SomeComponent')),
+        // },
     };
-    routerData[path] = router;
-  });
-  return routerData;
+    // Get name from ./menu.js or just set it in the router data.
+    const menuData = getFlatMenuData(getMenuData());
+
+    // Route configuration data
+    // eg. {name,authority ...routerConfig }
+    const routerData = {};
+    // The route matches the menu
+    Object.keys(routerConfig).forEach(path => {
+        // Regular match item name
+        // eg.  router /user/:id === /user/chen
+        const pathRegexp = pathToRegexp(path);
+        const menuKey = Object.keys(menuData).find(key => pathRegexp.test(`${key}`));
+        let menuItem = {};
+        // If menuKey is not empty
+        if (menuKey) {
+            menuItem = menuData[menuKey];
+        }
+        let router = routerConfig[path];
+        // If you need to configure complex parameter routing,
+        // https://github.com/ant-design/ant-design-pro-site/blob/master/docs/router-and-nav.md#%E5%B8%A6%E5%8F%82%E6%95%B0%E7%9A%84%E8%B7%AF%E7%94%B1%E8%8F%9C%E5%8D%95
+        // eg . /list/:type/user/info/:id
+        router = {
+            ...router,
+            name: router.name || menuItem.name,
+            authority: router.authority || menuItem.authority,
+            hideInBreadcrumb: router.hideInBreadcrumb || menuItem.hideInBreadcrumb,
+        };
+        routerData[path] = router;
+    });
+    return routerData;
 };

@@ -4,6 +4,7 @@ import { notification } from 'antd';
 import { routerRedux } from 'dva/router';
 import store from '../index';
 import { getToken } from './authority';
+import {REMOTE_URL,IS_CROSS_DOMAIN} from '../utils/config';
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -28,21 +29,16 @@ const codeMessage = {
   504: '网关超时。',
 };
 
-// 是否跨域使用远程地址
-const is_remote = false;
-const remote_url = 'http://106.14.7.51/'; // 测试环境
-// const remote_url = 'https://api.srun.com/'; // 正式环境
-
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;
   }
-  const errortext = codeMessage[response.status] || response.statusText;
+  const errorText = codeMessage[response.status] || response.statusText;
   notification.error({
     message: `请求错误 ${response.status}: ${response.url}`,
-    description: errortext,
+    description: errorText,
   });
-  const error = new Error(errortext);
+  const error = new Error(errorText);
   error.name = response.status;
   error.response = response;
   throw error;
@@ -56,8 +52,8 @@ function checkStatus(response) {
  * @return {object}           An object containing either "data" or "err"
  */
 export default function request(url, options) {
-  if (is_remote) {
-    url = remote_url + url;
+  if (IS_CROSS_DOMAIN) {
+    url = REMOTE_URL + url;
   }
   const defaultOptions = {
     // credentials: 'include',

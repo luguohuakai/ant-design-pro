@@ -109,8 +109,8 @@ export default class BasicList extends PureComponent {
       },
       {
         title: '注册时间',
-        dataIndex: 'create_time',
-        key: 'create_time',
+        dataIndex: 'add_time',
+        key: 'add_time',
       },
       {
         title: '操作',
