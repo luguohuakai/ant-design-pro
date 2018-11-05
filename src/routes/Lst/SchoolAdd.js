@@ -238,8 +238,6 @@ export default class BasicForms extends PureComponent {
                 <Upload
                   name="logo"
                   // action={location.origin + '/admin/Index/uploadImg'}
-                  // action="https://api.srun.com/admin/Index/uploadImg"
-                  // action="http://106.14.7.51/admin/Index/uploadImg"
                   action={`${REMOTE_URL}admin/Index/uploadImg`}
                   listType="picture-card"
                   className="avatar-uploader"
@@ -275,8 +273,6 @@ export default class BasicForms extends PureComponent {
                 <Upload
                   name="login_bg"
                   // action={location.origin + '/admin/Index/uploadImg'}
-                  // action="https://api.srun.com/admin/Index/uploadImg"
-                  // action="http://106.14.7.51/admin/Index/uploadImg"
                   action={`${REMOTE_URL}admin/Index/uploadImg`}
                   listType="picture-card"
                   className="avatar-uploader"

@@ -94,7 +94,7 @@ export default class BasicForms extends PureComponent {
           <PageHeaderLayout title="Gift添加">
             <Card bordered={false}>
               <Form onSubmit={this.handleSubmit} hideRequiredMark style={{ marginTop: 8 }}>
-                <FormItem {...formItemLayout} label="商品名称">
+                  <FormItem {...formItemLayout} label="*商品名称">
                   {getFieldDecorator('title', {
                                 rules: [
                                     {
@@ -105,26 +105,12 @@ export default class BasicForms extends PureComponent {
                             })(<Input placeholder="商品名称" />)}
                 </FormItem>
                 <FormItem {...formItemLayout} label="学校ID">
-                  {getFieldDecorator('school_id', {
-                                rules: [
-                                    {
-                                        required: true,
-                                        message: '请输入学校的ID',
-                                    },
-                                ],
-                            })(<Input placeholder="请输入学校ID" />)}
+                    {getFieldDecorator('school_id')(<Input placeholder="请输入学校ID 默认所有学校"/>)}
                 </FormItem>
                 <FormItem {...formItemLayout} label="描述">
-                  {getFieldDecorator('description', {
-                                rules: [
-                                    {
-                                        required: true,
-                                        message: '请输入描述',
-                                    },
-                                ],
-                            })(<Input placeholder="请标明描述" />)}
+                    {getFieldDecorator('description')(<Input placeholder="请标明描述"/>)}
                 </FormItem>
-                <FormItem {...formItemLayout} label="所需积分">
+                  <FormItem {...formItemLayout} label="*所需积分">
                   {getFieldDecorator('need_score', {
                                 rules: [
                                     {
@@ -134,7 +120,7 @@ export default class BasicForms extends PureComponent {
                                 ],
                             })(<Input placeholder="请标明积分" />)}
                 </FormItem>
-                <FormItem {...formItemLayout} label="数量">
+                  <FormItem {...formItemLayout} label="*数量">
                   {getFieldDecorator('num', {
                                 rules: [
                                     {
@@ -147,7 +133,7 @@ export default class BasicForms extends PureComponent {
                 <FormItem {...formItemLayout} label="加价购买">
                   {getFieldDecorator('prize')(<Input placeholder="请标明价格 默认: 0元" />)}
                 </FormItem>
-                <FormItem {...formItemLayout} label="商品相册">
+                  <FormItem {...formItemLayout} label="*商品相册">
                   {getFieldDecorator('gift_imgs', {
                                 rules: [
                                     {
@@ -165,7 +151,7 @@ export default class BasicForms extends PureComponent {
                                   onPreview={this.handlePreview}
                                   onChange={this.handleChange}
                                 >
-                                  {fileList.length >= 3 ? null : uploadButton}
+                                    {fileList.length >= 5 ? null : uploadButton}
                                 </Upload>
                                 <Modal visible={previewVisible} footer={null} onCancel={this.handleCancel}>
                                   <img alt="example" style={{ width: '100%' }} src={previewImage} />

@@ -20,6 +20,7 @@ import ColorSimple from 'components/SketchPicker';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 
 import styles from './SchoolList.less';
+import {REMOTE_URL} from "../../utils/config";
 
 const FormItem = Form.Item;
 const getValue = obj =>
@@ -109,13 +110,13 @@ const CreateForm = Form.create()(props => {
           form.setFieldsValue('logo', logoPath)
         )(
           <Upload
-            name="logo"
-            listType="picture-card"
-            className="avatar-uploader"
-            showUploadList={false}
-            action="http://106.14.7.51/admin/Index/uploadImg"
-            beforeUpload={beforeUpload}
-            onChange={handleLogoChange}
+              name="logo"
+              listType="picture-card"
+              className="avatar-uploader"
+              showUploadList={false}
+              action={`${REMOTE_URL}admin/Index/uploadImg`}
+              beforeUpload={beforeUpload}
+              onChange={handleLogoChange}
           >
             {imageUrl ? <img width="100" src={imageUrl} alt="avatar" /> : uploadButton}
           </Upload>

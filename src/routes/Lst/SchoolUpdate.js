@@ -5,10 +5,10 @@ import { Form, Input, Button, Card, Radio, Icon, Tooltip, Upload, Avatar } from 
 import ColorSimple from 'components/SketchPicker';
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import styles from './SchoolAdd.less';
+import {REMOTE_URL} from '../../utils/config';
 
 const FormItem = Form.Item;
 let id;
-let url = 'http://106.14.7.51/';
 
 @connect(({ lst, loading }) => ({
   lst,
@@ -261,12 +261,12 @@ export default class BasicForms extends PureComponent {
                 getValueFromEvent: this.normFile,
               })(
                 <Upload
-                  name="logo"
-                  action="http://106.14.7.51/admin/Index/uploadImg"
-                  listType="picture-card"
-                  className="avatar-uploader"
-                  fileList={fileList}
-                  onChange={this.logoOnChange}
+                    name="logo"
+                    action={`${REMOTE_URL}admin/Index/uploadImg`}
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    fileList={fileList}
+                    onChange={this.logoOnChange}
                 >
                   {fileList.length >= 1 ? null : uploadButton}
                 </Upload>
@@ -290,9 +290,9 @@ export default class BasicForms extends PureComponent {
                 ],
               })(
                 <Avatar
-                  shape="square"
-                  size="large"
-                  src={'http://106.14.7.51/' + schoolDetail.logo}
+                    shape="square"
+                    size="large"
+                    src={REMOTE_URL + schoolDetail.logo}
                 />
               )}
             </FormItem>
@@ -309,13 +309,13 @@ export default class BasicForms extends PureComponent {
               <span>(*一次只能选择一张)</span>
               {getFieldDecorator('_login_bg')(
                 <Upload
-                  name="login_bg"
-                  action="http://106.14.7.51/admin/Index/uploadImg"
-                  listType="picture-card"
-                  className="avatar-uploader"
-                  multiple={false}
-                  fileList={fileList1}
-                  onChange={this.loginBgOnChange}
+                    name="login_bg"
+                    action={`${REMOTE_URL}admin/Index/uploadImg`}
+                    listType="picture-card"
+                    className="avatar-uploader"
+                    multiple={false}
+                    fileList={fileList1}
+                    onChange={this.loginBgOnChange}
                 >
                   {fileList1.length >= 1 ? null : uploadButton1}
                 </Upload>
@@ -341,9 +341,9 @@ export default class BasicForms extends PureComponent {
                 ],
               })(
                 <Avatar
-                  shape="square"
-                  size="large"
-                  src={'http://106.14.7.51/' + schoolDetail.login_bg}
+                    shape="square"
+                    size="large"
+                    src={REMOTE_URL + schoolDetail.login_bg}
                 />
               )}
             </FormItem>

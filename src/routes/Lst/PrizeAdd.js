@@ -117,8 +117,6 @@ export default class BasicForms extends PureComponent {
                       <Upload
                           name="img"
                           action={location.origin + '/admin/Index/uploadImg'}
-                          // action="https://api.srun.com/admin/Index/uploadImg"
-                          // action="http://106.14.7.51/admin/Index/uploadImg"
                           listType="picture-card"
                           className="avatar-uploader"
                           onChange={this.logoOnChange}

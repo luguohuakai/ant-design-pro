@@ -6,10 +6,11 @@ import { getProfileBasicData } from './mock/profile';
 import { getProfileAdvancedData } from './mock/profile';
 import { getNotices } from './mock/notices';
 import { format, delay } from 'roadhog-api-doc';
+import {REMOTE_URL} from './src/utils/config';
 
 // 是否禁用代理
 const noProxy = process.env.NO_PROXY === 'true';
-const remote_url = 'http://106.14.7.51/'; // 测试环境 远程接口
+const remote_url = REMOTE_URL; // 远程接口
 
 // 代码中会兼容本地 service mock 以及部署站点的静态数据
 const proxy = {

@@ -1,5 +1,5 @@
 // TODO: 环境: test product 上线前需要修改为product
-const ENV = 'test';
+const ENV = 'product';
 // TODO: 是否跨域
 const IS_CROSS_DOMAIN = false;
 
