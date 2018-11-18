@@ -82,20 +82,20 @@ export default class BasicList extends PureComponent {
         key: 'wx_avatar_url',
         render: index => <Avatar src={index.wx_avatar_url} shape="square" size="large" />,
       },
+        {
+            title: '学校ID',
+            dataIndex: 'school_id',
+            key: 'school_id',
+        },
       {
-        title: 'OPENID',
-        dataIndex: 'open_id',
-        key: 'open_id',
+          title: '学校名称',
+          dataIndex: 'school_name',
+          key: 'school_name',
       },
       {
         title: '微信昵称',
         dataIndex: 'wx_nick_name',
         key: 'wx_nick_name',
-      },
-      {
-        title: '学校ID',
-        dataIndex: 'school_id',
-        key: 'school_id',
       },
       {
         title: '今日登录次数',

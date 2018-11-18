@@ -3,6 +3,7 @@ import React, {Component, Fragment} from 'react';
 import {connect} from 'dva';
 import {Row, Col, Icon, Card, Tabs, Table, Tooltip, Menu, Dropdown} from 'antd';
 import numeral from 'numeral';
+
 import {
     ChartCard,
     MiniArea,
@@ -28,18 +29,12 @@ export default class Analysis extends Component {
 
     componentDidMount() {
         this.props.dispatch({
-            type: 'chart/fetch',
-        });
-        this.props.dispatch({
             type: 'analysis/fetchAnalysisData',
         });
     }
 
     componentWillUnmount() {
         const {dispatch} = this.props;
-        dispatch({
-            type: 'chart/clear',
-        });
     }
 
     render() {
@@ -78,10 +73,10 @@ export default class Analysis extends Component {
 
         const iconGroup = (
             <span className={styles.iconGroup}>
-        <Dropdown overlay={menu} placement="bottomRight">
-          <Icon type="ellipsis"/>
-        </Dropdown>
-      </span>
+            <Dropdown overlay={menu} placement="bottomRight">
+              <Icon type="ellipsis"/>
+            </Dropdown>
+          </span>
         );
 
         const columns = [
@@ -94,7 +89,7 @@ export default class Analysis extends Component {
                 title: '问题概览',
                 dataIndex: 'contents',
                 key: 'contents',
-                render: text => <span>{(text = text.length > 20 ? text.slice(0, 20) + '...' : text)}</span>,
+                render: text => <span>{(text = text.length > 20 ? `${text.slice(0, 20)  }...` : text)}</span>,
             },
             {
                 title: '创建时间',
@@ -138,6 +133,7 @@ export default class Analysis extends Component {
                 });
             }
         }
+
         return (
             <Fragment>
                 <Row gutter={24}>
@@ -147,7 +143,7 @@ export default class Analysis extends Component {
                             bordered={false}
                             title="用户总数"
                             action={
-                                <Tooltip title="指标说明">
+                                <Tooltip title="用户量统计">
                                     <Icon type="info-circle-o"/>
                                 </Tooltip>
                             }
@@ -156,18 +152,18 @@ export default class Analysis extends Component {
                                 <div style={{whiteSpace: 'nowrap', overflow: 'hidden'}}>
                                     <Trend flag="" style={{marginRight: 16}}>
                                         iOS<span className={styles.trendText}>
-                      {`${numeral(ios_total).format('0,0')}`}
-                    </span>
+                                          {`${numeral(ios_total).format('0,0')}`}
+                                           </span>
                                     </Trend>
                                     <Trend flag="" style={{marginRight: 16}}>
-                                        Android<span className={styles.trendText}>
-                      {`${numeral(android_total).format('0,0')}`}
-                    </span>
+                                        安卓<span className={styles.trendText}>
+                                          {`${numeral(android_total).format('0,0')}`}
+                                        </span>
                                     </Trend>
                                     <Trend flag="">
                                         其它<span className={styles.trendText}>
-                      {`${numeral(others_total).format('0,0')}`}
-                    </span>
+                                          {`${numeral(others_total).format('0,0')}`}
+                                        </span>
                                     </Trend>
                                 </div>
                             }
@@ -175,13 +171,14 @@ export default class Analysis extends Component {
                         >
                             <Trend flag="" style={{marginRight: 16}}>
                                 昨日新增<span className={styles.trendText}>
-                  {`${numeral(yesterday_total).format('0,0')}`}
-                </span>
+                                  {`${numeral(yesterday_total).format('0,0')}`}
+                                </span>
                             </Trend>
                             <Trend flag="">
                                 今日新增<span className={styles.trendText}>{`${numeral(today_total).format(
                                 '0,0'
-                            )}`}</span>
+                            )}`}
+                                </span>
                             </Trend>
                         </ChartCard>
                     </Col>
@@ -207,9 +204,9 @@ export default class Analysis extends Component {
                     <Col {...topColResponsiveProps}>
                         <ChartCard
                             bordered={false}
-                            title="虚位以待"
+                            title="月活"
                             action={
-                                <Tooltip title="指标说明">
+                                <Tooltip title="当天认证成功后才算是当天的活跃用户">
                                     <Icon type="info-circle-o"/>
                                 </Tooltip>
                             }
@@ -249,7 +246,7 @@ export default class Analysis extends Component {
                     </Col>
                 </Row>
 
-                <Card loading={fetchAnalysisDataLoading} bordered={false} bodyStyle={{padding: 0}}>
+                <Card loading={fetchAnalysisDataLoading} bordered bodyStyle={{padding: 0}}>
                     <div className={styles.salesCard}>
                         <Tabs size="large" tabBarStyle={{marginBottom: 24}}>
                             <TabPane tab="认证方式" key="sales">

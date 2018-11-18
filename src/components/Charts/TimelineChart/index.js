@@ -38,8 +38,8 @@ export default class TimelineChart extends React.Component {
 
     const ds = new DataSet({
       state: {
-        // start: data[0].x,
-        // end: data[data.length - 1].x,
+          start: data[0].x,
+          end: data[data.length - 1].x,
       },
     });
 
@@ -71,7 +71,8 @@ export default class TimelineChart extends React.Component {
 
     const timeScale = {
       type: 'time',
-      tickInterval: 24 * 60 * 60 * 1000,
+        mask: 'MM-DD',
+        tickInterval: 2 * 24 * 60 * 60 * 1000,
       range: [0, 1],
     };
 

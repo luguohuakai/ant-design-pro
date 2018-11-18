@@ -1,7 +1,7 @@
 // modules导入
-import React, { PureComponent } from 'react';
-import { connect } from 'dva';
-import {Form, Input, Button, Card, Upload, Icon, Modal, Select, Spin} from 'antd';
+import React, {PureComponent} from 'react';
+import {connect} from 'dva';
+import {Form, Input, Button, Card, Upload, Icon, Modal, Select, Spin, message} from 'antd';
 import debounce from 'lodash/debounce';
 
 // 本地导入
@@ -9,8 +9,9 @@ import PageHeaderLayout from '../../layouts/PageHeaderLayout';
 import {REMOTE_URL} from '../../utils/config';
 
 const FormItem = Form.Item;
+const Option = Select.Option;
 
-@connect(({ loading }) => ({
+@connect(({loading}) => ({
     submitting: loading.effects['gift/giftAdd'],
 }))
 @Form.create()
@@ -18,7 +19,7 @@ export default class BasicForms extends PureComponent {
     constructor(props) {
         super(props);
         this.lastFetchId = 0;
-        this.fetchUser = debounce(this.fetchUser, 800);
+        this.fetchSchool = debounce(this.fetchSchool, 800);
     }
 
     state = {
@@ -63,7 +64,7 @@ export default class BasicForms extends PureComponent {
         });
     };
 
-    fetchUser = value => {
+    fetchSchool = value => {
         value = value || '';
         this.lastFetchId += 1;
         const fetchId = this.lastFetchId;
@@ -75,9 +76,9 @@ export default class BasicForms extends PureComponent {
                     // for fetch callback order
                     return;
                 }
-                const data = body.data.data.map(user => ({
-                    text: user.name,
-                    value: user.id,
+                const data = body.data.data.map(school => ({
+                    text: school.name,
+                    value: school.id,
                 }));
                 this.setState({data, fetching: false});
             });
@@ -93,6 +94,20 @@ export default class BasicForms extends PureComponent {
             data: [],
             fetching: false,
         });
+    };
+
+    // 上传图片校验
+    beforeUpload = (file) => {
+        const isJPG = file.type === 'image/jpeg' || file.type === 'image/png';
+        if (!isJPG) {
+            message.error('只允许上传JPG/PNG格式的图片！');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 1;
+        if (!isLt2M) {
+            message.error('图片必须小于 1MB!');
+        }
+
+        return isJPG && isLt2M;
     };
 
     render() {
@@ -122,7 +137,7 @@ export default class BasicForms extends PureComponent {
         const uploadButton = (
             <div>
                 <Icon type="plus"/>
-                <div className="ant-upload-text">Upload</div>
+                <div className="ant-upload-text">添加图片</div>
             </div>
         );
 
@@ -143,17 +158,17 @@ export default class BasicForms extends PureComponent {
                             })(<Input placeholder="商品名称"/>)}
                         </FormItem>
 
-                        <FormItem {...formItemLayout} label="学校ID">
+                        <FormItem {...formItemLayout} label="学校">
                             {getFieldDecorator('school_id')(
                                 <Select
                                     labelInValue
                                     value={value}
-                                    placeholder="Select users"
+                                    placeholder="哪所学校可以参与 不填代表所有"
                                     notFoundContent={fetching ? <Spin size="small"/> : null}
                                     filterOption={false}
                                     showSearch
-                                    onFocus={this.fetchUser}
-                                    onSearch={this.fetchUser}
+                                    onFocus={this.fetchSchool}
+                                    onSearch={this.fetchSchool}
                                     onChange={this.handleSelectChange}
                                     style={{width: '100%'}}
                                 >
@@ -175,18 +190,21 @@ export default class BasicForms extends PureComponent {
                                 ],
                             })(<Input placeholder="请标明积分"/>)}
                         </FormItem>
-                        <FormItem {...formItemLayout} label="*数量">
+                        <FormItem {...formItemLayout} label="*库存">
                             {getFieldDecorator('num', {
                                 rules: [
                                     {
                                         required: true,
-                                        message: '请输入数量',
+                                        message: '请输入库存',
                                     },
                                 ],
-                            })(<Input placeholder="请标明数量"/>)}
+                            })(<Input placeholder="请标明库存"/>)}
                         </FormItem>
-                        <FormItem {...formItemLayout} label="加价购买">
-                            {getFieldDecorator('prize')(<Input placeholder="请标明价格 默认: 0元"/>)}
+                        <FormItem {...formItemLayout} label="原价">
+                            {getFieldDecorator('prize')(<Input placeholder="请标明原价 默认: 0元"/>)}
+                        </FormItem>
+                        <FormItem {...formItemLayout} label="配送方式">
+                            {getFieldDecorator('get_way')(<Input placeholder="请标明配送方式 如：快递包邮 或 xxxx自取"/>)}
                         </FormItem>
                         <FormItem {...formItemLayout} label="*商品相册">
                             {getFieldDecorator('gift_imgs', {
@@ -199,10 +217,12 @@ export default class BasicForms extends PureComponent {
                             })(
                                 <div className="clearfix">
                                     <Upload
+                                        accept="jpg"
                                         name="gift"
                                         action={`${REMOTE_URL}admin/Index/uploadImg`}
                                         listType="picture-card"
                                         fileList={fileList}
+                                        beforeUpload={this.beforeUpload}
                                         onPreview={this.handlePreview}
                                         onChange={this.handleChange}
                                     >
